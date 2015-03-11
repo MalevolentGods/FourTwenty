@@ -1,3 +1,5 @@
+--I think this is used by the advanced farm prefab to modify the built-in crop component. I haven't messed with it yet so it's kind of placeholder for now.
+
 local function onmatured(self, matured)
     if matured then
         self.inst:AddTag("readyforharvest")

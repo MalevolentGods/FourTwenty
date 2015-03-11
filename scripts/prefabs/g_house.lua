@@ -1,5 +1,9 @@
+--I haven't messed with this prefab yet, so it's still in its original state other than some formatting changes
+
 require "prefabutil"
 require "tuning"
+
+
 
 local assets =
 {
@@ -34,19 +38,19 @@ local function fn(Sim)
 	local minimap = inst.entity:AddMiniMapEntity()
 	minimap:SetIcon( "g_house.tex" )
 
-    if not TheWorld.ismastersim then
-    return inst
-end
+    	if not TheWorld.ismastersim then
+    		return inst
+	end
 
-    inst.entity:SetPristine()
+    	inst.entity:SetPristine()
 
 	inst:AddComponent("inspectable")
 	inst.components.inspectable.getstatus = function(inst)
   
 	if not inst.components.grower:IsFertile() then
-	return "NEEDSFERTILIZER"
+		return "NEEDSFERTILIZER"
 	elseif not inst.components.grower:IsEmpty() then
-	return "GROWING"
+		return "GROWING"
 	end
 end
 

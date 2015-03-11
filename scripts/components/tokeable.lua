@@ -1,17 +1,19 @@
 --This file defines the tokeable component action, which is the guts of the TOKE action that we created in the modmain file.
---This file is still a work in progress as I try to figure shit out. A lot of it is based on the "playable" action used by instruments since that's what the pipe animation is based off of. Long story short: I can probably remove a lot of this crap.
+--This is all still a work in progress as I try to figure shit out. A lot of it is based on the "playable" action used by instruments since that's what the pipe animation is based off of. 
+--Long story short: some of this can be removed and more will be added when the joint gets created.
 
---I'm not entirely sure what the main function is for. We don't use it for much now
-local Tokeable = Class(function(self, inst)
-    self.inst = inst
-	--These are just kind of placeholders for the AOE effect I have considered giving the joint.
-	self.range = 15
-    self.onheard = nil
+--I guess this creates the main class
+local Tokeable = Class(
+	function(self, inst)
+    		self.inst = inst
+		--These are just kind of placeholders for the AOE effect I have considered giving the joint.
+		self.range = 15
+    		self.onheard = nil
 	
-end,
-nil,
-{
-})
+	end,
+	nil,
+	{}
+)
 
 
 function Tokeable:bowlHit(stoner)
@@ -23,12 +25,12 @@ function Tokeable:bowlHit(stoner)
 			self.onheard(v, stoner, self.inst)
 		end
 	end
+	
 	--This is the only thing that this function really does that's the useful.
 	stoner.components.sanity:DoDelta(TUNING.SANITY_TINY)
 	
 	--Return that the function was successful. Not really used currently but good practice.
 	return true	
-	--end
 end
 
 return Tokeable

@@ -1,4 +1,4 @@
-
+--Meta information about the MOD along with any possible config options
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
@@ -12,12 +12,13 @@ client_only_mod = false
 
 api_version = 10
 
-icon_atlas = "pipe.xml"
-icon = "pipe.tex"
+icon_atlas = "FourTwenty.xml"
+icon = "FourTwenty.tex"
 
  configuration_options =
 {
 	{
+		--Eventually these will need to be adjusted when we finally fix weed tree spawning
 		name = "weed_tree_regions",
 		label = "Weed Tree Regions",
 		options =

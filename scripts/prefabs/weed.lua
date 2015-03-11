@@ -14,13 +14,13 @@ local prefabs =
 	
 }    
 
---This function defines the "fresh" weed prefab. Which is basically the only one we're using now. Eventually there will also be a "dried" weed prefab. This lets you set different things about the weed whether it's fresh or dried. Like if it's edible, or smokeable, or whatever.
+--This function defines the "fresh" weed prefab.
 local function fresh()
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
+    	inst.entity:AddNetwork()
 
 	MakeInventoryPhysics(inst)
 
@@ -29,11 +29,11 @@ local function fresh()
 	inst.AnimState:PlayAnimation("raw")
 	inst.Transform:SetScale(3,3,3)    
 
-    if not TheWorld.ismastersim then
+    	if not TheWorld.ismastersim then
 		return inst
 	end
 
-    inst.entity:SetPristine()
+    	inst.entity:SetPristine()
 
 	inst:AddComponent("perishable")
 	inst.components.perishable:SetPerishTime(TUNING.PERISH_MED)
@@ -45,7 +45,7 @@ local function fresh()
 	inst.components.edible.foodtype = FOODTYPE.VEGGIE
 	
 
-    inst:AddComponent("stackable")
+    	inst:AddComponent("stackable")
 	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
 	inst:AddComponent("inspectable")
@@ -56,53 +56,40 @@ local function fresh()
 	MakeSmallBurnable(inst)
 	MakeSmallPropagator(inst)
         
-	inst:AddComponent("bait")
-
 	inst:AddComponent("cookable")
 	inst.components.cookable.product = "weed_seeds"
 	
 	inst:AddComponent("dryable")
-    inst.components.dryable:SetProduct("weed_dried")
-    inst.components.dryable:SetDryTime(TUNING.DRY_FAST)
+    	inst.components.dryable:SetProduct("weed_dried")
+    	inst.components.dryable:SetDryTime(TUNING.DRY_FAST)
 
 	MakeHauntableLaunchAndPerish(inst)
 
 	return inst
 end
 
---This is just a place holder for the future "dried" weed prefab. It used to be the "cooked" banana prefab, so all the crap inside is still related to bananas and edible options.
 local function dried()
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
+    	inst.entity:AddNetwork()
 
 	MakeInventoryPhysics(inst)
 
 	inst.AnimState:SetBank("hybrid_banana")
 	inst.AnimState:SetBuild("hybrid_banana")
-	inst.AnimState:PlayAnimation("cooked")
+	--Using the "raw" animation for now because I think we turned the "cooked" banana png into seeds
+	inst.AnimState:PlayAnimation("raw")
 	inst.Transform:SetScale(3,3,3)
 
-    if not TheWorld.ismastersim then
+    	if not TheWorld.ismastersim then
 		return inst
 	end
 
-    inst.entity:SetPristine()
+    	inst.entity:SetPristine()
 
-	--inst:AddComponent("perishable")
-	--inst.components.perishable:SetPerishTime(TUNING.PERISH_MED)
-	--inst.components.perishable:StartPerishing()
-	--inst.components.perishable.onperishreplacement = "spoiled_food"
-
-	--inst:AddComponent("edible")
-	--inst.components.edible.healthvalue = TUNING.HEALING_MED
-	--inst.components.edible.hungervalue = TUNING.CALORIES_MED
-	--inst.components.edible.sanityvalue = TUNING.SANITY_MED
-	--inst.components.edible.foodtype = FOODTYPE.VEGGIE
-
-    inst:AddComponent("stackable")
+    	inst:AddComponent("stackable")
 	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
 	inst:AddComponent("inspectable")
@@ -112,14 +99,12 @@ local function dried()
 
 	MakeSmallBurnable(inst)
 	MakeSmallPropagator(inst)
-        
-	--inst:AddComponent("bait")
 
 	MakeHauntableLaunchAndPerish(inst)
 
 	return inst
 end
 
---Creates the prefab named "weed" using the methods and variables defined in the "fresh" function using the assets defined in ""assets" and the prefabs defined in "prefabs"
+--Creates the prefabs named "weed_fresh" and weed_dried using the crap defined in the "fresh" and "dried" functions along with all the other crap above. 
 return Prefab( "weed_fresh", fresh, assets, prefabs),
 	Prefab( "weed_dried", dried, assets, prefabs)

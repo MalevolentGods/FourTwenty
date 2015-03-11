@@ -3,6 +3,8 @@ local weed_tree_rate = 1.4
 local weed_tree_regions = 4
 
 
+--This is all based on a mod that spawned a new type of stone, so the values all need to be adjusted for weed trees eventually
+
 GLOBAL.terrain.rooms.BGNoise.contents.distributeprefabs.weed_tree = weed_tree_rate
 --GLOBAL.terrain.rooms.NoisyCave.contents.distributeprefabs.weed_tree = weed_tree_rate
 --GLOBAL.terrain.rooms.CaveRoom.contents.distributeprefabs.weed_tree = weed_tree_rate
@@ -41,7 +43,7 @@ else
 	print("weed_tree_regions is nil/null")
 end
 
-
+--Don't grwo on the road, wood floor, carpet, or checker tiles
 GLOBAL.terrain.filter.weed_tree = {GLOBAL.GROUND.ROAD, GLOBAL.GROUND.WOODFLOOR, GLOBAL.GROUND.CARPET, GLOBAL.GROUND.CHECKER}
 
 

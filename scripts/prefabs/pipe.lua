@@ -2,86 +2,99 @@
 local Assets =
 {
 
-   Asset("ANIM", "anim/pipe.zip"),
-   Asset("ANIM", "anim/swap_pipe.zip"),
-   Asset("ANIM", "anim/horn.zip"),
-   Asset("ATLAS", "images/inventoryimages/pipe.xml"),
-   Asset("IMAGE", "images/inventoryimages/pipe.tex"),
+  	Asset("ANIM", "anim/pipe.zip"),
+   	Asset("ANIM", "anim/swap_pipe.zip"),
+	--All uses of the horn animation are temporary until I can get custom animations working
+   	Asset("ANIM", "anim/horn.zip"),
+   	Asset("ATLAS", "images/inventoryimages/pipe.xml"),
+   	Asset("IMAGE", "images/inventoryimages/pipe.tex"),
 }
 
 --What to do when equipping the pipe
 local function OnEquip(inst, owner)
-    owner.components.hunger:DoDelta(3*(-owner.components.hunger.hungerrate))
-    owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_shovel")
-    owner.AnimState:Show("ARM_carry")
-    owner.AnimState:Hide("ARM_normal")
+	
+	--Increase hunger rate when equipped
+    	owner.components.hunger:DoDelta(3*(-owner.components.hunger.hungerrate))
+
+	--Temporary until custom swap animation is working
+    	owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_shovel")
+
+    	owner.AnimState:Show("ARM_carry")
+    	owner.AnimState:Hide("ARM_normal")
 end
 
 --What to do when un-equipping the pipe
 local function OnUnequip(inst, owner)
-   owner.components.hunger:DoDelta(owner.components.hunger.burnrate*(-owner.components.hunger.hungerrate))
-   owner.AnimState:Hide("ARM_carry")
-   owner.AnimState:Show("ARM_normal")
+	
+	--Return hunger rate to normal on unequip
+  	owner.components.hunger:DoDelta(owner.components.hunger.burnrate*(-owner.components.hunger.hungerrate))
 
+   	owner.AnimState:Hide("ARM_carry")
+   	owner.AnimState:Show("ARM_normal")
 end
 
 --What to do when the pipe is used up
 local function onfinished(inst)
-    inst:Remove()
+    	inst:Remove()
 end
 
---This function defines the pipe, similar to the "fresh" function used in the weed prefab. The name of the function is arbitrary as long as it matches the name used in the return Prefab call at the bottom.
+--This function defines the pipe.
 --I have no idea what the "Sim" variable inside the function is used for.
 local function fn(Sim)
 
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-    MakeInventoryPhysics(inst)
-    inst.AnimState:SetBank("horn")
-    inst.AnimState:SetBuild("pipe")
-    inst.AnimState:PlayAnimation("idle")
+    	local inst = CreateEntity()
+    	inst.entity:AddTransform()
+    	inst.entity:AddAnimState()
+    	inst.entity:AddNetwork()
+    	
+	MakeInventoryPhysics(inst)
+    	
+	--Temporary until I get custom animations working.
+	inst.AnimState:SetBank("horn")
+    	inst.AnimState:SetBuild("pipe")
+    	inst.AnimState:PlayAnimation("idle")
 
-    if not TheWorld.ismastersim then
+    	--This is unique to DST
+	if not TheWorld.ismastersim then
 		return inst
-    end
+    	end
 
-    inst.entity:SetPristine()
+	--This is also unique to DST
+    	inst.entity:SetPristine()
 	 
-    inst:AddComponent("inspectable")
+    	inst:AddComponent("inspectable")
 	
+	--I had to add hunger and health to give the equip-based debuff. This is temporary until I figure out a way to make it a debuff over time
 	inst:AddComponent("hunger")
 	inst:AddComponent("health")
 	
 	inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.imagename = "pipe"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/pipe.xml"
+    	inst.components.inventoryitem.imagename = "pipe"
+    	inst.components.inventoryitem.atlasname = "images/inventoryimages/pipe.xml"
     
 	inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(OnEquip)
-    inst.components.equippable:SetOnUnequip(OnUnequip)
+    	inst.components.equippable:SetOnEquip(OnEquip)
+    	inst.components.equippable:SetOnUnequip(OnUnequip)
 	  
-    inst:AddTag("horn")
-	  
-    inst:AddComponent("instrument")
-    inst.AnimState:SetBank("smoke")
-    inst.AnimState:SetBuild("horn")
-    inst.AnimState:PlayAnimation("idle")
-	  
-    --MakeInventoryPhysics(inst)
-    inst:AddComponent("tokeable")
-    --inst:AddComponent("tool")
-    --inst.components.tool:SetAction(ACTIONS.TOKE)
-      
+    	inst:AddTag("horn")
+	
+	--This is temporary until I get custom animations working  
+    	inst:AddComponent("instrument")
+    	inst.AnimState:SetBank("smoke")
+    	inst.AnimState:SetBuild("horn")
+    	inst.AnimState:PlayAnimation("idle")
+	 
+	--This is our custom "tokeable" component 
+    	inst:AddComponent("tokeable")
 
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES)
-    inst.components.finiteuses:SetUses(TUNING.HORN_USES)
-    inst.components.finiteuses:SetOnFinished(onfinished)
-    inst.components.finiteuses:SetConsumption(ACTIONS.TOKE, 1)
+	--I'm just using the tuning values for the horn for now.
+    	inst:AddComponent("finiteuses")
+    	inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES)
+    	inst.components.finiteuses:SetUses(TUNING.HORN_USES)
+    	inst.components.finiteuses:SetOnFinished(onfinished)
+    	inst.components.finiteuses:SetConsumption(ACTIONS.TOKE, 1)
 
-    return inst
+    	return inst
 end
 
 --Creates the prefab named "pipe" using the methods/variables defined in the "fn" function and the assets defined in Assets

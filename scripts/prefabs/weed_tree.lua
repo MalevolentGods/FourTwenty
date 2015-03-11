@@ -4,13 +4,13 @@ local assets=
 	Asset("ANIM", "anim/weed_tree.zip"),
 }
 
---Loads any custom prefabs we're going to reference
+--Loads any prefabs we're going to reference
 local prefabs =
 {
-    "weed",
-    "charcoal",
-    "log",
-    "twigs",
+    	"weed_fresh",
+    	"charcoal",
+    	"log",
+    	"twigs",
 }    
 
 --Creates a function that defines how to display a tree during "regen" (I guess that means "regrow")
@@ -51,8 +51,8 @@ local function setupstump(inst)
 	inst.stump = true
 	inst:RemoveComponent("pickable")
 	inst.components.workable:SetWorkAction(ACTIONS.DIG)
-    inst.components.workable:SetWorkLeft(1)
-    inst.components.workable:SetOnWorkCallback(dug)
+    	inst.components.workable:SetWorkLeft(1)
+    	inst.components.workable:SetOnWorkCallback(dug)
 	inst.AnimState:PlayAnimation("idle_stump")
 end
 
@@ -94,17 +94,16 @@ local function chop(inst, worker)
 	inst.AnimState:PlayAnimation("chop")
 	inst.AnimState:PushAnimation("idle_loop", true)
 	if not worker or (worker and not worker:HasTag("playerghost")) then
-    	inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")         
-    end
+    		inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")         
+    	end
 end
 
 --Creates a function that defines what to do when the tree begins burning
 local function startburn(inst)
 	inst.burnt = true
-    if inst.components.pickable then
-        inst:RemoveComponent("pickable")
-    end
-    
+    	if inst.components.pickable then
+        	inst:RemoveComponent("pickable")
+    	end
 end
 
 --Creates a function that defines what to do when the tree is actually burnt
@@ -120,9 +119,9 @@ local function makeburnt(inst)
 	else
 		inst.AnimState:PlayAnimation("burnt")
 		inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble")
-    	inst.components.workable:SetWorkAction(ACTIONS.CHOP)
-    	inst.components.workable:SetWorkLeft(1)
-    end
+    		inst.components.workable:SetWorkAction(ACTIONS.CHOP)
+    		inst.components.workable:SetWorkLeft(1)
+    	end
 end
 
 --I'm not sure what the purpose of this function is yet
@@ -153,16 +152,16 @@ local function fn(Sim)
 	MakeObstaclePhysics(inst,.5)
 	minimap:SetIcon( "cave_banana_tree.png" )
     
-    inst.AnimState:SetBank("cave_banana_tree")
-    inst.AnimState:SetBuild("hybrid_banana_tree")
-    inst.AnimState:PlayAnimation("idle_loop",true)
-    inst.AnimState:SetTime(math.random()*2)
+    	inst.AnimState:SetBank("cave_banana_tree")
+    	inst.AnimState:SetBuild("hybrid_banana_tree")
+    	inst.AnimState:PlayAnimation("idle_loop",true)
+    	inst.AnimState:SetTime(math.random()*2)
 
-    if not TheWorld.ismastersim then
+    	if not TheWorld.ismastersim then
 		return inst
 	end
 
-    inst.entity:SetPristine()
+    	inst.entity:SetPristine()
 
 	inst:AddComponent("pickable")
 	inst.components.pickable.picksound = "dontstarve/wilson/pickup_reeds"
@@ -175,26 +174,27 @@ local function fn(Sim)
 
 
 	inst:AddComponent("workable")
-    inst.components.workable:SetWorkAction(ACTIONS.CHOP)
-    inst.components.workable:SetWorkLeft(3)
-    inst.components.workable:SetOnFinishCallback(chopped)
-    inst.components.workable:SetOnWorkCallback(chop)
+    	inst.components.workable:SetWorkAction(ACTIONS.CHOP)
+    	inst.components.workable:SetWorkLeft(3)
+    	inst.components.workable:SetOnFinishCallback(chopped)
+    	inst.components.workable:SetOnWorkCallback(chop)
 
 
 	inst:AddComponent("lootdropper")
-    inst:AddComponent("inspectable")    
+    	
+	inst:AddComponent("inspectable")    
       
-    MakeMediumBurnable(inst)
-    MakeSmallPropagator(inst)
+    	MakeMediumBurnable(inst)
+    	MakeSmallPropagator(inst)
 
 	MakeNoGrowInWinter(inst)
 
-    inst.components.burnable:SetOnIgniteFn(startburn)
+    	inst.components.burnable:SetOnIgniteFn(startburn)
 	inst.components.burnable:SetOnBurntFn(makeburnt)
-    inst.OnSave = onsave
-    inst.OnLoad = onload
+    	inst.OnSave = onsave
+    	inst.OnLoad = onload
   
-    return inst
+    	return inst
 end
 
 --Creates the prefab named "weed_tree" using the "fn" function from above and the assets and prefabs defined in their variables at the top.
