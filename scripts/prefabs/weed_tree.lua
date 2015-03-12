@@ -150,8 +150,9 @@ local function fn(Sim)
 
 	local minimap = inst.entity:AddMiniMapEntity()
 	MakeObstaclePhysics(inst,.5)
-	minimap:SetIcon( "cave_banana_tree.png" )
-    
+	local minimap = inst.entity:AddMiniMapEntity()
+	minimap:SetIcon( "weed_tree.tex" )
+	
     	inst.AnimState:SetBank("weed_plant")
     	inst.AnimState:SetBuild("weed_plant")
     	inst.AnimState:PlayAnimation("idle_loop",true)

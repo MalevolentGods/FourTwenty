@@ -4,8 +4,6 @@ local Assets =
 
   	Asset("ANIM", "anim/pipe.zip"),
    	Asset("ANIM", "anim/swap_pipe.zip"),
-	--All uses of the horn animation are temporary until I can get custom animations working
-   	Asset("ANIM", "anim/horn.zip"),
    	Asset("ATLAS", "images/inventoryimages/pipe.xml"),
    	Asset("IMAGE", "images/inventoryimages/pipe.tex"),
 }
@@ -15,9 +13,7 @@ local function OnEquip(inst, owner)
 	
 	--Increase hunger rate when equipped
     	owner.components.hunger:DoDelta(3*(-owner.components.hunger.hungerrate))
-
-	--Temporary until custom swap animation is working
-    	owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_shovel")
+    	owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_pipe")
 
     	owner.AnimState:Show("ARM_carry")
     	owner.AnimState:Hide("ARM_normal")
@@ -50,7 +46,7 @@ local function fn(Sim)
 	MakeInventoryPhysics(inst)
     	
 	--Temporary until I get custom animations working.
-	inst.AnimState:SetBank("horn")
+	inst.AnimState:SetBank("pipe")
     	inst.AnimState:SetBuild("pipe")
     	inst.AnimState:PlayAnimation("idle")
 
@@ -72,17 +68,17 @@ local function fn(Sim)
     	inst.components.inventoryitem.imagename = "pipe"
     	inst.components.inventoryitem.atlasname = "images/inventoryimages/pipe.xml"
     
-	inst:AddComponent("equippable")
-    	inst.components.equippable:SetOnEquip(OnEquip)
-    	inst.components.equippable:SetOnUnequip(OnUnequip)
+
 	  
     	inst:AddTag("horn")
 	
 	--This is temporary until I get custom animations working  
     	inst:AddComponent("instrument")
-    	inst.AnimState:SetBank("smoke")
-    	inst.AnimState:SetBuild("horn")
-    	inst.AnimState:PlayAnimation("idle")
+		--inst:AddComponent("tool")
+		--inst.components.tool:SetAction(ACTIONS.TOKE)
+    	--inst.AnimState:SetBank("smoke")
+    	--inst.AnimState:SetBuild("horn")
+    	--inst.AnimState:PlayAnimation("idle")
 	 
 	--This is our custom "tokeable" component 
     	inst:AddComponent("tokeable")
@@ -93,6 +89,10 @@ local function fn(Sim)
     	inst.components.finiteuses:SetUses(TUNING.HORN_USES)
     	inst.components.finiteuses:SetOnFinished(onfinished)
     	inst.components.finiteuses:SetConsumption(ACTIONS.TOKE, 1)
+		
+		inst:AddComponent("equippable")
+    	inst.components.equippable:SetOnEquip(OnEquip)
+    	inst.components.equippable:SetOnUnequip(OnUnequip)
 
     	return inst
 end

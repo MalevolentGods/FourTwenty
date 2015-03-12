@@ -6,16 +6,16 @@
 Assets=
 {
 	Asset("ANIM", "anim/pipe.zip"),
-	Asset("ANIM", "anim/horn.zip"),
-    	Asset("ATLAS", "images/inventoryimages/pipe.xml"),
-    	Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
+	Asset("ANIM", "anim/swap_pipe_horn.zip"),
+    Asset("ATLAS", "images/inventoryimages/pipe.xml"),
+    Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_dried.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
-    	Asset("ATLAS", "images/inventoryimages/g_house.xml"),
+    Asset("ATLAS", "images/inventoryimages/g_house.xml"),
 	Asset( "IMAGE", "minimap/g_house.tex" ),
-    	Asset( "ATLAS", "minimap/g_house.xml" ),
+    Asset( "ATLAS", "minimap/g_house.xml" ),
 	Asset( "IMAGE", "minimap/weed_tree.tex" ),
-    	Asset( "ATLAS", "minimap/weed_tree.xml" ),
+    Asset( "ATLAS", "minimap/weed_tree.xml" ),
 }
 
 --Add the custom minimap icons to the Atlas
@@ -30,7 +30,6 @@ PrefabFiles =
 	"weed_tree",
 	"weed",
 	"pipe",
-	"horn",
 }
 
 --The only purpose of these variables is so that you don't always have to specify GLOBAL when typing the variable name. Instead of GLOBAL.STRINGS.NIGGER="you", you can type STRINGS.NIGGER="you"
@@ -191,10 +190,10 @@ local toke = State({
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
-        	inst.AnimState:Show("ARM_normal")
+        inst.AnimState:Show("ARM_normal")
 		inst.AnimState:PlayAnimation("action_uniqueitem_pre")
 		inst.AnimState:PushAnimation("horn", false)
-		inst.AnimState:OverrideSymbol("horn01", "horn", "horn01")
+		inst.AnimState:OverrideSymbol("horn01", "swap_pipe_horn", "horn01")
 			
 		if inst.components.inventory.activeitem then
 			inst.components.inventory:ReturnActiveItem()
