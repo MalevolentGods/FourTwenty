@@ -100,4 +100,4 @@ end
 
 return Prefab( "common/inventory/weed_seeds", fn, Assets),
 	--The placer is what creates that silohuette when you've selected something that's placeable but haven't set it down yet.
-	MakePlacer( "weed_seeds_placer", "cave_banana_tree", "hybrid_banana_tree", "idle_loop") 
+	MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "idle_loop") 
