@@ -34,6 +34,7 @@ PrefabFiles =
 }
 
 --The only purpose of these variables is so that you don't always have to specify GLOBAL when typing the variable name. Instead of GLOBAL.STRINGS.NIGGER="you", you can type STRINGS.NIGGER="you"
+ACTIONS = GLOBAL.ACTIONS
 Action = GLOBAL.Action
 ActionHandler = GLOBAL.ActionHandler
 STRINGS = GLOBAL.STRINGS
