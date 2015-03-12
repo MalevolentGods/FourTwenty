@@ -193,6 +193,9 @@ local toke = State({
         inst.AnimState:Show("ARM_normal")
 		inst.AnimState:PlayAnimation("action_uniqueitem_pre")
 		inst.AnimState:PushAnimation("horn", false)
+		--I tried using the symbol from pipe and swap_pipe but it wasn't working right so I took the modified horn.zip anim that the original Pipe mod author was using and changed it's name to swap_pipe_horn.
+		--Unfortunately, I can't change the actual symbol name, so I'm stuck using "horn01" until I can get my own animation working.
+		--The sole purpose of this command is to replace the horn symbol (graphic) used in the horn animation with a symbol for the pipe. 
 		inst.AnimState:OverrideSymbol("horn01", "swap_pipe_horn", "horn01")
 			
 		if inst.components.inventory.activeitem then
