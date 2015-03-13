@@ -2,7 +2,7 @@
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
-version = "1.3.4"
+version = "1.5"
 
 forumthread = ""
 priority = 0.346962880

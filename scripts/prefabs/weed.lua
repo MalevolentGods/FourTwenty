@@ -20,20 +20,20 @@ local function fresh()
 
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
-    	inst.entity:AddNetwork()
+    inst.entity:AddNetwork()
 
 	MakeInventoryPhysics(inst)
 
-	inst.AnimState:SetBank("hybrid_banana")
-	inst.AnimState:SetBuild("hybrid_banana")
-	inst.AnimState:PlayAnimation("raw")
+	inst.AnimState:SetBank("weed")
+	inst.AnimState:SetBuild("weed")
+	inst.AnimState:PlayAnimation("idle_fresh")
 	inst.Transform:SetScale(3,3,3)    
 
-    	if not TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
 		return inst
 	end
 
-    	inst.entity:SetPristine()
+    inst.entity:SetPristine()
 
 	inst:AddComponent("perishable")
 	inst.components.perishable:SetPerishTime(TUNING.PERISH_MED)
@@ -45,7 +45,7 @@ local function fresh()
 	inst.components.edible.foodtype = FOODTYPE.VEGGIE
 	
 
-    	inst:AddComponent("stackable")
+    inst:AddComponent("stackable")
 	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
 	inst:AddComponent("inspectable")
@@ -60,8 +60,8 @@ local function fresh()
 	inst.components.cookable.product = "weed_seeds"
 	
 	inst:AddComponent("dryable")
-    	inst.components.dryable:SetProduct("weed_dried")
-    	inst.components.dryable:SetDryTime(TUNING.DRY_FAST)
+    inst.components.dryable:SetProduct("weed_dried")
+    inst.components.dryable:SetDryTime(TUNING.DRY_FAST)
 
 	MakeHauntableLaunchAndPerish(inst)
 
@@ -73,23 +73,22 @@ local function dried()
 
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
-    	inst.entity:AddNetwork()
+    inst.entity:AddNetwork()
 
 	MakeInventoryPhysics(inst)
 
-	inst.AnimState:SetBank("hybrid_banana")
-	inst.AnimState:SetBuild("hybrid_banana")
-	--Using the "raw" animation for now because I think we turned the "cooked" banana png into seeds
-	inst.AnimState:PlayAnimation("raw")
+	inst.AnimState:SetBank("weed")
+	inst.AnimState:SetBuild("weed")
+	inst.AnimState:PlayAnimation("idle_dried")
 	inst.Transform:SetScale(3,3,3)
 
-    	if not TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
 		return inst
 	end
 
-    	inst.entity:SetPristine()
+    inst.entity:SetPristine()
 
-    	inst:AddComponent("stackable")
+    inst:AddComponent("stackable")
 	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
 	inst:AddComponent("inspectable")
