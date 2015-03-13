@@ -1,5 +1,5 @@
 --These are basically the custom animations and graphics that we're loading for the prefab
-local Assets =
+local assets =
 {
 
   	Asset("ANIM", "anim/pipe.zip"),
@@ -98,5 +98,5 @@ local function fn(Sim)
 end
 
 --Creates the prefab named "pipe" using the methods/variables defined in the "fn" function and the assets defined in Assets
-return Prefab("common/inventory/pipe", fn, Assets)
+return Prefab("common/inventory/pipe", fn, assets)
 

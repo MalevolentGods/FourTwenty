@@ -183,12 +183,12 @@ local FRAMES = GLOBAL.FRAMES
 
 --The first "state change" is created as the variable "toke" and the value is set to the method State() and all the crap that it contains
 local toke = State({
-	local name = "toke",
+	name = "toke",
     	--not sure what these are for
-	local tags = { "doing", "playing" },
+	tags = { "doing", "playing" },
 
     	--what to do when you enter the "toke" state
-	local onenter = function(inst)
+	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
         inst.AnimState:Show("ARM_normal")
@@ -205,7 +205,7 @@ local toke = State({
     end,
 
     	--I guess the number of frames of the animation to play? Also the sound to play
-	local timeline =
+	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
 				inst.SoundEmitter:PlaySound("dontstarve/common/fireAddFuel")
@@ -214,7 +214,7 @@ local toke = State({
     	},
 
 	--Not really sure yet
-    local events =
+    events =
     	{
         	EventHandler("animqueueover", function(inst)
 				if inst.AnimState:AnimDone() then
@@ -224,7 +224,7 @@ local toke = State({
     	},
 
 	--What to do when leaving the "toke" state
-    local onexit = function(inst)
+    onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             		inst.AnimState:Show("ARM_carry") 
             		inst.AnimState:Hide("ARM_normal")
@@ -238,10 +238,10 @@ AddStategraphState("wilson", toke)
 --I think this is the state that's executed by the client (person who connects to the server) instead of the host (person running the server). 
 --If it's a dedicated server then I guess everyone runs this instead of the regular toke.
 local toke_client = State({
-    	local name = "toke_client",
-    	local tags = { "doing", "playing" },
+    	name = "toke_client",
+    	tags = { "doing", "playing" },
 
-    	local onenter = function(inst)
+    	onenter = function(inst)
         	inst.components.locomotor:Stop()
         	inst.AnimState:PlayAnimation("action_uniqueitem_pre")
         	inst.AnimState:PushAnimation("action_uniqueitem_lag", false)
@@ -249,7 +249,7 @@ local toke_client = State({
         	inst.sg:SetTimeout(TIMEOUT)
     	end,
 
-    	local onupdate = function(inst)
+    	onupdate = function(inst)
         	if inst:HasTag("doing") then
             		if inst.entity:FlattenMovementPrediction() then
                 		inst.sg:GoToState("idle", "noanim")
@@ -259,7 +259,7 @@ local toke_client = State({
         	end
     	end,
 
-    	local ontimeout = function(inst)
+    	ontimeout = function(inst)
         	inst:ClearBufferedAction()
         	inst.sg:GoToState("idle")
     	end,
