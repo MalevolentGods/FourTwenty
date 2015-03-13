@@ -147,7 +147,6 @@ local function fn(Sim)
 	inst.entity:AddSoundEmitter()
 	inst.entity:AddNetwork()
 
-	local minimap = inst.entity:AddMiniMapEntity()
 	MakeObstaclePhysics(inst,.5)
 	local minimap = inst.entity:AddMiniMapEntity()
 	minimap:SetIcon( "weed_tree.tex" )
@@ -166,7 +165,7 @@ local function fn(Sim)
 	inst:AddComponent("pickable")
 	inst.components.pickable.picksound = "dontstarve/wilson/pickup_reeds"
 	
-	inst.components.pickable:SetUp("weed_fresh", TUNING.CAVE_BANANA_GROW_TIME)
+	inst.components.pickable:SetUp("weed_fresh", TUNING.CAVE_BANANA_GROW_TIME*4) --Just easier than setting by hand. Equals 16 days basically.
 	inst.components.pickable.onregenfn = onregenfn
 	inst.components.pickable.onpickedfn = onpickedfn
 	inst.components.pickable.makeemptyfn = makeemptyfn

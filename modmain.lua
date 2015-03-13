@@ -5,6 +5,7 @@
 --These are basically the custom animations and graphics that we're loading for the mod   
 Assets=
 {
+	Asset("ANIM", "anim/weed.zip"),
 	Asset("ANIM", "anim/pipe.zip"),
 	Asset("ANIM", "anim/swap_pipe_horn.zip"),
     Asset("ATLAS", "images/inventoryimages/pipe.xml"),
@@ -73,9 +74,9 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 AddPrefabPostInit("meatrack", function (inst)
 	local assets=
 	{
-		Asset("ANIM", "anim/weed.zip"),
+		
 		--I had to create a custom meat_rack_food animation that replaced the png images for human meat with weed buds. Need to find a better way. 
-		Asset("ANIM", "anim/meat_rack_food.zip"),
+		--Asset("ANIM", "anim/meat_rack_food.zip"),
 		
 	}
 	--Add the weed prefabs
@@ -90,7 +91,7 @@ AddPrefabPostInit("meatrack", function (inst)
 		inst.AnimState:PushAnimation("drying_loop", true)
 		--If the thing you're putting on the rack (dryable) is "weed_fres" then use the png for human meat
 		if dryable == "weed_fresh" then
-			inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", "humanmeat")
+			inst.AnimState:OverrideSymbol("swap_dried", "weed", "humanmeat")
 		else
 			inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", dryable)
 		end
@@ -108,7 +109,7 @@ AddPrefabPostInit("meatrack", function (inst)
 	
 	--I think this tells it to use the custom functions we've created above instead of the built in ones 	
 	inst.components.dryer:SetStartDryingFn(onstartdrying_mod)
-    	inst.components.dryer:SetContinueDryingFn(onstartdrying_mod)
+    inst.components.dryer:SetContinueDryingFn(onstartdrying_mod)
 	inst.components.dryer:SetContinueDoneFn(setdone_mod)
 end)
 
@@ -120,12 +121,12 @@ end)
 
 
 --Creates the recipe for the Advanced Farm that we're not really using yet.
-local g_houserecipe = GLOBAL.Recipe("g_house",
+local g_houserecipe = Recipe("g_house",
 	{ 
 		Ingredient("boards", 5),
-    		Ingredient("silk", 6),
-    		Ingredient("rope", 4),
-    		Ingredient("poop", 10)
+    	Ingredient("silk", 6),
+    	Ingredient("rope", 4),
+    	Ingredient("poop", 10)
 	},
    	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )                     
 g_houserecipe.atlas = "images/inventoryimages/g_house.xml" --This adds the recipe silohuette
@@ -182,12 +183,12 @@ local FRAMES = GLOBAL.FRAMES
 
 --The first "state change" is created as the variable "toke" and the value is set to the method State() and all the crap that it contains
 local toke = State({
-	name = "toke",
+	local name = "toke",
     	--not sure what these are for
-	tags = { "doing", "playing" },
+	local tags = { "doing", "playing" },
 
     	--what to do when you enter the "toke" state
-	onenter = function(inst)
+	local onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
         inst.AnimState:Show("ARM_normal")
@@ -201,29 +202,29 @@ local toke = State({
 		if inst.components.inventory.activeitem then
 			inst.components.inventory:ReturnActiveItem()
 		end
-    	end,
+    end,
 
     	--I guess the number of frames of the animation to play? Also the sound to play
-	timeline =
+	local timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
-			inst.SoundEmitter:PlaySound("dontstarve/common/fireAddFuel")
-			inst:PerformBufferedAction()
+				inst.SoundEmitter:PlaySound("dontstarve/common/fireAddFuel")
+				inst:PerformBufferedAction()
         	end),
     	},
 
 	--Not really sure yet
-    	events =
+    local events =
     	{
         	EventHandler("animqueueover", function(inst)
-			if inst.AnimState:AnimDone() then
-				inst.sg:GoToState("idle")
-			end
+				if inst.AnimState:AnimDone() then
+					inst.sg:GoToState("idle")
+				end
         	end),
     	},
 
 	--What to do when leaving the "toke" state
-    	onexit = function(inst)
+    local onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             		inst.AnimState:Show("ARM_carry") 
             		inst.AnimState:Hide("ARM_normal")
@@ -237,10 +238,10 @@ AddStategraphState("wilson", toke)
 --I think this is the state that's executed by the client (person who connects to the server) instead of the host (person running the server). 
 --If it's a dedicated server then I guess everyone runs this instead of the regular toke.
 local toke_client = State({
-    	name = "toke_client",
-    	tags = { "doing", "playing" },
+    	local name = "toke_client",
+    	local tags = { "doing", "playing" },
 
-    	onenter = function(inst)
+    	local onenter = function(inst)
         	inst.components.locomotor:Stop()
         	inst.AnimState:PlayAnimation("action_uniqueitem_pre")
         	inst.AnimState:PushAnimation("action_uniqueitem_lag", false)
@@ -248,7 +249,7 @@ local toke_client = State({
         	inst.sg:SetTimeout(TIMEOUT)
     	end,
 
-    	onupdate = function(inst)
+    	local onupdate = function(inst)
         	if inst:HasTag("doing") then
             		if inst.entity:FlattenMovementPrediction() then
                 		inst.sg:GoToState("idle", "noanim")
@@ -258,7 +259,7 @@ local toke_client = State({
         	end
     	end,
 
-    	ontimeout = function(inst)
+    	local ontimeout = function(inst)
         	inst:ClearBufferedAction()
         	inst.sg:GoToState("idle")
     	end,

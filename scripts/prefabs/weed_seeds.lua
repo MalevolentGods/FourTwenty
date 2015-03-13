@@ -2,7 +2,7 @@
 require "prefabutil"
 
 --These are basically the custom animations and graphics that we're loading for the prefab 
-local Assets =
+local assets =
 {
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
 	Asset("IMAGE", "images/inventoryimages/weed_seeds.tex"),
@@ -98,6 +98,6 @@ local function fn(Sim)
 	return inst
 end
 
-return Prefab( "common/inventory/weed_seeds", fn, Assets),
+return Prefab( "common/inventory/weed_seeds", fn, assets),
 	--The placer is what creates that silohuette when you've selected something that's placeable but haven't set it down yet.
 	MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "idle_loop") 
