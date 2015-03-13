@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
     <folder id="0" name="weed_fresh">
-        <file id="0" name="weed_fresh/weed_fresh.png" width="622" height="702" pivot_x="0.177885" pivot_y="0.100852"/>
+        <file id="0" name="weed_fresh/weed_fresh.png" width="104" height="115" pivot_x="0" pivot_y="1"/>
     </folder>
     <folder id="1" name="weed_dried">
-        <file id="0" name="weed_dried/weed_dried.png" width="622" height="702" pivot_x="0.174679" pivot_y="0.107955"/>
+        <file id="0" name="weed_dried/weed_dried.png" width="104" height="115" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="weed">
         <animation id="0" name="idle_fresh" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="weed_fresh" folder="0" file="0" abs_x="-102.777778" abs_y="61.111111" abs_pivot_x="0.177885" abs_pivot_y="0.100852" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="weed_fresh" folder="0" file="0" abs_x="48" abs_y="88" abs_pivot_x="0" abs_pivot_y="1" abs_angle="284.757319" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="weed_fresh">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="-102.777778" y="61.111111"/>
+                    <object folder="0" file="0" x="48" y="88" angle="284.757319" scale_x="1"/>
                 </key>
             </timeline>
         </animation>
         <animation id="1" name="idle_dried" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="weed_dried" folder="1" file="0" abs_x="-138.888889" abs_y="69.444444" abs_pivot_x="0.174679" abs_pivot_y="0.107955" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="weed_dried" folder="1" file="0" abs_x="51" abs_y="87" abs_pivot_x="0" abs_pivot_y="1" abs_angle="283.134022" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="weed_dried">
                 <key id="0" spin="0">
-                    <object folder="1" file="0" x="-138.888889" y="69.444444"/>
+                    <object folder="1" file="0" x="51" y="87" angle="283.134022" scale_y="1"/>
                 </key>
             </timeline>
         </animation>
