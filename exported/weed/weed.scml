@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
     <folder id="0">
-        <file id="0" name="weed_plant_bud.png" width="622" height="702" pivot_x="0" pivot_y="1"/>
+        <file id="0" name="weed_plant_bud.png" width="0" height="0" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="weed_plant_bud_dried.png" width="0" height="0" pivot_x="0" pivot_y="1"/>
     </folder>
-    <entity id="0" name="entity_000">
-        <animation id="0" name="idle_loop" length="1000">
+    <folder id="1" name="weed_plant_bud_dried">
+        <file id="0" name="weed_plant_bud_dried/weed_plant_bud_dried.png" width="622" height="702" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="weed_plant_bud">
+        <file id="0" name="weed_plant_bud/weed_plant_bud.png" width="622" height="702" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="weed">
+        <animation id="0" name="idle_fresh" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="weed_plant_bud" folder="0" file="0" abs_x="53.122392" abs_y="128.886558" abs_pivot_x="0" abs_pivot_y="1" abs_angle="286.140055" abs_scale_x="0.244783" abs_scale_y="0.226885" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="weed_plant_bud" folder="0" file="0" abs_x="0" abs_y="0" abs_pivot_x="0" abs_pivot_y="1" abs_angle="286.140055" abs_scale_x="0.244783" abs_scale_y="0.226885" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="weed_plant_bud_000" folder="2" file="0" abs_x="47.877057" abs_y="91.13478" abs_pivot_x="0.279193" abs_pivot_y="0.77147" abs_angle="285.721061" abs_scale_x="0.27104" abs_scale_y="0.232978" abs_a="1" timeline="1" key="0" z_index="1"/>
                 </key>
-                <key id="1" time="538">
-                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
-                </key>
-                <key id="2" time="735">
-                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                <key id="1" time="630">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
                 </key>
             </mainline>
             <timeline id="0" name="weed_plant_bud">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="53.122392" y="128.886558" angle="286.140055" scale_x="0.244783" scale_y="0.226885"/>
+                    <object folder="0" file="0" angle="286.140055" scale_x="0.244783" scale_y="0.226885"/>
                 </key>
-                <key id="1" time="538" spin="0">
-                    <object folder="0" file="0" x="53.072116" y="129.060286" angle="286.140055" scale_x="0.245074" scale_y="0.226885"/>
+            </timeline>
+            <timeline id="1" name="weed_plant_bud_000">
+                <key id="0" spin="-1">
+                    <object folder="2" file="0" x="47.877057" y="91.13478" pivot_x="0.279193" pivot_y="0.77147" angle="285.721061" scale_x="0.27104" scale_y="0.232978"/>
                 </key>
-                <key id="2" time="735" spin="0">
-                    <object folder="0" file="0" x="53.430022" y="129.083517" angle="286.140055" scale_x="0.245068" scale_y="0.227383"/>
+                <key id="1" time="630">
+                    <object folder="2" file="0" x="47.877057" y="91.13478" pivot_x="0.279193" pivot_y="0.77147" angle="285.689455" scale_x="0.270439" scale_y="0.233307"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="idle_dried" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="weed_plant_bud_dried" folder="0" file="1" abs_x="0" abs_y="0" abs_pivot_x="0.042756" abs_pivot_y="1.04614" abs_angle="290.353018" abs_scale_x="0.263801" abs_scale_y="0.214962" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="weed_plant_bud_dried_000" folder="1" file="0" abs_x="64.63443" abs_y="139.880868" abs_pivot_x="0" abs_pivot_y="1" abs_angle="282.403671" abs_scale_x="0.26886" abs_scale_y="0.238265" abs_a="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="554">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="weed_plant_bud_dried">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" pivot_x="0.042756" pivot_y="1.04614" angle="290.353018" scale_x="0.263801" scale_y="0.214962"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="weed_plant_bud_dried_000">
+                <key id="0">
+                    <object folder="1" file="0" x="64.63443" y="139.880868" angle="282.403671" scale_x="0.26886" scale_y="0.238265"/>
+                </key>
+                <key id="1" time="554" spin="-1">
+                    <object folder="1" file="0" x="64.712062" y="139.897955" angle="282.430652" scale_x="0.268834" scale_y="0.238378"/>
                 </key>
             </timeline>
         </animation>
