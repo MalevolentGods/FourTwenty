@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0">
+        <file id="0" name="weed_plant_bud.png" width="622" height="702" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="entity_000">
+        <animation id="0" name="idle_loop" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="weed_plant_bud" folder="0" file="0" abs_x="53.122392" abs_y="128.886558" abs_pivot_x="0" abs_pivot_y="1" abs_angle="286.140055" abs_scale_x="0.244783" abs_scale_y="0.226885" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="538">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="735">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="weed_plant_bud">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="53.122392" y="128.886558" angle="286.140055" scale_x="0.244783" scale_y="0.226885"/>
+                </key>
+                <key id="1" time="538" spin="0">
+                    <object folder="0" file="0" x="53.072116" y="129.060286" angle="286.140055" scale_x="0.245074" scale_y="0.226885"/>
+                </key>
+                <key id="2" time="735" spin="0">
+                    <object folder="0" file="0" x="53.430022" y="129.083517" angle="286.140055" scale_x="0.245068" scale_y="0.227383"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
