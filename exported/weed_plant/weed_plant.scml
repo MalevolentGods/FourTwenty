@@ -3,11 +3,11 @@
     <folder id="0">
         <file id="0" name="weed_plant_trunk.png" width="664" height="1024" pivot_x="0.504505" pivot_y="0.403509"/>
         <file id="1" name="weed_plant_bud.png" width="622" height="702" pivot_x="0.165064" pivot_y="0.115057"/>
-        <file id="2" name="weed_plant_branchR.png" width="495" height="577" pivot_x="0.042339" pivot_y="0.04417"/>
+        <file id="2" name="weed_plant_branchR.png" width="494" height="564" pivot_x="0.042339" pivot_y="0.04417"/>
         <file id="3" name="weed_plant_branchL.png" width="530" height="220" pivot_x="0.973684" pivot_y="0.22973"/>
         <file id="4" name="weed_plant_stump.png" width="202" height="105" pivot_x="0" pivot_y="1"/>
-        <file id="5" name="weed_plant_trunkBottom.png" width="207" height="384" pivot_x="0.674757" pivot_y="0.976684"/>
-        <file id="6" name="weed_plant_trunkTop.png" width="664" height="652" pivot_x="0.515198" pivot_y="-0.00152905"/>
+        <file id="5" name="weed_plant_trunkBottom.png" width="204" height="384" pivot_x="0.674757" pivot_y="0.976684"/>
+        <file id="6" name="weed_plant_trunkTop.png" width="656" height="652" pivot_x="0.515198" pivot_y="-0.00152905"/>
         <file id="7" name="weed_plant_branchR_burnt.png" width="744" height="704" pivot_x="0" pivot_y="1"/>
         <file id="8" name="weed_plant_branchL_burnt.png" width="696" height="267" pivot_x="0" pivot_y="1"/>
         <file id="9" name="weed_plant_trunkBottom_burnt.png" width="535" height="960" pivot_x="0" pivot_y="1"/>
@@ -164,62 +164,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="2" name="placer" length="4000">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" name="weed_plant_bud" folder="0" file="1" abs_x="-30.052089" abs_y="341.462735" abs_pivot_x="0.165064" abs_pivot_y="0.115057" abs_angle="2.602562" abs_scale_x="0.320617" abs_scale_y="0.30931" abs_a="1" timeline="2" key="0" z_index="0"/>
-                    <object_ref id="1" name="weed_plant_branchL" folder="0" file="3" abs_x="18.725217" abs_y="182.488376" abs_pivot_x="0.973684" abs_pivot_y="0.22973" abs_angle="0" abs_scale_x="0.407152" abs_scale_y="0.429967" abs_a="1" timeline="1" key="0" z_index="1"/>
-                    <object_ref id="2" name="weed_plant_trunkBottom_000" folder="0" file="5" abs_x="14.940654" abs_y="174.820258" abs_pivot_x="0.674757" abs_pivot_y="0.976684" abs_angle="0" abs_scale_x="0.5" abs_scale_y="0.5" abs_a="1" timeline="3" key="0" z_index="2"/>
-                    <object_ref id="3" name="weed_plant_trunkTop_000" folder="0" file="6" abs_x="16.361048" abs_y="174.205461" abs_pivot_x="0.515198" abs_pivot_y="-0.001529" abs_angle="0" abs_scale_x="0.5" abs_scale_y="0.5" abs_a="1" timeline="4" key="0" z_index="3"/>
-                    <object_ref id="4" name="weed_plant_branchR" folder="0" file="2" abs_x="17.690553" abs_y="180.400666" abs_pivot_x="0.042339" abs_pivot_y="0.04417" abs_angle="352.529256" abs_scale_x="0.394592" abs_scale_y="0.367394" abs_a="1" timeline="0" key="0" z_index="4"/>
-                </key>
-                <key id="1" time="2159">
-                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="3" key="0" z_index="2"/>
-                    <object_ref id="3" timeline="4" key="1" z_index="3"/>
-                    <object_ref id="4" timeline="0" key="1" z_index="4"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="weed_plant_branchR">
-                <key id="0" spin="-1">
-                    <object folder="0" file="2" x="17.690553" y="180.400666" angle="352.529256" scale_x="0.394592" scale_y="0.367394"/>
-                </key>
-                <key id="1" time="2159">
-                    <object folder="0" file="2" x="16.914725" y="179.984074" angle="352.390674" scale_x="0.394592" scale_y="0.367394"/>
-                </key>
-            </timeline>
-            <timeline id="1" name="weed_plant_branchL">
-                <key id="0">
-                    <object folder="0" file="3" x="18.725217" y="182.488376" angle="0" scale_x="0.407152" scale_y="0.429967"/>
-                </key>
-                <key id="1" time="2159" spin="-1">
-                    <object folder="0" file="3" x="18.725217" y="182.488376" angle="0.920539" scale_x="0.407152" scale_y="0.429967"/>
-                </key>
-            </timeline>
-            <timeline id="2" name="weed_plant_bud">
-                <key id="0" spin="-1">
-                    <object folder="0" file="1" x="-30.052089" y="341.462735" angle="2.602562" scale_x="0.320617" scale_y="0.30931"/>
-                </key>
-                <key id="1" time="2159">
-                    <object folder="0" file="1" x="-30.052089" y="341.462735" angle="2.352507" scale_x="0.320617" scale_y="0.30931"/>
-                </key>
-            </timeline>
-            <timeline id="3" name="weed_plant_trunkBottom_000">
-                <key id="0" spin="0">
-                    <object folder="0" file="5" x="14.940654" y="174.820258" angle="0" scale_x="0.5" scale_y="0.5"/>
-                </key>
-            </timeline>
-            <timeline id="4" name="weed_plant_trunkTop_000">
-                <key id="0" spin="-1">
-                    <object folder="0" file="6" x="16.361048" y="174.205461" angle="0" scale_x="0.5" scale_y="0.5"/>
-                </key>
-                <key id="1" time="2159">
-                    <object folder="0" file="6" x="16.361048" y="174.205461" angle="359.590447" scale_x="0.5" scale_y="0.5"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="3" name="chop_burnt" length="1000">
+        <animation id="2" name="chop_burnt" length="1000">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_branchR_burnt" folder="0" file="7" abs_x="-1.749904" abs_y="531.292655" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="0.357335" abs_scale_y="0.271834" abs_a="1" timeline="0" key="0" z_index="0"/>
@@ -324,7 +269,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="4" name="burnt" length="4000">
+        <animation id="3" name="burnt" length="4000">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_branchR_burnt" folder="0" file="7" abs_x="-1.749904" abs_y="531.292655" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="0.357335" abs_scale_y="0.271834" abs_a="1" timeline="0" key="0" z_index="0"/>
@@ -372,7 +317,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="5" name="idle_barren" length="4000">
+        <animation id="4" name="idle_barren" length="4000">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_branchL" folder="0" file="3" abs_x="28.323844" abs_y="379.487179" abs_pivot_x="0.973684" abs_pivot_y="0.22973" abs_angle="0" abs_scale_x="0.814305" abs_scale_y="0.859934" abs_a="1" timeline="1" key="0" z_index="0"/>
@@ -426,7 +371,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="6" name="rigged" length="1000">
+        <animation id="5" name="rigged" length="1000">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="5" key="0"/>
@@ -498,7 +443,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="7" name="chop" length="1000">
+        <animation id="6" name="chop" length="1000">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="5" key="0"/>
@@ -734,7 +679,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="8" name="chop_barren" length="1000">
+        <animation id="7" name="chop_barren" length="1000">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="4" key="0"/>
@@ -938,7 +883,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="9" name="pick" length="1000" looping="false">
+        <animation id="8" name="pick" length="1000" looping="false">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_bud" folder="0" file="1" abs_x="-69.230769" abs_y="697.435897" abs_pivot_x="0.165064" abs_pivot_y="0.115057" abs_angle="2.602562" abs_scale_x="0.641235" abs_scale_y="0.618621" abs_a="1" timeline="2" key="0" z_index="0"/>
@@ -1082,7 +1027,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="10" name="fall" length="1000" looping="false">
+        <animation id="9" name="fall" length="1000" looping="false">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_bud" folder="0" file="1" abs_x="-69.230769" abs_y="697.435897" abs_pivot_x="0.165064" abs_pivot_y="0.115057" abs_angle="2.602562" abs_scale_x="0.641235" abs_scale_y="0.618621" abs_a="1" timeline="3" key="0" z_index="0"/>
@@ -1098,31 +1043,19 @@
                     <object_ref id="3" timeline="2" key="1" z_index="3"/>
                     <object_ref id="4" timeline="0" key="0" z_index="4"/>
                 </key>
-                <key id="2" time="337">
-                    <object_ref id="0" timeline="4" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="3" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="2" key="1" z_index="3"/>
-                    <object_ref id="4" timeline="0" key="0" z_index="4"/>
-                </key>
-                <key id="3" time="407">
-                    <object_ref id="0" timeline="4" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="3" key="2" z_index="1"/>
-                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="2" key="1" z_index="3"/>
-                    <object_ref id="4" timeline="0" key="0" z_index="4"/>
-                </key>
-                <key id="4" time="441">
+                <key id="2" time="441">
                     <object_ref id="0" timeline="4" key="1" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="1" z_index="3"/>
+                    <object_ref id="1" timeline="3" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="2" z_index="3"/>
+                    <object_ref id="4" timeline="0" key="1" z_index="4"/>
                 </key>
-                <key id="5" time="536">
+                <key id="3" time="536">
                     <object_ref id="0" timeline="4" key="2" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="3" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="2" z_index="3"/>
+                    <object_ref id="1" timeline="3" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="3" z_index="3"/>
+                    <object_ref id="4" timeline="0" key="2" z_index="4"/>
                 </key>
             </mainline>
             <timeline id="0" name="weed_plant_trunk">
@@ -1168,14 +1101,11 @@
                 <key id="0" spin="-1">
                     <object folder="0" file="1" x="-69.230769" y="697.435897" angle="2.602562" scale_x="0.641235" scale_y="0.618621"/>
                 </key>
-                <key id="1" time="337" spin="-1">
-                    <object folder="0" file="1" x="51.476903" y="272.261547" angle="311.165631" scale_x="0.265252" scale_y="0.247713"/>
+                <key id="1" time="441" spin="0">
+                    <object folder="0" file="1" x="6.940101" y="181.944389" angle="295.291919" scale_x="0.641235" scale_y="0.618621"/>
                 </key>
-                <key id="2" time="407">
-                    <object folder="0" file="1" x="89.208543" y="114.596152" angle="300.481402" scale_x="0.102592" scale_y="0.098316"/>
-                </key>
-                <key id="3" time="441">
-                    <object folder="0" file="1" x="89.208543" y="114.596152" angle="300.481402" scale_x="0.102592" scale_y="0.098316"/>
+                <key id="2" time="536">
+                    <object folder="0" file="1" x="9.57168" y="181.944389" angle="295.291919" scale_x="0.641235" scale_y="0.618621"/>
                 </key>
             </timeline>
             <timeline id="4" name="weed_plant_stump_000">
@@ -1190,97 +1120,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="11" name="fall_barren" length="1000" looping="false">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" name="weed_plant_branchR" folder="0" file="2" abs_x="26.254515" abs_y="375.311758" abs_pivot_x="0.042339" abs_pivot_y="0.04417" abs_angle="357.498871" abs_scale_x="0.789184" abs_scale_y="0.734788" abs_a="1" timeline="1" key="0" z_index="0"/>
-                    <object_ref id="1" name="weed_plant_stump_000" folder="0" file="4" abs_x="-113.793103" abs_y="96.551724" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="1"/>
-                    <object_ref id="2" name="weed_plant_branchL" folder="0" file="3" abs_x="28.323844" abs_y="379.487179" abs_pivot_x="0.973684" abs_pivot_y="0.22973" abs_angle="0" abs_scale_x="0.814305" abs_scale_y="0.859934" abs_a="1" timeline="2" key="0" z_index="2"/>
-                    <object_ref id="3" name="weed_plant_trunk" folder="0" file="0" abs_x="-89.494144" abs_y="0.494216" abs_pivot_x="0.338972" abs_pivot_y="0.005784" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="3"/>
-                </key>
-                <key id="1" time="238">
-                    <object_ref id="0" timeline="3" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
-                </key>
-                <key id="2" time="336">
-                    <object_ref id="0" timeline="3" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
-                </key>
-                <key id="3" time="407">
-                    <object_ref id="0" timeline="3" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
-                </key>
-                <key id="4" time="441">
-                    <object_ref id="0" timeline="3" key="1" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="1" z_index="3"/>
-                </key>
-                <key id="5" time="536">
-                    <object_ref id="0" timeline="3" key="2" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
-                    <object_ref id="2" timeline="2" key="3" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="2" z_index="3"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="weed_plant_trunk">
-                <key id="0">
-                    <object folder="0" file="0" x="-89.494144" y="0.494216" pivot_x="0.338972" pivot_y="0.005784" angle="0"/>
-                </key>
-                <key id="1" time="441">
-                    <object folder="0" file="0" x="-29.792651" y="3.479291" pivot_x="0.338972" pivot_y="0.005784" angle="74.815012"/>
-                </key>
-                <key id="2" time="536" spin="-1">
-                    <object folder="0" file="0" x="-21.897915" y="6.11087" pivot_x="0.338972" pivot_y="0.005784" angle="95.120569"/>
-                </key>
-            </timeline>
-            <timeline id="1" name="weed_plant_branchR">
-                <key id="0" spin="-1">
-                    <object folder="0" file="2" x="26.254515" y="375.311758" angle="357.498871" scale_x="0.789184" scale_y="0.734788"/>
-                </key>
-                <key id="1" time="238" spin="0">
-                    <object folder="0" file="2" x="74.890645" y="19.72761" angle="334.368982" scale_x="0.789184" scale_y="0.734788"/>
-                </key>
-                <key id="2" time="441" spin="0">
-                    <object folder="0" file="2" x="74.890645" y="19.72761" angle="334.368982" scale_x="0.789184" scale_y="0.734788"/>
-                </key>
-                <key id="3" time="536">
-                    <object folder="0" file="2" x="74.890645" y="19.72761" angle="334.368982" scale_x="0.789184" scale_y="0.734788"/>
-                </key>
-            </timeline>
-            <timeline id="2" name="weed_plant_branchL">
-                <key id="0">
-                    <object folder="0" file="3" x="28.323844" y="379.487179" angle="0" scale_x="0.814305" scale_y="0.859934"/>
-                </key>
-                <key id="1" time="238" spin="0">
-                    <object folder="0" file="3" x="0.53177" y="2.33844" angle="2.180424" scale_x="0.814305" scale_y="0.859934"/>
-                </key>
-                <key id="2" time="441" spin="0">
-                    <object folder="0" file="3" x="0.53177" y="2.33844" angle="2.180424" scale_x="0.814305" scale_y="0.859934"/>
-                </key>
-                <key id="3" time="536" spin="-1">
-                    <object folder="0" file="3" x="0.53177" y="2.33844" angle="2.180424" scale_x="0.814305" scale_y="0.859934"/>
-                </key>
-            </timeline>
-            <timeline id="3" name="weed_plant_stump_000">
-                <key id="0" spin="0">
-                    <object folder="0" file="4" x="-113.793103" y="96.551724" angle="0"/>
-                </key>
-                <key id="1" time="441" spin="0">
-                    <object folder="0" file="4" x="-113.793103" y="96.551724" angle="0"/>
-                </key>
-                <key id="2" time="536" spin="0">
-                    <object folder="0" file="4" x="-113.793103" y="96.551724" angle="0"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="12" name="idle_stump" length="1000">
+        <animation id="10" name="idle_stump" length="1000">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="weed_plant_stump" folder="0" file="4" abs_x="-6.925599" abs_y="0.448113" abs_pivot_x="0.529047" abs_pivot_y="0.051887" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>

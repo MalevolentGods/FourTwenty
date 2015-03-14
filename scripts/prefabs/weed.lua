@@ -27,7 +27,7 @@ local function fresh()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_fresh")
-	inst.Transform:SetScale(1.5,1.5,1.5)    
+	inst.Transform:SetScale(3,3,3)    
 
     if not TheWorld.ismastersim then
 		return inst
@@ -80,7 +80,7 @@ local function dried()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_dried")
-	inst.Transform:SetScale(.5,.5,.5)
+	inst.Transform:SetScale(3,3,3)
 
     if not TheWorld.ismastersim then
 		return inst

@@ -45,7 +45,6 @@ local function OnDeploy (inst, pt)
 		weed_seeds.Transform:SetPosition(pt.x, pt.y, pt.z)
 		--inst.AnimState:PlayAnimation("idle_loop")
 		inst.components.stackable:Get():Remove()
-		inst.Transform:SetScale(3,3,3)
 	end
 end
 
@@ -101,4 +100,4 @@ end
 
 return Prefab( "common/inventory/weed_seeds", fn, assets),
 	--The placer is what creates that silohuette when you've selected something that's placeable but haven't set it down yet.
-	MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "placer") 
+	MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "idle_loop") 
