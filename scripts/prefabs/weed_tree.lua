@@ -18,12 +18,14 @@ local prefabs =
 local function onregenfn(inst)
 	--inst.AnimState:PlayAnimation("grow") 
 	inst.AnimState:PushAnimation("idle_loop", true)
+	inst.Picked = false
 	 
 end
 
 --Creates a function that defines how to display the "full" tree. I have no idea what the difference between makefull and onregen is, except that the onregen function contains the "grow" animation.
 local function makefullfn(inst)
 	inst.AnimState:PlayAnimation("idle_loop", true)
+	inst.Picked = false
 	 
 end
 
@@ -31,12 +33,14 @@ end
 local function onpickedfn(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/wilson/pickup_reeds") 
 	inst.AnimState:PlayAnimation("pick") 
-	inst.AnimState:PushAnimation("idle_barren")  
+	inst.AnimState:PushAnimation("idle_barren")
+	inst.Picked = true
 end
 
 --Creates a function that defines how to display the empty tree
 local function makeemptyfn(inst)
 	inst.AnimState:PlayAnimation("idle_barren")
+	inst.Picked = true
 	 
 end
 
@@ -82,7 +86,11 @@ local function chopped(inst, worker)
 			inst.components.lootdropper:SpawnLootPrefab("weed_fresh")
 		end
 		setupstump(inst)
-		inst.AnimState:PlayAnimation("fall")
+		if inst.Picked == true then
+			inst.AnimState:PlayAnimation("fall_barren")
+		else
+			inst.AnimState:PlayAnimation("fall")
+		end		
 		inst.AnimState:PushAnimation("idle_stump")
 	end
 
@@ -90,7 +98,11 @@ end
 
 --Creates a function that defines how the tree is displayed while being chopped
 local function chop(inst, worker)
-	inst.AnimState:PlayAnimation("chop")
+	if inst.Picked == true then
+		inst.AnimState:PlayAnimation("chop_barren")
+	else
+		inst.AnimState:PlayAnimation("chop")
+	end
 	inst.AnimState:PushAnimation("idle_loop", true)
 	if not worker or (worker and not worker:HasTag("playerghost")) then
     	inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")         
@@ -155,6 +167,7 @@ local function fn(Sim)
     inst.AnimState:SetBuild("weed_plant")
     inst.AnimState:PlayAnimation("idle_loop",true)
     inst.AnimState:SetTime(math.random()*2)
+    inst.Transform:SetScale(.5,.5,.5)
 
     if not TheWorld.ismastersim then
 		return inst
@@ -170,6 +183,7 @@ local function fn(Sim)
 	inst.components.pickable.onpickedfn = onpickedfn
 	inst.components.pickable.makeemptyfn = makeemptyfn
 	inst.components.pickable.makefullfn = makefullfn
+	inst.Picked = false
 
 
 	inst:AddComponent("workable")
