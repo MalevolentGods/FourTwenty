@@ -86,10 +86,17 @@ local function chopped(inst, worker)
 			inst.components.lootdropper:SpawnLootPrefab("weed_fresh")
 		end
 		setupstump(inst)
+<<<<<<< HEAD
 		if inst.Picked == true then
 			inst.AnimState:PlayAnimation("fall_barren")
 		else
 			inst.AnimState:PlayAnimation("fall")
+=======
+		if inst.Picked = true then
+			inst.AnimState:PlayAnimation("fall")
+		else
+			inst.AnimState:PlayAnimation("fall_barren")
+>>>>>>> origin/master
 		end		
 		inst.AnimState:PushAnimation("idle_stump")
 	end
@@ -98,10 +105,17 @@ end
 
 --Creates a function that defines how the tree is displayed while being chopped
 local function chop(inst, worker)
+<<<<<<< HEAD
 	if inst.Picked == true then
 		inst.AnimState:PlayAnimation("chop_barren")
 	else
 		inst.AnimState:PlayAnimation("chop")
+=======
+	if inst.Picked = true then
+		inst.AnimState:PlayAnimation("chop")
+	else
+		inst.AnimState:PlayAnimation("chop_barren")
+>>>>>>> origin/master
 	end
 	inst.AnimState:PushAnimation("idle_loop", true)
 	if not worker or (worker and not worker:HasTag("playerghost")) then
