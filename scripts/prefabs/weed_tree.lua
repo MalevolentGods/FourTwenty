@@ -1,8 +1,12 @@
+--This script creates and defines the weed_tree prefab
+------------------------------------------------------
+
+
 --These are basically the custom animations and graphics that we're loading for the prefab
 local assets=
 {
 	Asset("ANIM", "anim/weed_plant.zip"),
-	Asset("ANIM", "anim/weed_tree.zip")
+	--Asset("ANIM", "anim/weed_tree.zip")  --No longer used but maybe we'll rename weed_plant to weed_tree someday?
 }
 
 --Loads any prefabs we're going to reference
@@ -16,7 +20,7 @@ local prefabs =
 
 --Creates a function that defines how to display a tree during "regen" (I guess that means "regrow")
 local function onregenfn(inst)
-	--inst.AnimState:PlayAnimation("grow") 
+	inst.AnimState:PlayAnimation("grow") 
 	inst.AnimState:PushAnimation("idle_loop", true)
 	inst.Picked = false
 	 

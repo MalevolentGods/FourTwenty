@@ -1,3 +1,6 @@
+--This script creates and defines the weed_seeds prefab
+------------------------------------------------------
+
 --Not sure if we need this or not or why
 require "prefabutil"
 

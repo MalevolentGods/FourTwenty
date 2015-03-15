@@ -1,3 +1,7 @@
+--This script creates and defines the weed_fresh and weed_dried prefabs
+---------------------------------------------------------------------------
+
+
 --These are basically the custom animations and graphics that we're loading for the prefab
 local assets=
 {
@@ -9,8 +13,8 @@ local assets=
 --Loads any custom prefabs we're going to reference
 local prefabs =
 {
-	"weed_seeds",
-	"spoiled_food",
+	"weed_seeds",		--Need this in order to turn weed into weed_seeds
+	"spoiled_food", 	--Need this in order to make weed into something spoiled.
 	
 }    
 
@@ -27,7 +31,7 @@ local function fresh()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_fresh")
-	inst.Transform:SetScale(1.5,1.5,1.5)    
+	inst.Transform:SetScale(1.5,1.5,1.5)    --This will probably need to be changed now that animations have been updated.
 
     if not TheWorld.ismastersim then
 		return inst
@@ -80,7 +84,7 @@ local function dried()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_dried")
-	inst.Transform:SetScale(.5,.5,.5)
+	inst.Transform:SetScale(.5,.5,.5)  --This will probably need to be changed now that animations have been updated. 
 
     if not TheWorld.ismastersim then
 		return inst

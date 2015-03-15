@@ -1,14 +1,16 @@
---This file defines the tokeable component action, which is the guts of the TOKE action that we created in the modmain file.
+--This script defines the tokeable component action, which is the guts of the TOKE action that we created in the modmain file.
 --This is all still a work in progress as I try to figure shit out. A lot of it is based on the "playable" action used by instruments since that's what the pipe animation is based off of. 
 --Long story short: some of this can be removed and more will be added when the joint gets created.
+--------------------------------------------------------------------------------------------------------------------
+
 
 --I guess this creates the main class
 local Tokeable = Class(
 	function(self, inst)
-    		self.inst = inst
+    	self.inst = inst
 		--These are just kind of placeholders for the AOE effect I have considered giving the joint.
 		self.range = 15
-    		self.onheard = nil
+    	self.onheard = nil
 	
 	end,
 	nil,

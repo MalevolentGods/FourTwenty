@@ -1,3 +1,7 @@
+--This script defines some basic information about the mod along with any configuration options.
+------------------------------------------------------------------------------------------------
+
+
 --Meta information about the MOD along with any possible config options
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
@@ -10,12 +14,14 @@ dst_compatible = true
 all_clients_require_mod = true
 client_only_mod = false
 
+--This may change as the game is updated.
 api_version = 10
 
+--Sets the icon our mod will use in the DST menu
 icon_atlas = "FourTwenty.xml"
 icon = "FourTwenty.tex"
 
- configuration_options =
+configuration_options =
 {
 	{
 		--Eventually these will need to be adjusted when we finally fix weed tree spawning

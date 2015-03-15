@@ -13,10 +13,10 @@ Assets=
 	Asset("ATLAS", "images/inventoryimages/weed_dried.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
     Asset("ATLAS", "images/inventoryimages/g_house.xml"),
-	Asset( "IMAGE", "minimap/g_house.tex" ),
-    Asset( "ATLAS", "minimap/g_house.xml" ),
-	Asset( "IMAGE", "minimap/weed_tree.tex" ),
-    Asset( "ATLAS", "minimap/weed_tree.xml" ),
+	Asset("IMAGE", "minimap/g_house.tex" ),    					--Starting to wonder if you even have to load the tex here, or if the XML is enough.
+    Asset("ATLAS", "minimap/g_house.xml" ),
+	Asset("IMAGE", "minimap/weed_tree.tex" ),
+    Asset("ATLAS", "minimap/weed_tree.xml" ),
 }
 
 --Add the custom minimap icons to the Atlas
@@ -70,50 +70,6 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 
 
 
---Load the existing drying rack so that we can make changes
-AddPrefabPostInit("meatrack", function (inst)
-	local assets=
-	{
-		
-		--I had to create a custom meat_rack_food animation that replaced the png images for human meat with weed buds. Need to find a better way. 
-		--Asset("ANIM", "anim/meat_rack_food.zip"),
-		
-	}
-	--Add the weed prefabs
-	local prefabs =
-    {
-		"weed_fresh",
-		"weed_dried",
-    }
-
-	local function onstartdrying_mod(inst, dryable)
-		inst.AnimState:PlayAnimation("drying_pre")
-		inst.AnimState:PushAnimation("drying_loop", true)
-		--If the thing you're putting on the rack (dryable) is "weed_fres" then use the png for human meat
-		if dryable == "weed_fresh" then
-			inst.AnimState:OverrideSymbol("swap_dried", "weed", "humanmeat")
-		else
-			inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", dryable)
-		end
-	end
-
-	local function setdone_mod(inst, product)
-		inst.AnimState:PlayAnimation("idle_full")
-		--If the thing that's done drying on the rack (product) is "weed_dried" then use the png for dried human meat.
-		if product == "weed_dried" then
-			inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", "humanmeat_dried")
-		else
-			inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", product)
-		end
-	end
-	
-	--I think this tells it to use the custom functions we've created above instead of the built in ones 	
-	inst.components.dryer:SetStartDryingFn(onstartdrying_mod)
-    inst.components.dryer:SetContinueDryingFn(onstartdrying_mod)
-	inst.components.dryer:SetContinueDoneFn(setdone_mod)
-end)
-
-
 
 --This variable will ultimately determine whether the weed_tree grows in winter or not. The value is used in the weed_tree.lua prefab file
 --local Winter_Grow = (GetModConfigData("W_Grow")=="no")
@@ -134,6 +90,8 @@ g_houserecipe.atlas = "images/inventoryimages/g_house.xml" --This adds the recip
 
 --This creates the recipe for the pipe
 local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+
+--Sets the recipe image for the pipe
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
 
@@ -145,11 +103,12 @@ local TOKE = Action(3)
 --I think this variable determines what string to show over the mouse button icon when you hover over the item that has this action.  
 TOKE.str = "Toke"
 
---This sets the internal name for this new action
+--This sets the internal name for this new action. This is how we will reference this new action.
 TOKE.id = "TOKE"
 
 --This variable is set to a function containing the actual stuff you want this action to do
 TOKE.fn = function(act)
+	
 	local stringArray = {}  --Based on Willard's suggestion I've made the speech text for this action random, so this variable is created as an array
 	
 	--These are the different values in the array, which become the possible things for the character to say when performing this action
@@ -163,9 +122,11 @@ TOKE.fn = function(act)
 	
 	--This method makes the person performing the action say the string that matches the value produced by math.random()
 	act.doer.components.talker:Say(stringArray[stringChoice])
+	
 	--This method executes the function bowlHit() as it's defined in the components/tokeable.lua file using the value of "act.doer" (DST speak for whoever is doing the action)
 	act.invobject.components.tokeable:bowlHit(act.doer)
-	--Says that this was successfull, even though nothing currently checks whether the action was successfull or not so it doesnt matter. 
+	
+	--Says that this was successful, even though nothing currently checks whether the action was successfull or not so it doesnt matter. 
 	return true
 end
 --This method actually adds the action TOKE that we've defined above into the game. 
@@ -184,10 +145,10 @@ local FRAMES = GLOBAL.FRAMES
 --The first "state change" is created as the variable "toke" and the value is set to the method State() and all the crap that it contains
 local toke = State({
 	name = "toke",
-    	--not sure what these are for
+    --Tags can be used as conditions to allow or not allow something or to make something happen. Not sure what these specific ones are used for though.
 	tags = { "doing", "playing" },
 
-    	--what to do when you enter the "toke" state
+    --What to do when you enter the "toke" state
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
@@ -204,7 +165,7 @@ local toke = State({
 		end
     end,
 
-    	--I guess the number of frames of the animation to play? Also the sound to play
+    --I guess the number of frames of the animation to play? Also the sound to play
 	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
@@ -213,7 +174,7 @@ local toke = State({
         	end),
     	},
 
-	--Not really sure yet
+	--Still figuring out how events work.
     events =
     	{
         	EventHandler("animqueueover", function(inst)
@@ -226,8 +187,8 @@ local toke = State({
 	--What to do when leaving the "toke" state
     onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
-            		inst.AnimState:Show("ARM_carry") 
-            		inst.AnimState:Hide("ARM_normal")
+            	inst.AnimState:Show("ARM_carry") 
+            	inst.AnimState:Hide("ARM_normal")
         	end
     	end,
 })
@@ -271,6 +232,7 @@ AddStategraphState("wilson_client", toke_client)
 
 --This method tells the game to enter the toke state when performing the TOKE action that we defined above.
 AddStategraphActionHandler("wilson", ActionHandler(TOKE, "toke"))
+
 --This method tells the game to enter the toke_client state when a connected client performs the TOKE action that we defined above.
 AddStategraphActionHandler("wilson_client", ActionHandler(TOKE, "toke_client"))
 
