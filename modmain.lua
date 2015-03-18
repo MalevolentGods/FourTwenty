@@ -1,5 +1,6 @@
 --This is the main mod file. It's one of the first things to be read and calls all of the other components of the mod.
 --Some of this stuff could probably be moved into the prefab and component files but it's fine for now.
+------------------------------------------------------------------------------------------------------------------------
 
 
 --These are basically the custom animations and graphics that we're loading for the mod   
@@ -31,6 +32,7 @@ PrefabFiles =
 	"weed_tree",
 	"weed",
 	"pipe",
+	"solar_dryer"
 }
 
 --The only purpose of these variables is so that you don't always have to specify GLOBAL when typing the variable name. Instead of GLOBAL.STRINGS.NIGGER="you", you can type STRINGS.NIGGER="you"
@@ -53,6 +55,10 @@ STRINGS.NAMES.G_HOUSE = "Advanced Farm"
 STRINGS.RECIPE_DESC.G_HOUSE = "I have no idea what it does!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.G_HOUSE = "Your guess is as good as mine."
 
+STRINGS.NAMES.SOLAR_DRYER = "Solar Dryer!"
+STRINGS.RECIPE_DESC.SOLAR_DRYER = "Solar Dryer!"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SOLAR_DYER = "Solar Dryer!"
+
 STRINGS.NAMES.WEED_TREE = "Weed Plant"
 STRINGS.RECIPE_DESC.WEED_TREE = "Weeeeeed!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WEED_TREE = "It's flowers are smokable!"
@@ -67,14 +73,8 @@ STRINGS.NAMES.WEED_FRESH = "Fresh Weed Bud"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WEED_DRIED = "Look at the trichomes!"
 STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 
-
-
-
-
 --This variable will ultimately determine whether the weed_tree grows in winter or not. The value is used in the weed_tree.lua prefab file
 --local Winter_Grow = (GetModConfigData("W_Grow")=="no")
-
-
 
 --Creates the recipe for the Advanced Farm that we're not really using yet.
 local g_houserecipe = Recipe("g_house",
@@ -84,8 +84,10 @@ local g_houserecipe = Recipe("g_house",
     	Ingredient("rope", 4),
     	Ingredient("poop", 10)
 	},
-   	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )                     
-g_houserecipe.atlas = "images/inventoryimages/g_house.xml" --This adds the recipe silohuette
+   	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )
+
+--Sets the recipe image for the Advanced Farm that we're not really using
+g_houserecipe.atlas = "images/inventoryimages/g_house.xml" 
 
 
 --This creates the recipe for the pipe
@@ -129,6 +131,7 @@ TOKE.fn = function(act)
 	--Says that this was successful, even though nothing currently checks whether the action was successfull or not so it doesnt matter. 
 	return true
 end
+
 --This method actually adds the action TOKE that we've defined above into the game. 
 AddAction(TOKE)
 
@@ -136,7 +139,6 @@ AddAction(TOKE)
 
 --More variables for the StateChanges to come. 
 --As best as I can tell, state changes are how you communicate things between the client and the server when you're playing DST. 
---I still haven't figured them out entirely, but they were the key to getting the bowl animation to work.
 local State = GLOBAL.State
 local TimeEvent = GLOBAL.TimeEvent
 local EventHandler = GLOBAL.EventHandler
@@ -144,6 +146,7 @@ local FRAMES = GLOBAL.FRAMES
 
 --The first "state change" is created as the variable "toke" and the value is set to the method State() and all the crap that it contains
 local toke = State({
+
 	name = "toke",
     --Tags can be used as conditions to allow or not allow something or to make something happen. Not sure what these specific ones are used for though.
 	tags = { "doing", "playing" },
@@ -155,6 +158,7 @@ local toke = State({
         inst.AnimState:Show("ARM_normal")
 		inst.AnimState:PlayAnimation("action_uniqueitem_pre")
 		inst.AnimState:PushAnimation("horn", false)
+		
 		--I tried using the symbol from pipe and swap_pipe but it wasn't working right so I took the modified horn.zip anim that the original Pipe mod author was using and changed it's name to swap_pipe_horn.
 		--Unfortunately, I can't change the actual symbol name, so I'm stuck using "horn01" until I can get my own animation working.
 		--The sole purpose of this command is to replace the horn symbol (graphic) used in the horn animation with a symbol for the pipe. 
@@ -192,6 +196,7 @@ local toke = State({
         	end
     	end,
 })
+
 --This method adds the "toke" state to existing bank of character states.
 AddStategraphState("wilson", toke)
 
@@ -199,6 +204,7 @@ AddStategraphState("wilson", toke)
 --I think this is the state that's executed by the client (person who connects to the server) instead of the host (person running the server). 
 --If it's a dedicated server then I guess everyone runs this instead of the regular toke.
 local toke_client = State({
+
     	name = "toke_client",
     	tags = { "doing", "playing" },
 
@@ -225,9 +231,9 @@ local toke_client = State({
         	inst.sg:GoToState("idle")
     	end,
 })
+
 --This method adds the toke_client state to the existing bank of client character states. I think.
 AddStategraphState("wilson_client", toke_client)
-
 
 
 --This method tells the game to enter the toke state when performing the TOKE action that we defined above.
@@ -237,13 +243,39 @@ AddStategraphActionHandler("wilson", ActionHandler(TOKE, "toke"))
 AddStategraphActionHandler("wilson_client", ActionHandler(TOKE, "toke_client"))
 
 
+
+
+
 --This lets you set conditions under which to run the action. I don't have any conditions set.
 local function toking(inst, doer, actions)
 	table.insert(actions, ACTIONS.TOKE)
 end
 
+local function dehydratable(inst, doer, target, actions)
+    if target:HasTag("dehydrater") then
+        table.insert(actions, ACTIONS.DEHYDRATE)
+    end
+end
 
---This method tells the game to add the tokeable component action to the existing list of component actions. The second value has to match the filename in the components directory.
---The ComponentAction is the real guts of the action. It's what the action actually does I guess. The method tokeable:bowlHit we referenced earlier will be defined inside the component action "tokeable"
+local function dehydrater(inst, doer, actions, right)
+    if inst:HasTag("donedehydrating") then
+        table.insert(actions, ACTIONS.HARVEST)
+    elseif right and
+        (inst:HasTag("readytodehydrate")
+    or (inst.replica.container ~= nil and
+        inst.replica.container:IsFull() and
+        inst.replica.container:IsOpenedBy(doer))) then
+        table.insert(actions, ACTIONS.DEHYDRATE)
+    end
+end
+
+--Add the tokeable component action to the existing list of component actions. The second value has to match the filename in the components directory.
 AddComponentAction("INVENTORY", "tokeable", toking)
+
+AddComponentAction("USEITEM", "dehydratable", dehydratable)
+
+AddComponentAction("SCENE", "dehydrater", dehydrater)
+
+
+
 

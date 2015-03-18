@@ -1,7 +1,7 @@
 --This script creates and defines the weed_seeds prefab
 ------------------------------------------------------
 
---Not sure if we need this or not or why
+--Not sure if we need this or not or why. I copied from some unrelated prefab.
 require "prefabutil"
 
 --These are basically the custom animations and graphics that we're loading for the prefab 
@@ -17,12 +17,13 @@ local prefabs =
 	"weed_tree",
 } 
 
---Not really sure
+--Not really sure what this is for or where I copied it from.
 local notags = {'NOBLOCK', 'player', 'FX'}
 
 
---Creates a function that tests the ground to determine if the seed can be planted where the person is trying to place it
+--Tests the ground to determine if the seed can be planted where the person is trying to place it
 local function test_ground(inst, pt)
+
 	local tiletype = GetGroundTypeAtPosition(pt)
 	local ground_OK = tiletype ~= GROUND.ROCKY and tiletype ~= GROUND.ROAD and tiletype ~= GROUND.IMPASSABLE and
 	tiletype ~= GROUND.UNDERROCK and tiletype ~= GROUND.WOODFLOOR and 

@@ -63,9 +63,9 @@ local function fresh()
 	inst:AddComponent("cookable")
 	inst.components.cookable.product = "weed_seeds"
 	
-	inst:AddComponent("dryable")
-    inst.components.dryable:SetProduct("weed_dried")
-    inst.components.dryable:SetDryTime(TUNING.DRY_FAST)
+	inst:AddComponent("dehydratable")
+    inst.components.dehydratable:SetProduct("weed_dried")
+    inst.components.dehydratable:SetDryTime(TUNING.DRY_FAST)
 
 	MakeHauntableLaunchAndPerish(inst)
 
