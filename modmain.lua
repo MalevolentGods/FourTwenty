@@ -285,7 +285,7 @@ local function dehydratable(inst, doer, target, actions)
 end
 
 local function dehydrater(inst, doer, actions, right)
-    if not inst.components.dehydrater.cooking then
+    if not inst.replica.dehydrater.cooking then
         table.insert(actions, ACTIONS.RUMMAGE)
    elseif right and inst.components.dehydrater:ReadyToStart() then
     --or (inst.replica.container ~= nil and
