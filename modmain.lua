@@ -1,7 +1,7 @@
 --This is the main mod file. It's one of the first things to be read and calls all of the other components of the mod.
 --Some of this stuff could probably be moved into the prefab and component files but it's fine for now.
 ------------------------------------------------------------------------------------------------------------------------
-
+--require("containers")
 
 --These are basically the custom animations and graphics that we're loading for the mod   
 Assets=
@@ -55,7 +55,7 @@ STRINGS.NAMES.G_HOUSE = "Advanced Farm"
 STRINGS.RECIPE_DESC.G_HOUSE = "I have no idea what it does!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.G_HOUSE = "Your guess is as good as mine."
 
-STRINGS.NAMES.SOLAR_DRYER = "Solar Dryer!"
+STRINGS.NAMES.SOLAR_DRYER = "Solar Dryer"
 STRINGS.RECIPE_DESC.SOLAR_DRYER = "Solar Dryer!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SOLAR_DYER = "Solar Dryer!"
 
@@ -134,6 +134,30 @@ end
 
 --This method actually adds the action TOKE that we've defined above into the game. 
 AddAction(TOKE)
+
+
+local DEHYDRATE = Action()
+DEHYDRATE.str = "Dehydrate"
+DEHYDRATE.id = "DEHYDRATE"
+DEHYDRATE.fn = function(act)
+    if act.target.components.dehydrater ~= nil then
+        if act.target.components.dehydrater.cooking then
+            --Already cooking
+            return true
+        end
+        local container = act.target.components.container
+        if container ~= nil and container:IsOpen() and not container:IsOpenedBy(act.doer) then
+            return false, "INUSE"
+        elseif not act.target.components.dehydrater:ReadyToStart() then
+            return false
+        end
+		act.target.components.dehydrater:StartDrying()
+		return true
+    end
+end
+
+AddAction(DEHYDRATE)
+
 
 
 
@@ -245,27 +269,26 @@ AddStategraphActionHandler("wilson_client", ActionHandler(TOKE, "toke_client"))
 
 
 
-
 --This lets you set conditions under which to run the action. I don't have any conditions set.
 local function toking(inst, doer, actions)
 	table.insert(actions, ACTIONS.TOKE)
 end
 
 local function dehydratable(inst, doer, target, actions)
-    if target:HasTag("dehydrater") then
+    if target:HasTag("dehydrater") and inst:HasTag("dehydratable") then
         table.insert(actions, ACTIONS.DEHYDRATE)
     end
 end
 
 local function dehydrater(inst, doer, actions, right)
-    if inst:HasTag("donedehydrating") then
-        table.insert(actions, ACTIONS.HARVEST)
-    elseif right and
-        (inst:HasTag("readytodehydrate")
-    or (inst.replica.container ~= nil and
-        inst.replica.container:IsFull() and
-        inst.replica.container:IsOpenedBy(doer))) then
-        table.insert(actions, ACTIONS.DEHYDRATE)
+    if inst:HasTag("donedrying") or inst:HasTag("readytodry")then
+        table.insert(actions, ACTIONS.RUMMAGE)
+   elseif right and inst.components.dehydrater:ReadyToStart() then
+    --or (inst.replica.container ~= nil and
+	--	not inst.components.dehydrater:IsDrying() and
+    --    inst.replica.container:IsFull() and
+    --    inst.replica.container:IsOpenedBy(doer))) then
+       table.insert(actions, ACTIONS.DEHYDRATE)
     end
 end
 
@@ -275,6 +298,7 @@ AddComponentAction("INVENTORY", "tokeable", toking)
 AddComponentAction("USEITEM", "dehydratable", dehydratable)
 
 AddComponentAction("SCENE", "dehydrater", dehydrater)
+
 
 
 

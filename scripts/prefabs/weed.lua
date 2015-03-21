@@ -65,7 +65,8 @@ local function fresh()
 	
 	inst:AddComponent("dehydratable")
     inst.components.dehydratable:SetProduct("weed_dried")
-    inst.components.dehydratable:SetDryTime(TUNING.DRY_FAST)
+    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
+	--inst:AddTag("dehydratable") --Can probably remove this at some point as I figure things out more.
 
 	MakeHauntableLaunchAndPerish(inst)
 

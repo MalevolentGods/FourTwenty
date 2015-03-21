@@ -1,5 +1,6 @@
 --This script creates and defines the solar_dryer prefab
 ------------------------------------------------------
+local containers = require "containers"
 
 local assets =
 {
@@ -71,17 +72,6 @@ end
 --Define animations and actions to perform when hit
 local function onhit(inst, worker)
 	
-	--Copied from cookpot prefab.
-	--inst.AnimState:PlayAnimation("hit_empty")
-	
-	--if inst.components.stewer.cooking then
-	--	inst.AnimState:PushAnimation("cooking_loop")
-	--elseif inst.components.stewer.done then
-	--	inst.AnimState:PushAnimation("idle_full")
-	--else
-	--	inst.AnimState:PushAnimation("idle_empty")
-	--end
-	
 	inst.AnimState:PlayAnimation("hit")
 	
 end
@@ -89,61 +79,51 @@ end
 --Fetch the status of the drying operation
 local function getstatus(inst)
 
-	--Copied from meat rack prefab
-    if inst.components.dryer and inst.components.dryer:IsDrying() then
-        return "DRYING"
-    elseif inst.components.dryer and inst.components.dryer:IsDone() then
-        return "DONE"
-    end
+	--Copied from the cookpot prefab
+	if inst.components.dehydrater.cooking and inst.components.dehydrater:GetTimeToDry() > 15 then
+		return "COOKING_LONG"
+	elseif inst.components.dehydrater.cooking then
+		return "COOKING_SHORT"
+	elseif inst.components.dehydrater.done then
+		return "DONE"
+	else
+		return "EMPTY"
+	end
 end
 
 --Define animations/actions to run when drying begins.
-local function onstartdrying(inst, dryable)
+local function startcookfn(inst)
 
-	--Copied from dryer prefab.
-    --inst.AnimState:PlayAnimation("drying_pre")
-	--inst.AnimState:PushAnimation("drying_loop", true)
 	inst.AnimState:PlayAnimation("closed")
-	
-	--We won't be swapping any symbols so we don't need this.
-    --inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", dryable)		
+	--inst.AnimState:PlayAnimation("cooking_loop", true)
+	--inst.SoundEmitter:KillSound("snd")
+	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
+	--inst.Light:Enable(true)
 end
 
+local function continuecookfn(inst)
 
---Define animations/actions to run when item is set to a "done" state
-local function setdone(inst, product)
-
-	--Copied from dryer prefab.
-    --inst.AnimState:PlayAnimation("idle_full")
 	inst.AnimState:PlayAnimation("closed")
-	
-	--We won't be swapping any symbols so we don't need this.
-    --inst.AnimState:OverrideSymbol("swap_dried", "meat_rack_food", product)
-end
+	--inst.AnimState:PlayAnimation("cooking_loop", true)
+	--play a looping sound
+	--inst.Light:Enable(true)
 
+	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
+end
 
 --Define animations/actions to run when drying completes
-local function ondonedrying(inst, product)
+local function donecookfn(inst)
 
-	--Copied from dryer prefab.
-    --inst.AnimState:PlayAnimation("drying_pst")
 	inst.AnimState:PlayAnimation("closed")
-	
-    local function ondonefn(inst)
-        inst:RemoveEventCallback("animover", ondonefn)
-        setdone(inst, product)
-    end
-    inst:ListenForEvent("animover", ondonefn)
+	inst.SoundEmitter:KillSound("snd")
+	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish", "snd")
 end
 
-
---Defines animations/actions to perform on harvest. May not really be needed by our item.
-local function onharvested(inst)
-
-	--Copied from dryer prefab.
-    --inst.AnimState:PlayAnimation("idle_empty")
+local function continuedonefn(inst)
 	inst.AnimState:PlayAnimation("closed")
 end
+
+
 
 --Define animation to use when structure is actually built (placed)
 local function onbuilt(inst)
@@ -153,9 +133,16 @@ local function onbuilt(inst)
 	inst.AnimState:PushAnimation("closed", false)
 end
 
+local function onfar(inst)
+	inst.components.container:Close()
+end
+
+
 
 --This function is where the prefab is actually created and configured. All of the variables and functions defined above will be used here.  
 local function fn()
+
+
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
@@ -167,6 +154,7 @@ local function fn()
     inst.MiniMapEntity:SetIcon("icebox.png")
     
     inst:AddTag("structure")
+	
 
 	--Use the icebox animation bank (for now)
     inst.AnimState:SetBank("icebox")
@@ -182,11 +170,61 @@ local function fn()
     inst.entity:SetPristine()
 	
 	
+	inst:AddComponent("dehydrater")
+    inst.components.dehydrater.onstartcooking = startcookfn
+    inst.components.dehydrater.oncontinuecooking = continuecookfn
+    inst.components.dehydrater.oncontinuedone = continuedonefn
+    inst.components.dehydrater.ondonecooking = donecookfn
+	
 	--Used container component code from the "cookpot" prefab because I want to use its menu.
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("cookpot")
+    local widgetdata =
+	{
+		widget =
+		{
+			slotpos =
+			{
+				Vector3(0, 64 + 32 + 8 + 4, 0), 
+				Vector3(0, 32 + 4, 0),
+				Vector3(0, -(32 + 4), 0), 
+				Vector3(0, -(64 + 32 + 8 + 4), 0),
+			},
+			animbank = "ui_cookpot_1x4",
+			animbuild = "ui_cookpot_1x4",
+			pos = Vector3(200, 0, 0),
+			side_align_tip = 100,
+			buttoninfo =
+			{
+				text = "Dry",
+				position = Vector3(0, -165, 0),
+			}
+		},
+		acceptsstacks = false,
+		type = "cooker",
+	}
+
+	function widgetdata.itemtestfn(container, item, slot)
+		return inst.components.dehydrater:CanDry(item.prefab)
+	end
+
+	function widgetdata.widget.buttoninfo.fn(inst)
+		if inst.components.container ~= nil then
+			BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+		elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+			SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+		end
+	end
+
+	function widgetdata.widget.buttoninfo.validfn(inst)
+		return inst.replica.container ~= nil and inst.replica.container:IsFull()
+	end
+	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
+
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
+	
+	
+
 
 	--Make item able to drop loot (contents) when they broken/hammered
     inst:AddComponent("lootdropper")
@@ -201,15 +239,14 @@ local function fn()
 	MakeHauntableWork(inst)
 
 	--Used dryer component code from the meat_rack prefab to make our item a dryer. Will replace with new dehydrater component.
-	inst:AddComponent("dehydrater")
-	inst.components.dehydrater:SetStartDryingFn(onstartdrying)
-	inst.components.dehydrater:SetDoneDryingFn(ondonedrying)
-	inst.components.dehydrater:SetContinueDryingFn(onstartdrying)
-	inst.components.dehydrater:SetContinueDoneFn(setdone)
-	inst.components.dehydrater:SetOnHarvestFn(onharvested)
+
 
 	inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = getstatus
+	
+	inst:AddComponent("playerprox")
+    inst.components.playerprox:SetDist(3,5)
+    inst.components.playerprox:SetOnPlayerFar(onfar)
 	
 	MakeSnowCovered(inst)
 	
