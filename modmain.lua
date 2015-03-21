@@ -285,14 +285,14 @@ local function dehydratable(inst, doer, target, actions)
 end
 
 local function dehydrater(inst, doer, actions, right)
-    if not inst.replica.dehydrater.cooking then
+    if inst:HasTag("readytodry") or inst:HasTag("donedrying") then
         table.insert(actions, ACTIONS.RUMMAGE)
-   elseif right and inst.components.dehydrater:ReadyToStart() then
+   --elseif right and inst.components.dehydrater:ReadyToStart() then
     --or (inst.replica.container ~= nil and
 	--	not inst.components.dehydrater:IsDrying() and
     --    inst.replica.container:IsFull() and
     --    inst.replica.container:IsOpenedBy(doer))) then
-       table.insert(actions, ACTIONS.DEHYDRATE)
+       --table.insert(actions, ACTIONS.DEHYDRATE)
     end
 end
 

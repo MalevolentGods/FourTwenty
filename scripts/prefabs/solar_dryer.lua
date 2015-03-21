@@ -204,7 +204,7 @@ local function fn()
 	}
 
 	function widgetdata.itemtestfn(container, item, slot)
-		return inst.components.dehydrater:ItemTest(item)
+		return item:HasTag("dehydratable")
 	end
 
 	function widgetdata.widget.buttoninfo.fn(inst)
