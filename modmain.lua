@@ -13,16 +13,17 @@ Assets=
     Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_dried.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
-    Asset("ATLAS", "images/inventoryimages/g_house.xml"),
-	Asset("IMAGE", "minimap/g_house.tex" ),    					--Starting to wonder if you even have to load the tex here, or if the XML is enough.
-    Asset("ATLAS", "minimap/g_house.xml" ),
+    --Asset("ATLAS", "images/inventoryimages/g_house.xml"),
+	Asset("ATLAS", "images/inventoryimages/solar_dryer.xml"),
+	--Asset("IMAGE", "minimap/g_house.tex" ),    					--Starting to wonder if you even have to load the tex here, or if the XML is enough.
+   -- Asset("ATLAS", "minimap/g_house.xml" ),
 	Asset("IMAGE", "minimap/weed_tree.tex" ),
     Asset("ATLAS", "minimap/weed_tree.xml" ),
 }
 
 --Add the custom minimap icons to the Atlas
 AddMinimapAtlas("minimap/weed_tree.xml")
-AddMinimapAtlas("minimap/g_house.xml")
+--AddMinimapAtlas("minimap/g_house.xml")
 
 --These are all of the prefabs (items) that the mod is going to load. Each of these should have its own file in the scripts/prefabs folder. 
 PrefabFiles = 
@@ -77,17 +78,17 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 --local Winter_Grow = (GetModConfigData("W_Grow")=="no")
 
 --Creates the recipe for the Advanced Farm that we're not really using yet.
-local g_houserecipe = Recipe("g_house",
-	{ 
-		Ingredient("boards", 5),
-    	Ingredient("silk", 6),
-    	Ingredient("rope", 4),
-    	Ingredient("poop", 10)
-	},
-   	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )
+--local g_houserecipe = Recipe("g_house",
+--	{ 
+--		Ingredient("boards", 5),
+--    	Ingredient("silk", 6),
+--    	Ingredient("rope", 4),
+--   	Ingredient("poop", 10)
+--	},
+--   	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )
 
 --Sets the recipe image for the Advanced Farm that we're not really using
-g_houserecipe.atlas = "images/inventoryimages/g_house.xml" 
+--g_houserecipe.atlas = "images/inventoryimages/g_house.xml" 
 
 
 --This creates the recipe for the pipe
@@ -96,10 +97,10 @@ local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fres
 --Sets the recipe image for the pipe
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
-local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 3)}, RECIPETABS.SURVIVAL, TECH.NONE, "solar_dryer_placer")
 
 --Sets the recipe image for the pipe
-dehydraterrecipe.atlas = "images/inventoryimages/pipe.xml"
+dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
 
 
 --This defines the variable TOKE as a new action in the game. The Action() function takes a few different options, but 3 is the best default for reasons I can't remember
