@@ -96,7 +96,10 @@ local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fres
 --Sets the recipe image for the pipe
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
+local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 
+--Sets the recipe image for the pipe
+dehydraterrecipe.atlas = "images/inventoryimages/pipe.xml"
 
 
 --This defines the variable TOKE as a new action in the game. The Action() function takes a few different options, but 3 is the best default for reasons I can't remember
