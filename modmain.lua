@@ -281,7 +281,7 @@ local function dehydratable(inst, doer, target, actions)
 end
 
 local function dehydrater(inst, doer, actions, right)
-    if inst:HasTag("donedrying") or inst:HasTag("readytodry")then
+    if not inst.components.dehydrater.cooking then
         table.insert(actions, ACTIONS.RUMMAGE)
    elseif right and inst.components.dehydrater:ReadyToStart() then
     --or (inst.replica.container ~= nil and
@@ -300,6 +300,10 @@ AddComponentAction("USEITEM", "dehydratable", dehydratable)
 AddComponentAction("SCENE", "dehydrater", dehydrater)
 
 
-
+--AddPrefabPostInit("berries", function(inst)
+--	inst:AddComponent("dehydratable")
+--    inst.components.dehydratable:SetProduct("weed_dried")
+--    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
+--end)
 
 

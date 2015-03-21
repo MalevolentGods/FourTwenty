@@ -2,8 +2,9 @@
 --------------------------------------------------------------------------------------------------------
 
 --Most references to "dry" have been replaced with "dehydrate" except for the internal functions which I want to leave as is, at least for now, for testing purposes
-local ingredients = {}
-ingredients["weed_fresh"] = { tags = {}}
+local dried_products = {}
+dried_products["weed_dried"] = { tags = {}}
+
 
 local function DoDehydrate(inst)
 	local dehydrater = inst.components.dehydrater
@@ -38,9 +39,7 @@ local function ondone(self, done)
 end
 
 local function oncheckready(inst)
-    if inst.components.container ~= nil and
-    not inst.components.container:IsOpen() and
-    inst.components.container:IsFull() then
+    if inst.components.dehydrater:ReadyToStart() then
         inst:AddTag("readytodry")
     end
 end
@@ -68,6 +67,7 @@ local Dehydrater = Class(function(self, inst)
     self.oncontinuecooking = nil
     self.ondonecooking = nil
     self.oncontinuedone = nil
+	self.dried_products = dried_products
 	inst:AddTag("readytodry")
 	
 	
@@ -118,15 +118,23 @@ function Dehydrater:IsDone()
     return self.product ~= nil and self.targettime ~= nil and self.targettime < GetTime()
 end
 
-function Dehydrater:CanDry(dryable)
-	if ingredients[dryable] then
+function Dehydrater:ItemTest(item)
+	if item.components.dehydratable or self.dried_products[item.prefab] then
 		return true
     end
 end
 
 function Dehydrater:ReadyToStart()
-	return self.inst.components.container ~= nil and self.inst.components.container:IsFull()
-end
+	if self.inst.components.container ~= nil and self.inst.components.container:IsFull() then
+		local ready = true
+		for k,v in pairs (self.inst.components.container.slots) do
+			if v and self.dried_products[v.prefab] then
+				ready = false
+			end
+		end
+		return ready
+	end
+end		
 
 function Dehydrater:StartDrying()
 	if not self.done and not self.cooking then
@@ -146,12 +154,11 @@ function Dehydrater:StartDrying()
 				self.product = v.components.dehydratable:GetProduct()
 				local prod = SpawnPrefab(self.product)
 				self.inst.components.container:RemoveItemBySlot(k)
-				self.inst.components.container.slots[k] = prod
-				--self.inst.components.container:GiveItem(prod,k,nil,false)
+				--self.inst.components.container.slots[k] = prod
+				self.inst.components.container:GiveItem(prod,k,nil,false)
 				
 			end
 		end
-
 		local cooktime = TUNING.BASE_COOK_TIME
 		self.targettime = GetTime() + cooktime
 		self.task = self.inst:DoTaskInTime(cooktime, DoDehydrate)	

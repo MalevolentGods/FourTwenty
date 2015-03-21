@@ -204,7 +204,7 @@ local function fn()
 	}
 
 	function widgetdata.itemtestfn(container, item, slot)
-		return inst.components.dehydrater:CanDry(item.prefab)
+		return inst.components.dehydrater:ItemTest(item)
 	end
 
 	function widgetdata.widget.buttoninfo.fn(inst)
@@ -216,7 +216,7 @@ local function fn()
 	end
 
 	function widgetdata.widget.buttoninfo.validfn(inst)
-		return inst.replica.container ~= nil and inst.replica.container:IsFull()
+		return inst.components.dehydrater:ReadyToStart()
 	end
 	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
 
