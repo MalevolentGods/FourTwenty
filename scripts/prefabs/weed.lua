@@ -66,6 +66,7 @@ local function fresh()
 	inst:AddComponent("dehydratable")
     inst.components.dehydratable:SetProduct("weed_dried")
     inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
+	
 
 	MakeHauntableLaunchAndPerish(inst)
 
@@ -100,6 +101,7 @@ local function dried()
 	inst:AddComponent("inventoryitem")
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/weed_dried.xml"
 	
+	inst:AddTag("dried_product")
 	--inst:AddComponent("dehydratable")
     --inst.components.dehydratable:SetProduct("weed_dried")
     --inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)

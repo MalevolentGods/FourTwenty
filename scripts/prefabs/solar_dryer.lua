@@ -204,7 +204,7 @@ local function fn()
 	}
 
 	function widgetdata.itemtestfn(container, item, slot)
-		return item:HasTag("dehydratable")
+		return item:HasTag("dehydratable") or item:HasTag("dried_product")
 	end
 
 	function widgetdata.widget.buttoninfo.fn(inst)
@@ -216,7 +216,7 @@ local function fn()
 	end
 
 	function widgetdata.widget.buttoninfo.validfn(inst)
-		return inst:HasTag("readytodry")
+		return inst.replica.container ~= nil and inst.replica.container:IsFull()
 	end
 	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
 

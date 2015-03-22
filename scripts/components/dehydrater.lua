@@ -68,7 +68,7 @@ local Dehydrater = Class(function(self, inst)
     self.ondonecooking = nil
     self.oncontinuedone = nil
 	self.dried_products = dried_products
-	inst:AddTag("readytodry")
+	
 	
 	
     inst:ListenForEvent("itemget", oncheckready)
