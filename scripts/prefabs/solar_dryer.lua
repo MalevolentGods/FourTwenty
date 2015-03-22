@@ -216,7 +216,7 @@ local function fn()
 	end
 
 	function widgetdata.widget.buttoninfo.validfn(inst)
-		return inst.components.dehydrater:ReadyToStart()
+		return inst:HasTag("readytodry")
 	end
 	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
 

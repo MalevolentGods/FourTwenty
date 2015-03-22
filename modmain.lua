@@ -45,7 +45,7 @@ RECIPETABS = GLOBAL.RECIPETABS
 Recipe = GLOBAL.Recipe
 Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
-
+SpawnPrefab = GLOBAL.SpawnPrefab
 
 --These variables set the displayed item name, the recipe description, and the character's speech text when you inspect the item. They could also be defined in the individual prefab files if you want.
 STRINGS.NAMES.PIPE = "Wooden Bowl"
