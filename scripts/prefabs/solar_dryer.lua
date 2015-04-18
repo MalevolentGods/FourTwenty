@@ -216,7 +216,7 @@ local function fn()
 	end
 
 	function widgetdata.widget.buttoninfo.validfn(inst)
-		return inst.replica.container ~= nil and inst.replica.container:IsFull()
+		return inst:HasTag("readytodry")
 	end
 	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
 
