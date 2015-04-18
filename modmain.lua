@@ -1,7 +1,16 @@
 --This is the main mod file. It's one of the first things to be read and calls all of the other components of the mod.
 --Some of this stuff could probably be moved into the prefab and component files but it's fine for now.
 ------------------------------------------------------------------------------------------------------------------------
---require("containers")
+
+
+--local containers = GLOBAL.require("containers")
+--local oldwidgetsetup = containers.widgetsetup
+--containers.widgetsetup = function(container, prefab, data)
+--    if not prefab and container.inst.prefab == "solar_dryer" then
+--        prefab = "solar_dryer"
+--   end
+--    oldwidgetsetup(container, prefab, data)
+--end
 
 --These are basically the custom animations and graphics that we're loading for the mod   
 Assets=

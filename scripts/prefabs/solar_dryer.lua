@@ -55,6 +55,9 @@ local function onclose(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")		
 end
 
+local function itemtest(container, item, slot)
+	return item:HasTag("dehydratable") or item:HasTag("dried_product")
+end
 
 --Define animations and actions to perform when broken/hammered
 local function onhammered(inst, worker)
@@ -137,7 +140,7 @@ local function onfar(inst)
 	inst.components.container:Close()
 end
 
-widgetdata =
+local widgetparam = 
 {
 	widget =
 	{
@@ -156,27 +159,22 @@ widgetdata =
 		{
 			text = "Dry",
 			position = Vector3(0, -165, 0),
-		}
-	},
-	acceptsstacks = false,
-	type = "cooker",
+		},
+	}
 }
-
-function widgetdata.itemtestfn(container, item, slot)
-	return item:HasTag("dehydratable") or item:HasTag("dried_product")
-end
-
-function widgetdata.widget.buttoninfo.fn(inst)
-	if inst.components.container ~= nil then
-		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
-	elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
-		SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+	function widgetparam.widget.buttoninfo.fn(inst)
+		--if inst.components.container ~= nil then
+		--	BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+		--elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+		--	SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+		--end
 	end
-end
 
-function widgetdata.widget.buttoninfo.validfn(inst)
-	return inst:HasTag("readytodry")
-end
+	function widgetparam.widget.buttoninfo.validfn(inst)
+		return inst:HasTag("readytodry")
+	end
+
+
 
 --This function is where the prefab is actually created and configured. All of the variables and functions defined above will be used here.  
 local function fn()
@@ -218,10 +216,17 @@ local function fn()
 	--Used container component code from the "cookpot" prefab because I want to use its menu.
     inst:AddComponent("container")
 
-	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
-
-    inst.components.container.onopenfn = onopen
+	inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
+	inst.components.container.itemtestfn = itemtest
+	inst.components.container.acceptsstacks = false
+	inst.components.container.type = "cooker"
+	inst.components.container:SetNumSlots(4)
+
+	--inst.components.container.widget = widgetparam
+	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
+
+ 
 	
 	
 
