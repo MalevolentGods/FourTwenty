@@ -3,14 +3,16 @@
 ------------------------------------------------------------------------------------------------------------------------
 
 
---local containers = GLOBAL.require("containers")
---local oldwidgetsetup = containers.widgetsetup
---containers.widgetsetup = function(container, prefab, data)
---    if not prefab and container.inst.prefab == "solar_dryer" then
---        prefab = "solar_dryer"
---   end
---    oldwidgetsetup(container, prefab, data)
---end
+local containers = GLOBAL.require("containers")
+local oldwidgetsetup = containers.widgetsetup
+containers.widgetsetup = function(container, prefab, data)
+    if not prefab and container.inst.prefab == "solar_dryer" then
+        prefab = "solar_dryer"
+		print("making prefab = solar_dryer")
+   end
+   
+    oldwidgetsetup(container, prefab, data)
+end
 
 --These are basically the custom animations and graphics that we're loading for the mod   
 Assets=
