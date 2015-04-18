@@ -137,7 +137,46 @@ local function onfar(inst)
 	inst.components.container:Close()
 end
 
+widgetdata =
+{
+	widget =
+	{
+		slotpos =
+		{
+			Vector3(0, 64 + 32 + 8 + 4, 0), 
+			Vector3(0, 32 + 4, 0),
+			Vector3(0, -(32 + 4), 0), 
+			Vector3(0, -(64 + 32 + 8 + 4), 0),
+		},
+		animbank = "ui_cookpot_1x4",
+		animbuild = "ui_cookpot_1x4",
+		pos = Vector3(200, 0, 0),
+		side_align_tip = 100,
+		buttoninfo =
+		{
+			text = "Dry",
+			position = Vector3(0, -165, 0),
+		}
+	},
+	acceptsstacks = false,
+	type = "cooker",
+}
 
+function widgetdata.itemtestfn(container, item, slot)
+	return item:HasTag("dehydratable") or item:HasTag("dried_product")
+end
+
+function widgetdata.widget.buttoninfo.fn(inst)
+	if inst.components.container ~= nil then
+		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+	elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+		SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+	end
+end
+
+function widgetdata.widget.buttoninfo.validfn(inst)
+	return inst:HasTag("readytodry")
+end
 
 --This function is where the prefab is actually created and configured. All of the variables and functions defined above will be used here.  
 local function fn()
@@ -178,46 +217,7 @@ local function fn()
 	
 	--Used container component code from the "cookpot" prefab because I want to use its menu.
     inst:AddComponent("container")
-    widgetdata =
-	{
-		widget =
-		{
-			slotpos =
-			{
-				Vector3(0, 64 + 32 + 8 + 4, 0), 
-				Vector3(0, 32 + 4, 0),
-				Vector3(0, -(32 + 4), 0), 
-				Vector3(0, -(64 + 32 + 8 + 4), 0),
-			},
-			animbank = "ui_cookpot_1x4",
-			animbuild = "ui_cookpot_1x4",
-			pos = Vector3(200, 0, 0),
-			side_align_tip = 100,
-			buttoninfo =
-			{
-				text = "Dry",
-				position = Vector3(0, -165, 0),
-			}
-		},
-		acceptsstacks = false,
-		type = "cooker",
-	}
 
-	function widgetdata.itemtestfn(container, item, slot)
-		return item:HasTag("dehydratable") or item:HasTag("dried_product")
-	end
-
-	function widgetdata.widget.buttoninfo.fn(inst)
-		if inst.components.container ~= nil then
-			BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
-		elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
-			SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
-		end
-	end
-
-	function widgetdata.widget.buttoninfo.validfn(inst)
-		return inst:HasTag("readytodry")
-	end
 	inst.components.container:WidgetSetup("solar_dryer", widgetdata)
 
     inst.components.container.onopenfn = onopen
