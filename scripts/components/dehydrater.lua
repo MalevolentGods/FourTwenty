@@ -240,32 +240,6 @@ function Dehydrater:GetDebugString()
 	return str
 end
 
---function Dehydrater:Harvest( harvester )
---	if self:IsDone() then
---		if self.onharvest then
---			self.onharvest(self.inst)
---		end
---		if self.product then
---			if harvester and harvester.components.inventory then
---				local loot = SpawnPrefab(self.product)
---				if loot then
---					if loot and loot.components.perishable then
---					    loot.components.perishable:SetPercent(1) --always full perishable
---					end
---					harvester.components.inventory:GiveItem(loot, nil, self.inst:GetPosition())
---				end
---			end
---			self.product = nil
---		end
---		if self.inst.components.container then		
---			self.inst.components.container.canbeopened = true
---		end
---		
---		return true
---	end
---end
-
-
 function Dehydrater:LongUpdate(dt)
 	if self:IsDrying() then
 		if self.task then

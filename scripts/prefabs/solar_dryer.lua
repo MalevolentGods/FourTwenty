@@ -178,7 +178,7 @@ local function fn()
 	
 	--Used container component code from the "cookpot" prefab because I want to use its menu.
     inst:AddComponent("container")
-    local widgetdata =
+    widgetdata =
 	{
 		widget =
 		{
