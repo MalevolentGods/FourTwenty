@@ -163,11 +163,11 @@ local widgetparam =
 	}
 }
 	function widgetparam.widget.buttoninfo.fn(inst)
-		--if inst.components.container ~= nil then
-		--	BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
-		--elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
-		--	SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
-		--end
+		if inst.components.container ~= nil then
+			BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+		elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+			SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+		end
 	end
 
 	function widgetparam.widget.buttoninfo.validfn(inst)
@@ -223,7 +223,6 @@ local function fn()
 	inst.components.container.type = "cooker"
 	inst.components.container:SetNumSlots(4)
 
-	inst.components.container.wparam = widgetparam
 	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
 
  

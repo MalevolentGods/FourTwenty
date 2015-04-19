@@ -315,29 +315,44 @@ AddComponentAction("SCENE", "dehydrater", dehydrater)
 local containers = GLOBAL.require("containers")
 local Vector3 = GLOBAL.Vector3
 local oldwidgetsetup = containers.widgetsetup
-containers.widgetsetup = function(container, prefab, data)
-	local dryerparam = 
+
+local dryerparam = 
+{
+	widget =
 	{
-		widget =
+		slotpos =
 		{
-			slotpos =
-			{
-				Vector3(0, 64 + 32 + 8 + 4, 0), 
-				Vector3(0, 32 + 4, 0),
-				Vector3(0, -(32 + 4), 0), 
-				Vector3(0, -(64 + 32 + 8 + 4), 0),
-			},
-			animbank = "ui_cookpot_1x4",
-			animbuild = "ui_cookpot_1x4",
-			pos = Vector3(200, 0, 0),
-			side_align_tip = 100,
-			buttoninfo =
-			{
-				text = "Dry",
-				position = Vector3(0, -165, 0),
-			},
-		}
+			Vector3(0, 64 + 32 + 8 + 4, 0), 
+			Vector3(0, 32 + 4, 0),
+			Vector3(0, -(32 + 4), 0), 
+			Vector3(0, -(64 + 32 + 8 + 4), 0),
+		},
+		animbank = "ui_cookpot_1x4",
+		animbuild = "ui_cookpot_1x4",
+		pos = Vector3(200, 0, 0),
+		side_align_tip = 100,
+		buttoninfo =
+		{
+			text = "Dry",
+			position = Vector3(0, -165, 0),
+		},
 	}
+}
+
+function dryerparam.widget.buttoninfo.fn(inst)
+	if inst.components.container ~= nil then
+		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+	elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+		SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+	end
+end
+
+function dryerparam.widget.buttoninfo.validfn(inst)
+	return inst:HasTag("readytodry")
+end
+
+	
+containers.widgetsetup = function(container, prefab, data)
     if not prefab and container.inst.prefab == "solar_dryer" then
         prefab = "solar_dryer"
 		print("making prefab = solar_dryer")
