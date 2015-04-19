@@ -35,7 +35,7 @@ function Tokeable:bowlHit(stoner)
 	stoner.components.sanity:DoDelta(TUNING.SANITY_TINY)
 	stoner.components.hunger:DoDelta(3*(-stoner.components.hunger.hungerrate))
 	local hightime = TUNING.TOTAL_DAY_TIME/2
-	self.targettime = GetTime() + cooktime
+	self.targettime = GetTime() + hightime
 	self.task = self.inst:DoTaskInTime(hightime, EndDebuff(stoner))
 	--Return that the function was successful. Not really used currently but good practice.
 	return true	

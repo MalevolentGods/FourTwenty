@@ -15,9 +15,6 @@ local assets =
 --What to do when equipping the pipe
 local function OnEquip(inst, owner)
 	
-	--Increase hunger rate when equipped
-    owner.components.hunger:DoDelta(3*(-owner.components.hunger.hungerrate))
-	
 	--Use the bank swap_pipe's symbol named "swap_pipe" in place of the "swap_object" symbol. 
     owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_pipe")
 
@@ -30,9 +27,6 @@ end
 --What to do when un-equipping the pipe
 local function OnUnequip(inst, owner)
 	
-	--Return hunger rate to normal on unequip
-  	owner.components.hunger:DoDelta(owner.components.hunger.burnrate*(-owner.components.hunger.hungerrate))
-
 	--Hide the carry arm animation state and show the normal arm animation state
    	owner.AnimState:Hide("ARM_carry")
    	owner.AnimState:Show("ARM_normal")
@@ -92,8 +86,8 @@ local function fn(Sim)
 	--Gives the item a finite number of uses and sets the values for how many uses, what to do when it's used and what to do when it's out of uses.
 	--I'm just using the tuning values for the horn for now.
     inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES)
-    inst.components.finiteuses:SetUses(TUNING.HORN_USES)
+    inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES/2)
+    inst.components.finiteuses:SetUses(TUNING.HORN_USES/2)
     inst.components.finiteuses:SetOnFinished(onfinished)
     inst.components.finiteuses:SetConsumption(ACTIONS.TOKE, 1)
 	
