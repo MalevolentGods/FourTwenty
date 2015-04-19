@@ -194,7 +194,6 @@ local function fn()
     
     inst:AddTag("structure")
 	
-
 	--Use the icebox animation bank (for now)
     inst.AnimState:SetBank("icebox")
     inst.AnimState:SetBuild("ice_box")
@@ -207,15 +206,13 @@ local function fn()
     end
 
     inst.entity:SetPristine()
-	
-	
+		
 	inst:AddComponent("dehydrater")
     inst.components.dehydrater.onstartcooking = startcookfn
     inst.components.dehydrater.oncontinuecooking = continuecookfn
     inst.components.dehydrater.oncontinuedone = continuedonefn
     inst.components.dehydrater.ondonecooking = donecookfn
 	
-	--Used container component code from the "cookpot" prefab because I want to use its menu.
     inst:AddComponent("container")
 
 	inst.components.container.onopenfn = onopen
@@ -227,12 +224,7 @@ local function fn()
 
 	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
 
- 
-	
-	
-
-
-	--Make item able to drop loot (contents) when they broken/hammered
+ 	--Make item able to drop loot (contents) when they broken/hammered
     inst:AddComponent("lootdropper")
 	
 	--Make structure destroyable by hammer 
@@ -241,11 +233,6 @@ local function fn()
     inst.components.workable:SetWorkLeft(4)
 	inst.components.workable:SetOnFinishCallback(onhammered)
 	inst.components.workable:SetOnWorkCallback(onhit)
-
-	MakeHauntableWork(inst)
-
-	--Used dryer component code from the meat_rack prefab to make our item a dryer. Will replace with new dehydrater component.
-
 
 	inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = getstatus
@@ -258,32 +245,6 @@ local function fn()
 	
 	inst:ListenForEvent("onbuilt", onbuilt)
 	
-
-	--I'm still not sure how all of the hauntable stuff works but this is where it's defined.
-	--Copied from icebox prefab 
-	inst:AddComponent("hauntable")
-	inst.components.hauntable.cooldown = TUNING.HAUNT_COOLDOWN_SMALL
-	inst.components.hauntable:SetOnHauntFn(function(inst, haunter)
-		local ret = false
-        if math.random() <= TUNING.HAUNT_CHANCE_OCCASIONAL then
-            if inst.components.container then
-                local item = inst.components.container:FindItem(function(item) return not item:HasTag("nosteal") end)
-                if item then
-                    inst.components.container:DropItem(item)
-                    inst.components.hauntable.hauntvalue = TUNING.HAUNT_SMALL
-                    ret = true
-                end
-            end
-        end
-        if math.random() <= TUNING.HAUNT_CHANCE_RARE then
-        	if inst.components.workable then
-                inst.components.workable:WorkedBy(haunter, 1)
-                inst.components.hauntable.hauntvalue = TUNING.HAUNT_SMALL
-                ret = true
-            end
-        end
-        return ret
-	end)
     return inst
 end
 

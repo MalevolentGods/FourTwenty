@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="joint">
+        <file id="0" name="joint/joint.png" width="150" height="100" pivot_x="0.164474" pivot_y="0.509804"/>
+    </folder>
+    <entity id="0" name="swap_joint">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="joint" folder="0" file="0" abs_x="8.33984" abs_y="11.990293" abs_pivot_x="0.16016" abs_pivot_y="0.509707" abs_angle="0.340983" abs_scale_x="1.519078" abs_scale_y="1.572154" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="joint">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="8.33984" y="11.990293" pivot_x="0.16016" pivot_y="0.509707" angle="0.340983" scale_x="1.519078" scale_y="1.572154"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

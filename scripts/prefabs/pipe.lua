@@ -12,26 +12,6 @@ local assets =
    	Asset("IMAGE", "images/inventoryimages/pipe.tex"),
 }
 
---What to do when equipping the pipe
-local function OnEquip(inst, owner)
-	
-	--Use the bank swap_pipe's symbol named "swap_pipe" in place of the "swap_object" symbol. 
-    owner.AnimState:OverrideSymbol("swap_object", "swap_pipe", "swap_pipe")
-
-	--Hide the normal arm animation state and show the carry animation (using the symbol defined above) 
-	owner.AnimState:Show("ARM_carry")
-	owner.AnimState:Hide("ARM_normal")
-
-end
-
---What to do when un-equipping the pipe
-local function OnUnequip(inst, owner)
-	
-	--Hide the carry arm animation state and show the normal arm animation state
-   	owner.AnimState:Hide("ARM_carry")
-   	owner.AnimState:Show("ARM_normal")
-end
-
 --What to do when the pipe is used up
 local function onfinished(inst)
 
@@ -75,28 +55,23 @@ local function fn(Sim)
     inst.components.inventoryitem.atlasname = "images/inventoryimages/pipe.xml"
 	
 	--Not sure if we still need this but I haven't tested. Might be required for playing horn animation.
-    inst:AddTag("horn")
+    inst:AddTag("pipe")
 
 	--Same as the tag. Might be neccessary for horn animation and/or HORN tuning paramaters below.
     inst:AddComponent("instrument")
 	 
 	--This is our custom "tokeable" component 
     inst:AddComponent("tokeable")
+	inst.components.tokeable:SetSanityBoost(TUNING.SANITY_TINY)
 
 	--Gives the item a finite number of uses and sets the values for how many uses, what to do when it's used and what to do when it's out of uses.
 	--I'm just using the tuning values for the horn for now.
     inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES/2)
-    inst.components.finiteuses:SetUses(TUNING.HORN_USES/2)
+    inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES/4)
+    inst.components.finiteuses:SetUses(TUNING.HORN_USES/4)
     inst.components.finiteuses:SetOnFinished(onfinished)
     inst.components.finiteuses:SetConsumption(ACTIONS.TOKE, 1)
 	
-	--Makes the item something that's equippable.
-	inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(OnEquip)
-    inst.components.equippable:SetOnUnequip(OnUnequip)
-
-	--Just one of the those things you need to run at the very end of your "fn" function.
     return inst
 end
 
