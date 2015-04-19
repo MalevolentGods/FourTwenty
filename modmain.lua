@@ -313,6 +313,7 @@ AddComponentAction("SCENE", "dehydrater", dehydrater)
 --end)
 
 local containers = GLOBAL.require("containers")
+local Vector3 = GLOBAL.Vector3
 local oldwidgetsetup = containers.widgetsetup
 containers.widgetsetup = function(container, prefab, data)
 	local dryerparam = 
