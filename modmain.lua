@@ -3,19 +3,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 
 
-local containers = GLOBAL.require("containers")
-local oldwidgetsetup = containers.widgetsetup
-containers.widgetsetup = function(container, prefab, data)
-    if not prefab and container.inst.prefab == "solar_dryer" then
-        prefab = "solar_dryer"
-		print("making prefab = solar_dryer")
-		data = container.inst.prefab.wparam
-		print(data)
-		print("endofdata")
-   end
-   
-    oldwidgetsetup(container, prefab, data)
-end
+
 
 --These are basically the custom animations and graphics that we're loading for the mod   
 Assets=
@@ -324,4 +312,38 @@ AddComponentAction("SCENE", "dehydrater", dehydrater)
 --    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
 --end)
 
-
+local containers = GLOBAL.require("containers")
+local oldwidgetsetup = containers.widgetsetup
+containers.widgetsetup = function(container, prefab, data)
+	local dryerparam = 
+	{
+		widget =
+		{
+			slotpos =
+			{
+				Vector3(0, 64 + 32 + 8 + 4, 0), 
+				Vector3(0, 32 + 4, 0),
+				Vector3(0, -(32 + 4), 0), 
+				Vector3(0, -(64 + 32 + 8 + 4), 0),
+			},
+			animbank = "ui_cookpot_1x4",
+			animbuild = "ui_cookpot_1x4",
+			pos = Vector3(200, 0, 0),
+			side_align_tip = 100,
+			buttoninfo =
+			{
+				text = "Dry",
+				position = Vector3(0, -165, 0),
+			},
+		}
+	}
+    if not prefab and container.inst.prefab == "solar_dryer" then
+        prefab = "solar_dryer"
+		print("making prefab = solar_dryer")
+		data = dryerparam
+		print(data)
+		print("endofdata")
+   end
+   
+    oldwidgetsetup(container, prefab, data)
+end
