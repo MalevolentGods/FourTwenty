@@ -17,6 +17,10 @@ local Tokeable = Class(
 	{}
 )
 
+local function EndDebuff(stoner)
+	stoner.components.hunger:DoDelta(stoner.components.hunger.burnrate*(-stoner.components.hunger.hungerrate))
+end
+
 
 function Tokeable:bowlHit(stoner)
 	--I added this when I was trying to get the bowl animation to work and I'm not sure if I still need it. It's also kind of a placeholder for the AOE effect I considered giving the joints.
@@ -28,9 +32,11 @@ function Tokeable:bowlHit(stoner)
 		end
 	end
 	
-	--This is the only thing that this function really does that's the useful.
 	stoner.components.sanity:DoDelta(TUNING.SANITY_TINY)
-	
+	stoner.components.hunger:DoDelta(3*(-stoner.components.hunger.hungerrate))
+	local hightime = TUNING.TOTAL_DAY_TIME/2
+	self.targettime = GetTime() + cooktime
+	self.task = self.inst:DoTaskInTime(hightime, EndDebuff(stoner))
 	--Return that the function was successful. Not really used currently but good practice.
 	return true	
 end
