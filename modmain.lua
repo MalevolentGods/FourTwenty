@@ -340,6 +340,9 @@ local dryerparam =
 	acceptsstacks = false,
     type = "cooker",
 }
+function dryerparam.itemtestfn(container, item, slot)
+    return item:HasTag("dehydratable") or item:HasTag("dried_product")
+end
 
 function dryerparam.widget.buttoninfo.fn(inst)
 	if inst.components.container ~= nil then
