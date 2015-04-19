@@ -343,9 +343,9 @@ local dryerparam =
 
 function dryerparam.widget.buttoninfo.fn(inst)
 	if inst.components.container ~= nil then
-		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
+		GLOBAL.BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
 	elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
-		SendRPCToServer(GLOBAL.RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+		GLOBAL.SendRPCToServer(GLOBAL.RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
 	end
 end
 
