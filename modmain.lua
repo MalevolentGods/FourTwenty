@@ -1,11 +1,6 @@
---This is the main mod file. It's one of the first things to be read and calls all of the other components of the mod.
---Some of this stuff could probably be moved into the prefab and component files but it's fine for now.
-------------------------------------------------------------------------------------------------------------------------
-
-
-
-
---These are basically the custom animations and graphics that we're loading for the mod   
+--Main mod script
+-------------------------
+  
 Assets=
 {
 	Asset("ANIM", "anim/weed.zip"),
@@ -28,11 +23,11 @@ Assets=
     Asset("ATLAS", "minimap/weed_tree.xml" ),
 }
 
---Add the custom minimap icons to the Atlas
+
 AddMinimapAtlas("minimap/weed_tree.xml")
 --AddMinimapAtlas("minimap/g_house.xml")
 
---These are all of the prefabs (items) that the mod is going to load. Each of these should have its own file in the scripts/prefabs folder. 
+ 
 PrefabFiles = 
 {
 	--"g_house",
@@ -44,7 +39,7 @@ PrefabFiles =
 	"solar_dryer"
 }
 
---The only purpose of these variables is so that you don't always have to specify GLOBAL when typing the variable name. Instead of GLOBAL.STRINGS.NIGGER="you", you can type STRINGS.NIGGER="you"
+
 ACTIONS = GLOBAL.ACTIONS
 Action = GLOBAL.Action
 ActionHandler = GLOBAL.ActionHandler
@@ -55,7 +50,7 @@ Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
 SpawnPrefab = GLOBAL.SpawnPrefab
 
---These variables set the displayed item name, the recipe description, and the character's speech text when you inspect the item. They could also be defined in the individual prefab files if you want.
+
 STRINGS.NAMES.PIPE = "Wooden Bowl"
 STRINGS.RECIPE_DESC.PIPE = "A freshly packed bowl!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.PIPE = "Just like Grandpa used to toke."
@@ -103,29 +98,21 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 --g_houserecipe.atlas = "images/inventoryimages/g_house.xml" 
 
 
---This creates the recipe for the pipe
-local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 
---Sets the recipe image for the pipe
+local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
-local jointrecipe = Recipe("joint", {Ingredient("twigs", 1), Ingredient("weed_dried", 2,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 2,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 jointrecipe.atlas = "images/inventoryimages/joint.xml"
 
 local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 3)}, RECIPETABS.SURVIVAL, TECH.NONE, "solar_dryer_placer")
 dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
 
 
---This defines the variable TOKE as a new action in the game. The Action() function takes a few different options, but 3 is the best default for reasons I can't remember
+
 local TOKE = Action(3)	
-
---I think this variable determines what string to show over the mouse button icon when you hover over the item that has this action.  
 TOKE.str = "Toke"
-
---This sets the internal name for this new action. This is how we will reference this new action.
 TOKE.id = "TOKE"
-
---This variable is set to a function containing the actual stuff you want this action to do
 TOKE.fn = function(act)
 	
 	local stringArray = {}  --Based on Willard's suggestion I've made the speech text for this action random, so this variable is created as an array
@@ -141,15 +128,12 @@ TOKE.fn = function(act)
 	
 	--This method makes the person performing the action say the string that matches the value produced by math.random()
 	act.doer.components.talker:Say(stringArray[stringChoice])
-	
-	--This method executes the function bowlHit() as it's defined in the components/tokeable.lua file using the value of "act.doer" (DST speak for whoever is doing the action)
 	act.invobject.components.tokeable:bowlHit(act.doer)
 	
-	--Says that this was successful, even though nothing currently checks whether the action was successfull or not so it doesnt matter. 
 	return true
 end
 
---This method actually adds the action TOKE that we've defined above into the game. 
+
 AddAction(TOKE)
 
 
@@ -178,21 +162,20 @@ AddAction(DEHYDRATE)
 
 
 
---More variables for the StateChanges to come. 
---As best as I can tell, state changes are how you communicate things between the client and the server when you're playing DST. 
+
 local State = GLOBAL.State
 local TimeEvent = GLOBAL.TimeEvent
 local EventHandler = GLOBAL.EventHandler
 local FRAMES = GLOBAL.FRAMES
 
---The first "state change" is created as the variable "toke" and the value is set to the method State() and all the crap that it contains
+
 local toke_pipe = State({
 
 	name = "toke_pipe",
-    --Tags can be used as conditions to allow or not allow something or to make something happen. Not sure what these specific ones are used for though.
+    
 	tags = { "doing", "playing" },
 
-    --What to do when you enter the "toke" state
+    
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
@@ -212,7 +195,7 @@ local toke_pipe = State({
 		end
     end,
 
-    --I guess the number of frames of the animation to play? Also the sound to play
+   
 	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
@@ -221,7 +204,7 @@ local toke_pipe = State({
         	end),
     	},
 
-	--Still figuring out how events work.
+	
     events =
     	{
         	EventHandler("animqueueover", function(inst)
@@ -231,7 +214,7 @@ local toke_pipe = State({
         	end),
     	},
 
-	--What to do when leaving the "toke" state
+	
     onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             	inst.AnimState:Show("ARM_carry") 
@@ -240,37 +223,34 @@ local toke_pipe = State({
     	end,
 })
 
---This method adds the "toke" state to existing bank of character states.
+
 AddStategraphState("wilson", toke_pipe)
 
 
 local toke_joint = State({
 
 	name = "toke_joint",
-    --Tags can be used as conditions to allow or not allow something or to make something happen. Not sure what these specific ones are used for though.
+  
 	tags = { "doing", "playing" },
 
-    --What to do when you enter the "toke" state
+  
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
         inst.AnimState:Show("ARM_normal")
 		inst.AnimState:PlayAnimation("action_uniqueitem_pre")
-		inst.AnimState:PushAnimation("flute", false)
+		inst.AnimState:PushAnimation("horn", false)
 		
-		--I tried using the symbol from pipe and swap_pipe but it wasn't working right so I took the modified horn.zip anim that the original Pipe mod author was using and changed it's name to swap_pipe_horn.
-		--Unfortunately, I can't change the actual symbol name, so I'm stuck using "horn01" until I can get my own animation working.
-		--The sole purpose of this command is to replace the horn symbol (graphic) used in the horn animation with a symbol for the pipe. 
 
-		inst.AnimState:OverrideSymbol("pan_flute01", "swap_joint", "joint")
+		--Joint animation still doesnt look right
+		inst.AnimState:OverrideSymbol("horn01", "swap_joint", "joint")
 
 		if inst.components.inventory.activeitem then
-			print("returning the active item after toke")
 			inst.components.inventory:ReturnActiveItem()
 		end
     end,
 
-    --I guess the number of frames of the animation to play? Also the sound to play
+  
 	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
@@ -279,7 +259,7 @@ local toke_joint = State({
         	end),
     	},
 
-	--Still figuring out how events work.
+	
     events =
     	{
         	EventHandler("animqueueover", function(inst)
@@ -289,7 +269,7 @@ local toke_joint = State({
         	end),
     	},
 
-	--What to do when leaving the "toke" state
+	
     onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             	inst.AnimState:Show("ARM_carry") 
@@ -298,11 +278,10 @@ local toke_joint = State({
     	end,
 })
 
---This method adds the "toke" state to existing bank of character states.
+
 AddStategraphState("wilson", toke_joint)
 
---I think this is the state that's executed by the client (person who connects to the server) instead of the host (person running the server). 
---If it's a dedicated server then I guess everyone runs this instead of the regular toke.
+
 local toke_client = State({
 
     	name = "toke_client",
@@ -332,11 +311,9 @@ local toke_client = State({
     	end,
 })
 
---This method adds the toke_client state to the existing bank of client character states. I think.
+
 AddStategraphState("wilson_client", toke_client)
 
-
---This method tells the game to enter the toke state when performing the TOKE action that we defined above.
 AddStategraphActionHandler("wilson", ActionHandler(TOKE, function(inst, action)
     if action.invobject then
         if action.invobject:HasTag("pipe") then
@@ -348,13 +325,10 @@ AddStategraphActionHandler("wilson", ActionHandler(TOKE, function(inst, action)
 end)
 )
 
---This method tells the game to enter the toke_client state when a connected client performs the TOKE action that we defined above.
+
 AddStategraphActionHandler("wilson_client", ActionHandler(TOKE, "toke_client"))
 
 
-
-
---This lets you set conditions under which to run the action. I don't have any conditions set.
 local function toking(inst, doer, actions)
 	table.insert(actions, ACTIONS.TOKE)
 end
@@ -371,7 +345,7 @@ local function dehydrater(inst, doer, actions, right)
     end
 end
 
---Add the tokeable component action to the existing list of component actions. The second value has to match the filename in the components directory.
+
 AddComponentAction("INVENTORY", "tokeable", toking)
 
 AddComponentAction("USEITEM", "dehydratable", dehydratable)
