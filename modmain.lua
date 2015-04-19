@@ -9,7 +9,7 @@ containers.widgetsetup = function(container, prefab, data)
     if not prefab and container.inst.prefab == "solar_dryer" then
         prefab = "solar_dryer"
 		print("making prefab = solar_dryer")
-		data = container.inst.wparam
+		data = container.inst.prefab.wparam
 		print(data)
 		print("endofdata")
    end
