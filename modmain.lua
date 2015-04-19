@@ -109,7 +109,7 @@ local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fres
 --Sets the recipe image for the pipe
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
-local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 2,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local jointrecipe = Recipe("joint", {Ingredient("twigs", 1), Ingredient("weed_dried", 2,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 jointrecipe.atlas = "images/inventoryimages/joint.xml"
 
 local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 3)}, RECIPETABS.SURVIVAL, TECH.NONE, "solar_dryer_placer")
