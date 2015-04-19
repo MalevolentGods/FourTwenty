@@ -336,7 +336,9 @@ local dryerparam =
 			text = "Dry",
 			position = Vector3(0, -165, 0),
 		},
-	}
+	},
+	acceptsstacks = false,
+    type = "cooker",
 }
 
 function dryerparam.widget.buttoninfo.fn(inst)

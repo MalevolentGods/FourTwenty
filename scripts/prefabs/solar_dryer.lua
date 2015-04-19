@@ -160,7 +160,9 @@ local widgetparam =
 			text = "Dry",
 			position = Vector3(0, -165, 0),
 		},
-	}
+	},
+	acceptsstacks = false,
+    type = "cooker",
 }
 	function widgetparam.widget.buttoninfo.fn(inst)
 		if inst.components.container ~= nil then
@@ -219,8 +221,8 @@ local function fn()
 	inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
 	inst.components.container.itemtestfn = itemtest
-	inst.components.container.acceptsstacks = false
-	inst.components.container.type = "cooker"
+	--inst.components.container.acceptsstacks = false
+	--inst.components.container.type = "cooker"
 	inst.components.container:SetNumSlots(4)
 
 	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
