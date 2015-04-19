@@ -223,7 +223,7 @@ local function fn()
 	inst.components.container.type = "cooker"
 	inst.components.container:SetNumSlots(4)
 
-	--inst.components.container.widget = widgetparam
+	inst.wparam = widgetparam
 	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
 
  
