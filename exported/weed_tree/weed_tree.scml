@@ -15,7 +15,7 @@
         <file id="11" name="weed_plant_bud_burnt.png" width="938" height="917" pivot_x="0" pivot_y="1"/>
         <file id="12" name="weed_plant_stump_burnt.png" width="535" height="369" pivot_x="0" pivot_y="1"/>
     </folder>
-    <entity id="0" name="weed_plant">
+    <entity id="0" name="weed_tree">
         <animation id="0" name="grow" length="4000">
             <mainline>
                 <key id="0">

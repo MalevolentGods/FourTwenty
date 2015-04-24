@@ -4,24 +4,20 @@
 --Not sure if we need this or not or why. I copied from some unrelated prefab.
 require "prefabutil"
 
---These are basically the custom animations and graphics that we're loading for the prefab 
 local assets =
 {
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
 	Asset("IMAGE", "images/inventoryimages/weed_seeds.tex"),
 }
 
---Loads any custom prefabs we're going to reference
+
 local prefabs =
 {
 	"weed_tree",
 } 
 
---Not really sure what this is for or where I copied it from.
-local notags = {'NOBLOCK', 'player', 'FX'}
-
-
 --Tests the ground to determine if the seed can be planted where the person is trying to place it
+local notags = {'NOBLOCK', 'player', 'FX'}
 local function test_ground(inst, pt)
 
 	local tiletype = GetGroundTypeAtPosition(pt)
@@ -90,10 +86,10 @@ local function fn(Sim)
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/weed_seeds.xml"
 	
 
-	inst:AddComponent("perishable")
-	inst.components.perishable:SetPerishTime(TUNING.PERISH_SUPERSLOW)
-	inst.components.perishable:StartPerishing()
-	inst.components.perishable.onperishreplacement = "spoiled_food"
+	--inst:AddComponent("perishable")
+	--inst.components.perishable:SetPerishTime(TUNING.PERISH_SUPERSLOW)
+	--inst.components.perishable:StartPerishing()
+	--inst.components.perishable.onperishreplacement = "spoiled_food"
 	
 	inst:AddComponent("bait")
 
@@ -104,5 +100,4 @@ local function fn(Sim)
 end
 
 return Prefab( "common/inventory/weed_seeds", fn, assets),
-	--The placer is what creates that silohuette when you've selected something that's placeable but haven't set it down yet.
-	MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "placer") 
+		MakePlacer( "weed_seeds_placer", "weed_plant", "weed_plant", "placer") 

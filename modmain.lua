@@ -64,8 +64,8 @@ STRINGS.RECIPE_DESC.G_HOUSE = "I have no idea what it does!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.G_HOUSE = "Your guess is as good as mine."
 
 STRINGS.NAMES.SOLAR_DRYER = "Solar Dryer"
-STRINGS.RECIPE_DESC.SOLAR_DRYER = "Solar Dryer!"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.SOLAR_DYER = "Solar Dryer!"
+STRINGS.RECIPE_DESC.SOLAR_DRYER = "Run of the mill solar dryer"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SOLAR_DYER = "Yeah, dry some shit!"
 
 STRINGS.NAMES.WEED_TREE = "Weed Plant"
 STRINGS.RECIPE_DESC.WEED_TREE = "Weeeeeed!"
@@ -99,14 +99,25 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 
 
 
-local piperecipe = Recipe("pipe", {Ingredient("twigs", 2), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local enableDryer = (GetModConfigData("enable_dryer"))
+
+if enableDryer == 1 then
+	local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("icebox", 1), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
+	dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
+	
+	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+	jointrecipe.atlas = "images/inventoryimages/joint.xml"
+else
+	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_fresh", 3,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+	jointrecipe.atlas = "images/inventoryimages/joint.xml"
+end
+
+local piperecipe = Recipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
-local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 2,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
-jointrecipe.atlas = "images/inventoryimages/joint.xml"
 
-local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("twigs", 3)}, RECIPETABS.SURVIVAL, TECH.NONE, "solar_dryer_placer")
-dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
+
+
 
 
 

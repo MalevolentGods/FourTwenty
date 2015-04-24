@@ -13,7 +13,7 @@ if weed_tree_regions~=nil then
 		GLOBAL.terrain.rooms.Forest.contents.distributeprefabs.weed_tree = (weed_tree_rate/80)
 		GLOBAL.terrain.rooms.DeepForest.contents.distributeprefabs.weed_tree = (weed_tree_rate/40)
 		GLOBAL.terrain.rooms.CrappyDeepForest.contents.distributeprefabs.weed_tree = (weed_tree_rate/20)
-		GLOBAL.terrain.rooms.BGForest.contents.distributeprefabs.weed_tree = (weed_tree_rate/60)
+		--GLOBAL.terrain.rooms.BGForest.contents.distributeprefabs.weed_tree = (weed_tree_rate/60)
 		print("Spawned Weed Trees in Forest Biomes")
 	end
 	

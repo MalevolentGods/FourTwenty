@@ -6,7 +6,7 @@
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
-version = "1.5"
+version = "1.9"
 forumthread = ""
 
 
@@ -28,6 +28,26 @@ icon = "FourTwenty.tex"
 configuration_options =
 {
 	{
+		name = "enable_seeds",
+		label = "Weed Seeds (beta)",
+		options =
+		{
+			{description = "ENABLE", data = 1},
+			{description = "DISABLE", data = 2},
+		},
+		default = 2,
+	},
+		{
+		name = "enable_dryer",
+		label = "Solar Dryer (beta)",
+		options =
+		{
+			{description = "ENABLE", data = 1},
+			{description = "DISABLE", data = 2},
+		},
+		default = 2,
+	},
+		{
 		name = "weed_tree_regions",
 		label = "Weed Spawn Regions",
 		options =
@@ -49,7 +69,7 @@ configuration_options =
 			{description = "Uncommon", data = 0.04},
 			{description = "Common", data = .1},
 			{description = "Plentiful", data = .5},
-			{description = "Stoner Paradise", data = 1.5},
+			{description = "Stonerland", data = 1.5},
 		},
 		default = .1,
 	},

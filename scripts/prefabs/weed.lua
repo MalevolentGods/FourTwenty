@@ -16,7 +16,9 @@ local prefabs =
 	"weed_seeds",		--Need this in order to turn weed into weed_seeds
 	"spoiled_food", 	--Need this in order to make weed into something spoiled.
 	
-}    
+}
+local modname = KnownModIndex:GetModActualName("FourTwenty")
+local enableSeeds = (GetModConfigData("enable_seeds", modname))
 
 --This function defines the "fresh" weed prefab.
 local function fresh()
@@ -60,12 +62,14 @@ local function fresh()
 	MakeSmallBurnable(inst)
 	MakeSmallPropagator(inst)
         
-	inst:AddComponent("cookable")
-	inst.components.cookable.product = "weed_seeds"
+	if enableSeeds == 1 then
+		inst:AddComponent("cookable")
+		inst.components.cookable.product = "weed_seeds"
+	end
 	
 	inst:AddComponent("dehydratable")
     inst.components.dehydratable:SetProduct("weed_dried")
-    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
+    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME*3)
 	
 
 	MakeHauntableLaunchAndPerish(inst)

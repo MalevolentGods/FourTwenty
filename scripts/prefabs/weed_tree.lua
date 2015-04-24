@@ -5,8 +5,7 @@
 --These are basically the custom animations and graphics that we're loading for the prefab
 local assets=
 {
-	Asset("ANIM", "anim/weed_plant.zip"),
-	--Asset("ANIM", "anim/weed_tree.zip")  --No longer used but maybe we'll rename weed_plant to weed_tree someday?
+	Asset("ANIM", "anim/weed_tree.zip"),
 }
 
 --Loads any prefabs we're going to reference
@@ -167,8 +166,8 @@ local function fn(Sim)
 	local minimap = inst.entity:AddMiniMapEntity()
 	minimap:SetIcon( "weed_tree.tex" )
 	
-    inst.AnimState:SetBank("weed_plant")
-    inst.AnimState:SetBuild("weed_plant")
+    inst.AnimState:SetBank("weed_tree")
+    inst.AnimState:SetBuild("weed_tree")
     inst.AnimState:PlayAnimation("idle_loop",true)
     inst.AnimState:SetTime(math.random()*2)
     inst.Transform:SetScale(.5,.5,.5)
@@ -182,7 +181,7 @@ local function fn(Sim)
 	inst:AddComponent("pickable")
 	inst.components.pickable.picksound = "dontstarve/wilson/pickup_reeds"
 	
-	inst.components.pickable:SetUp("weed_fresh", TUNING.CAVE_BANANA_GROW_TIME*4) --Just easier than setting by hand. Equals 16 days basically.
+	inst.components.pickable:SetUp("weed_fresh", TUNING.CAVE_BANANA_GROW_TIME) --Just easier than setting by hand. Equals 4 days basically.
 	inst.components.pickable.onregenfn = onregenfn
 	inst.components.pickable.onpickedfn = onpickedfn
 	inst.components.pickable.makeemptyfn = makeemptyfn
