@@ -71,6 +71,6 @@ configuration_options =
 			{description = "Plentiful", data = 2},
 			{description = "Stonerland", data = 4},
 		},
-		default = .1,
+		default = 1,
 	},
 }
