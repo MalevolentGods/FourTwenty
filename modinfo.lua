@@ -65,11 +65,11 @@ configuration_options =
 		label = "Weed Spawn Rate",
 		options =
 		{
-			{description = "Rare", data = 0.02},
-			{description = "Uncommon", data = 0.04},
-			{description = "Common", data = .1},
-			{description = "Plentiful", data = .5},
-			{description = "Stonerland", data = 1.5},
+			{description = "Rare", data = 0.2},
+			{description = "Uncommon", data = 0.5},
+			{description = "Common", data = 1},
+			{description = "Plentiful", data = 2},
+			{description = "Stonerland", data = 4},
 		},
 		default = .1,
 	},
