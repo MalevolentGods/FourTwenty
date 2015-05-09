@@ -9,18 +9,18 @@ Assets=
 	Asset("ANIM", "anim/swap_pipe_horn.zip"),
 	Asset("ANIM", "anim/swap_joint.zip"),
 	
-    Asset("ATLAS", "images/inventoryimages/pipe.xml"),
+    	Asset("ATLAS", "images/inventoryimages/pipe.xml"),
 	Asset("ATLAS", "images/inventoryimages/joint.xml"),
-    Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
+    	Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_dried.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
-    --Asset("ATLAS", "images/inventoryimages/g_house.xml"),
+    	--Asset("ATLAS", "images/inventoryimages/g_house.xml"),
 	Asset("ATLAS", "images/inventoryimages/solar_dryer.xml"),
 	
-	--Asset("IMAGE", "minimap/g_house.tex" ),    					--Starting to wonder if you even have to load the tex here, or if the XML is enough.
-   -- Asset("ATLAS", "minimap/g_house.xml" ),
+	--Asset("IMAGE", "minimap/g_house.tex" ),    					
+   	--Asset("ATLAS", "minimap/g_house.xml" ),
 	Asset("IMAGE", "minimap/weed_tree.tex" ),
-    Asset("ATLAS", "minimap/weed_tree.xml" ),
+    	Asset("ATLAS", "minimap/weed_tree.xml" ),
 }
 
 
@@ -102,7 +102,7 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 local enableDryer = (GetModConfigData("enable_dryer"))
 
 if enableDryer == 1 then
-	local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("icebox", 1), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
+	local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("gears", 2), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
 	dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
 	
 	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)

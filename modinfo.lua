@@ -6,7 +6,7 @@
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
-version = "1.9.3"
+version = "1.9.5.001"
 forumthread = ""
 
 
@@ -35,7 +35,7 @@ configuration_options =
 			{description = "ENABLE", data = 1},
 			{description = "DISABLE", data = 2},
 		},
-		default = 2,
+		default = 1,
 	},
 		{
 		name = "enable_dryer",
@@ -57,7 +57,7 @@ configuration_options =
 			{description = "Swamps", data = 3},
 			{description = "Everywhere", data = 4},
 		},
-		default = 1,
+		default = 4,
 	},
 
 	{
