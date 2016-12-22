@@ -6,7 +6,7 @@
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
-version = "1.9.5.001"
+version = "1.9.6"
 forumthread = ""
 
 
