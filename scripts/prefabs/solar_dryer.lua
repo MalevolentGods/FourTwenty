@@ -260,7 +260,7 @@ local function fn()
     inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
     inst.components.workable:SetWorkLeft(4)
 	inst.components.workable:SetOnFinishCallback(onhammered)
-	inst.components.workable:SetOnWorkCallback(onhit)ß
+	inst.components.workable:SetOnWorkCallback(onhit)
 
 	-- Make structure inspectable and define status
 	inst:AddComponent("inspectable")
