@@ -1,13 +1,18 @@
---Defines custom worldgen settings
+--- modworldgenmain.lua ---
+------------------------------------------------------
+-- Description: Define how weed trees are spawned in the world
+------------------------------------------------------
 
 GLOBAL.require("map/terrain")
 
+-- Get target regions and rate from the config
+-- TODO: serious refactoring. 
 local weed_tree_regions = (GetModConfigData("weed_tree_regions"))
 local weed_tree_rate = (GetModConfigData("weed_tree_rate"))
 
-
+-- Set spawn rates based on mod config
+-- TODO: serious refactoring
 if weed_tree_regions~=nil then
-
 	if weed_tree_regions == 1 then
 		GLOBAL.terrain.rooms.CrappyForest.contents.distributeprefabs.weed_tree = (weed_tree_rate/40)
 		GLOBAL.terrain.rooms.Forest.contents.distributeprefabs.weed_tree = (weed_tree_rate/80)
@@ -50,10 +55,12 @@ if weed_tree_regions~=nil then
 		print("Spawned Weed Trees almost fucking everywhere!")
 	end
 else
+	-- Sanity check you should never need
 	print("weed_tree_regions is null")
 end
 
---Don't grow on the road, wood floor, carpet, or checker tiles
+-- Don't spawn on the road, wood floor, carpet, or checker tiles.
+-- TODO revisit these filters. 
 GLOBAL.terrain.filter.weed_tree = {GLOBAL.GROUND.ROAD, GLOBAL.GROUND.WOODFLOOR, GLOBAL.GROUND.CARPET, GLOBAL.GROUND.CHECKER}
 
 

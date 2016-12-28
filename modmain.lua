@@ -1,36 +1,32 @@
---Main mod script
--------------------------
-  
-Assets=
+--- modmain.lua ---
+------------------------------------------------------
+-- Description: mod init script
+------------------------------------------------------
+
+-- Load custom animations and images/textures  
+Assets= 
 {
 	Asset("ANIM", "anim/weed.zip"),
 	Asset("ANIM", "anim/pipe.zip"),
 	Asset("ANIM", "anim/joint.zip"),
 	Asset("ANIM", "anim/swap_pipe_horn.zip"),
 	Asset("ANIM", "anim/swap_joint.zip"),
-	
-    	Asset("ATLAS", "images/inventoryimages/pipe.xml"),
+    Asset("ATLAS", "images/inventoryimages/pipe.xml"),
 	Asset("ATLAS", "images/inventoryimages/joint.xml"),
-    	Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
+    Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_dried.xml"),
 	Asset("ATLAS", "images/inventoryimages/weed_seeds.xml"),
-    	--Asset("ATLAS", "images/inventoryimages/g_house.xml"),
 	Asset("ATLAS", "images/inventoryimages/solar_dryer.xml"),
-	
-	--Asset("IMAGE", "minimap/g_house.tex" ),    					
-   	--Asset("ATLAS", "minimap/g_house.xml" ),
 	Asset("IMAGE", "minimap/weed_tree.tex" ),
-    	Asset("ATLAS", "minimap/weed_tree.xml" ),
+    Asset("ATLAS", "minimap/weed_tree.xml" ),
 }
 
-
+-- Add the weed tree to minimap 
 AddMinimapAtlas("minimap/weed_tree.xml")
---AddMinimapAtlas("minimap/g_house.xml")
 
- 
+-- Dependent prefabs 
 PrefabFiles = 
 {
-	--"g_house",
 	"weed_seeds",
 	"weed_tree",
 	"weed",
@@ -39,7 +35,7 @@ PrefabFiles =
 	"solar_dryer"
 }
 
-
+-- Boilerplate global variables
 ACTIONS = GLOBAL.ACTIONS
 Action = GLOBAL.Action
 ActionHandler = GLOBAL.ActionHandler
@@ -50,7 +46,7 @@ Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
 SpawnPrefab = GLOBAL.SpawnPrefab
 
-
+-- Custom speech text
 STRINGS.NAMES.PIPE = "Wooden Bowl"
 STRINGS.RECIPE_DESC.PIPE = "A freshly packed bowl!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.PIPE = "Just like Grandpa used to toke."
@@ -81,60 +77,42 @@ STRINGS.NAMES.WEED_FRESH = "Fresh Weed Bud"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WEED_DRIED = "Look at the trichomes!"
 STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 
---This variable will ultimately determine whether the weed_tree grows in winter or not. The value is used in the weed_tree.lua prefab file
---local Winter_Grow = (GetModConfigData("W_Grow")=="no")
-
---Creates the recipe for the Advanced Farm that we're not really using yet.
---local g_houserecipe = Recipe("g_house",
---	{ 
---		Ingredient("boards", 5),
---    	Ingredient("silk", 6),
---    	Ingredient("rope", 4),
---   	Ingredient("poop", 10)
---	},
---   	RECIPETABS.FARM, TECH.SCIENCE_TWO, "g_house_placer" )
-
---Sets the recipe image for the Advanced Farm that we're not really using
---g_houserecipe.atlas = "images/inventoryimages/g_house.xml" 
-
-
-
+-- Enable dehydrater if set in the config
 local enableDryer = (GetModConfigData("enable_dryer"))
-
 if enableDryer == 1 then
+
+	-- Define dehydrater recipe
 	local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("gears", 2), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
 	dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
 	
+	-- Define the joint recipe
 	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 	jointrecipe.atlas = "images/inventoryimages/joint.xml"
 else
+	-- Define the joint recipe if dryer is disabled
 	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_fresh", 3,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 	jointrecipe.atlas = "images/inventoryimages/joint.xml"
 end
 
+-- Define the pipe recipe
 local piperecipe = Recipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_fresh", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
-
-
-
-
-
-
+-- Create the TOKE action
 local TOKE = Action(3)	
 TOKE.str = "Toke"
 TOKE.id = "TOKE"
 TOKE.fn = function(act)
-	
-	local stringArray = {}  --Based on Willard's suggestion I've made the speech text for this action random, so this variable is created as an array
-	
-	--These are the different values in the array, which become the possible things for the character to say when performing this action
+
+	-- Create an array of speech strings for toking
+	local stringArray = {}  
 	stringArray[1] = "I love smoking in the woods"
 	stringArray[2] = "Whooooooaaaaaa..... That's dank shit!"
 	stringArray[3] = "It tastes like blueberries."
 	stringArray[4] = "It tastes even better when you grow it yourself."
 	
-	--The value of this variable is a random number. The number in the math.random() function should match the number of stringArray values declared above
+	-- Get a random number for the string choice.
+	-- TODO: make the number dynamic based on items in stringArray
 	local stringChoice = math.random(4)
 	
 	--This method makes the person performing the action say the string that matches the value produced by math.random()
@@ -144,10 +122,10 @@ TOKE.fn = function(act)
 	return true
 end
 
-
+-- Add the TOKE action
 AddAction(TOKE)
 
-
+-- Create the DEHYDRATE action
 local DEHYDRATE = Action()
 DEHYDRATE.str = "Dehydrate"
 DEHYDRATE.id = "DEHYDRATE"
@@ -168,25 +146,21 @@ DEHYDRATE.fn = function(act)
     end
 end
 
+-- Add the DEHYDRATE action
 AddAction(DEHYDRATE)
 
-
-
-
-
+-- I'm guessing this is boilerplate?
 local State = GLOBAL.State
 local TimeEvent = GLOBAL.TimeEvent
 local EventHandler = GLOBAL.EventHandler
 local FRAMES = GLOBAL.FRAMES
 
-
+-- Define a custom state for toking a pipe
 local toke_pipe = State({
-
 	name = "toke_pipe",
-    
 	tags = { "doing", "playing" },
 
-    
+	-- Animation to play when the toking begins (based on horn)
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
@@ -197,7 +171,6 @@ local toke_pipe = State({
 		--I tried using the symbol from pipe and swap_pipe but it wasn't working right so I took the modified horn.zip anim that the original Pipe mod author was using and changed it's name to swap_pipe_horn.
 		--Unfortunately, I can't change the actual symbol name, so I'm stuck using "horn01" until I can get my own animation working.
 		--The sole purpose of this command is to replace the horn symbol (graphic) used in the horn animation with a symbol for the pipe. 
-
 		inst.AnimState:OverrideSymbol("horn01", "swap_pipe_horn", "horn01")
 
 		if inst.components.inventory.activeitem then
@@ -206,7 +179,7 @@ local toke_pipe = State({
 		end
     end,
 
-   
+  	-- Not sure
 	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
@@ -215,7 +188,7 @@ local toke_pipe = State({
         	end),
     	},
 
-	
+	-- Not sure
     events =
     	{
         	EventHandler("animqueueover", function(inst)
@@ -225,7 +198,7 @@ local toke_pipe = State({
         	end),
     	},
 
-	
+	-- Not sure
     onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             	inst.AnimState:Show("ARM_carry") 
@@ -234,17 +207,15 @@ local toke_pipe = State({
     	end,
 })
 
-
+-- Add the pipe toke state
 AddStategraphState("wilson", toke_pipe)
 
-
+-- Define a custom state for smoking a joint
 local toke_joint = State({
-
-	name = "toke_joint",
-  
+	name = "toke_joint", 
 	tags = { "doing", "playing" },
-
-  
+	
+	-- Animation to play when smoking begins 
 	onenter = function(inst)
 		inst.components.locomotor:Stop()
 		inst.AnimState:Hide("ARM_carry") 
@@ -252,16 +223,16 @@ local toke_joint = State({
 		inst.AnimState:PlayAnimation("action_uniqueitem_pre")
 		inst.AnimState:PushAnimation("horn", false)
 		
-
-		--Joint animation still doesnt look right
+		--TODO: Joint animation still doesnt look right
 		inst.AnimState:OverrideSymbol("horn01", "swap_joint", "joint")
 
+		-- I guess return the thing to your hand?
 		if inst.components.inventory.activeitem then
 			inst.components.inventory:ReturnActiveItem()
 		end
     end,
 
-  
+  	-- Not sure
 	timeline =
     	{
         	TimeEvent(21*FRAMES, function(inst)
@@ -270,7 +241,7 @@ local toke_joint = State({
         	end),
     	},
 
-	
+	-- Not sure
     events =
     	{
         	EventHandler("animqueueover", function(inst)
@@ -280,7 +251,7 @@ local toke_joint = State({
         	end),
     	},
 
-	
+	-- Not sure	
     onexit = function(inst)
         	if inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS) then
             	inst.AnimState:Show("ARM_carry") 
@@ -289,15 +260,15 @@ local toke_joint = State({
     	end,
 })
 
-
+-- Add the joint toking state
 AddStategraphState("wilson", toke_joint)
 
-
+-- Define a client toking. I cant rememember but I'm sure this is for multiplayer
 local toke_client = State({
-
     	name = "toke_client",
     	tags = { "doing", "playing" },
 
+    	-- Buffer toking action and set a timeout
     	onenter = function(inst)
         	inst.components.locomotor:Stop()
         	inst.AnimState:PlayAnimation("action_uniqueitem_pre")
@@ -306,6 +277,7 @@ local toke_client = State({
         	inst.sg:SetTimeout(TIMEOUT)
     	end,
 
+    	-- Not sure. Multiplayer related
     	onupdate = function(inst)
         	if inst:HasTag("doing") then
             		if inst.entity:FlattenMovementPrediction() then
@@ -316,15 +288,17 @@ local toke_client = State({
         	end
     	end,
 
+    	-- What to do if the action times out
     	ontimeout = function(inst)
         	inst:ClearBufferedAction()
         	inst.sg:GoToState("idle")
     	end,
 })
 
-
+-- Add the client toking state
 AddStategraphState("wilson_client", toke_client)
 
+-- If object is a pipe then do toke_pipe. Likewise for the joint.
 AddStategraphActionHandler("wilson", ActionHandler(TOKE, function(inst, action)
     if action.invobject then
         if action.invobject:HasTag("pipe") then
@@ -336,44 +310,40 @@ AddStategraphActionHandler("wilson", ActionHandler(TOKE, function(inst, action)
 end)
 )
 
-
+-- Add the TOKE action handler
 AddStategraphActionHandler("wilson_client", ActionHandler(TOKE, "toke_client"))
 
-
+-- Add the TOKE action
 local function toking(inst, doer, actions)
 	table.insert(actions, ACTIONS.TOKE)
 end
 
+-- Add the DEHYDRATE action if the target is a dehydratable dehydrater
 local function dehydratable(inst, doer, target, actions)
     if target:HasTag("dehydrater") and inst:HasTag("dehydratable") then
         table.insert(actions, ACTIONS.DEHYDRATE)
     end
 end
 
+-- Add the RUMMAGE action of the target has the readytodry or donedrying tags.
+-- TODO: figure out why this is needed.
 local function dehydrater(inst, doer, actions, right)
     if inst:HasTag("readytodry") or inst:HasTag("donedrying") then
         table.insert(actions, ACTIONS.RUMMAGE)
     end
 end
 
-
+-- Add base component actions to our custom components
 AddComponentAction("INVENTORY", "tokeable", toking)
-
 AddComponentAction("USEITEM", "dehydratable", dehydratable)
-
 AddComponentAction("SCENE", "dehydrater", dehydrater)
 
-
---AddPrefabPostInit("berries", function(inst)
---	inst:AddComponent("dehydratable")
---    inst.components.dehydratable:SetProduct("weed_dried")
---    inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME)
---end)
-
+-- Not sure but I'm sure its importnatn
 local containers = GLOBAL.require("containers")
 local Vector3 = GLOBAL.Vector3
 local oldwidgetsetup = containers.widgetsetup
 
+-- Set widget params for the dehydrater (really really seems redundant)
 local dryerparam = 
 {
 	widget =
@@ -399,10 +369,12 @@ local dryerparam =
     type = "cooker",
 }
 
+-- Check if item is dehydratable or already dried (sure this isn't redundant with component code??)
 function dryerparam.itemtestfn(container, item, slot)
     return item:HasTag("dehydratable") or item:HasTag("dried_product")
 end
 
+-- Define widget button info (again seems redundant with component code)
 function dryerparam.widget.buttoninfo.fn(inst)
 	if inst.components.container ~= nil then
 		GLOBAL.BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
@@ -410,12 +382,11 @@ function dryerparam.widget.buttoninfo.fn(inst)
 		GLOBAL.SendRPCToServer(GLOBAL.RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
 	end
 end
-
 function dryerparam.widget.buttoninfo.validfn(inst)
 	return inst:HasTag("readytodry")
 end
 
-	
+-- wtf is this hideous wax??	
 containers.widgetsetup = function(container, prefab, data)
     if not prefab and container.inst.prefab == "solar_dryer" then
         prefab = "solar_dryer"
@@ -424,6 +395,5 @@ containers.widgetsetup = function(container, prefab, data)
 		print(data)
 		print("endofdata")
    end
-   
     oldwidgetsetup(container, prefab, data)
 end

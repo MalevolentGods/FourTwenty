@@ -1,30 +1,33 @@
---This script defines some basic information about the mod along with any configuration options.
+--- modinfo.lua ---
+------------------------------------------------------
+-- Description: Defines some basic information about the mod along with any configuration options.
 ------------------------------------------------------------------------------------------------
 
-
-
+-- Mod metadata
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
 version = "1.9.7"
+
+-- TODO: Create forum thread
 forumthread = ""
 
-
+-- Set the mod load priority. Could probably use tuning.
 priority = 0.346962880
+
+-- Boilerplate-ish
 dst_compatible = true
 all_clients_require_mod = true
 client_only_mod = false
 
-
---This may change as the game is updated.
+-- Sane default API. May well change in the future.
 api_version = 10
 
-
-
+-- Set the mod icon to show in-game
 icon_atlas = "FourTwenty.xml"
 icon = "FourTwenty.tex"
 
-
+-- Define the mod's configuration options
 configuration_options =
 {
 	{
@@ -59,7 +62,6 @@ configuration_options =
 		},
 		default = 4,
 	},
-
 	{
 		name = "weed_tree_rate",
 		label = "Weed Spawn Rate",
