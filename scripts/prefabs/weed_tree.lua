@@ -49,8 +49,8 @@ end
 
 --Creates a function that defines what to do when the tree is dug up.
 local function dug(inst)
-	inst:Remove()
 	inst.components.lootdropper:SpawnLootPrefab("log")
+	inst:Remove()
 end
 
 --Creates a function that defines how to make the stump after the tree is cut down
