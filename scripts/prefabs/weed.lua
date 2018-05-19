@@ -58,7 +58,7 @@ local function fresh()
 
 	-- Make the fresh bud edible and define nutrition
 	inst:AddComponent("edible")
-	inst.components.edible.hungervalue = TUNING.CALORIES_MED
+	inst.components.edible.hungervalue = TUNING.CALORIES_MED/3
 	inst.components.edible.foodtype = FOODTYPE.VEGGIE
 	
 	-- Make the fresh bud stackable and define
@@ -78,11 +78,8 @@ local function fresh()
 	-- Still not sure about this one.
 	MakeSmallPropagator(inst)
     
-    -- If seeds have been enable, make them the product of cooking a fresh bud    
-	if enableSeeds == 1 then
-		inst:AddComponent("cookable")
-		inst.components.cookable.product = "weed_seeds"
-	end
+	inst:AddComponent("cookable")
+	inst.components.cookable.product = "weed_dried"
 	
 	-- Make the fresh bud dehydratable and define
 	inst:AddComponent("dehydratable")
