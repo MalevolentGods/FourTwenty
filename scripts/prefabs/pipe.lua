@@ -1,8 +1,11 @@
---This script creates and defines the pipe prefab
+--- pipe.lua ---
+------------------------------------------------------
+-- Type: prefab
+-- Description: This script creates and defines the pipe
 ------------------------------------------------------
 
 
---These are basically the custom animations and graphics that we're loading for the prefab
+-- Custom animations and inventory image
 local assets =
 {
 
@@ -12,60 +15,66 @@ local assets =
    	Asset("IMAGE", "images/inventoryimages/pipe.tex"),
 }
 
---What to do when the pipe is used up
+-- Remove the pipe from inventory when it's depleted
 local function onfinished(inst)
-
-	--Remove the item from your inventory
     inst:Remove()
 end
 
---This function defines the pipe.
---I have no idea what the "Sim" variable inside the function is used for.
+-- Define the pipe prefab
 local function fn(Sim)
 
+    -- Boilerplate
     local inst = CreateEntity()
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
     inst.entity:AddNetwork()
-    	
+    
+    -- Give it inventory physics?	
 	MakeInventoryPhysics(inst)
     
-	--Set the bank to "pipe" (pipe.zip) set the build to "pipe" and play the animation named "idle""
+	-- Set the bank to "pipe" (pipe.zip) set the build to "pipe" and play the animation named "idle""
 	inst.AnimState:SetBank("pipe")
     inst.AnimState:SetBuild("pipe")
     inst.AnimState:PlayAnimation("idle")
 
-	--Needed for multiplayer
+	-- Still trying to grok. Needed for multiplayer.
 	if not TheWorld.ismastersim then
 		return inst
     end
 
+    -- Still trying to grok this one
     inst.entity:SetPristine()
 	
-	--Make the item inspectable
+	-- Make the item inspectable
     inst:AddComponent("inspectable")
 	
-	--I had to add hunger and health to give the equip-based debuff. This is temporary until I figure out a way to make it a debuff over time
+	-- I had to add hunger and health to give the equip-based debuff. 
+    -- TODO: figure out a way to make it a debuff over time
 	inst:AddComponent("hunger")
 	inst:AddComponent("health")
 	
-	--Make the item something that can be put in your inventory
+	-- Make the item something that can be put in your inventory
 	inst:AddComponent("inventoryitem")
+
+    -- Set the item name and image
     inst.components.inventoryitem.imagename = "pipe"
     inst.components.inventoryitem.atlasname = "images/inventoryimages/pipe.xml"
 	
-	--Not sure if we still need this but I haven't tested. Might be required for playing horn animation.
+	-- Not sure if we still need this but I haven't tested. Might be required for playing horn animation.
     inst:AddTag("pipe")
 
-	--Same as the tag. Might be neccessary for horn animation and/or HORN tuning paramaters below.
+	-- Same as the tag. Might be neccessary for horn animation and/or HORN tuning paramaters below.
     inst:AddComponent("instrument")
 	 
-	--This is our custom "tokeable" component 
+	-- Make the item tokeable (smoke and sanity boost) 
     inst:AddComponent("tokeable")
+
+    -- Define sanity return
+    -- TODO: make this configurable and/or revisit for balance
 	inst.components.tokeable:SetSanityBoost(TUNING.SANITY_TINY)
 
-	--Gives the item a finite number of uses and sets the values for how many uses, what to do when it's used and what to do when it's out of uses.
-	--I'm just using the tuning values for the horn for now.
+	-- Give the item finite uses and define how many
+    -- TODO; revisit for balance
     inst:AddComponent("finiteuses")
     inst.components.finiteuses:SetMaxUses(TUNING.HORN_USES/4)
     inst.components.finiteuses:SetUses(TUNING.HORN_USES/4)

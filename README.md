@@ -24,10 +24,3 @@ Planned Features
 
 - The Solar Dryer will also be able to dry vegetables, returning an item similar to jerky. This should make farming and food storage more efficient. 
 - The seeds will be created in a different way - either feeding to a bird or something having to do with the drying process. Maybe even add an action grind the bud, which would have a random chance of returning seeds. 
-
-
-Known Bugs 
-
-- TRIVIAL: Dried buds can be placed back in the Solar Dryer after they've been removed. Solar Dryer will still only activate when filled with fresh buds, so the bug is mostly harmless. 
-- TRIVIAL: The joint isn't oriented correctly during the smoking animation. Has something to do with the symbol I'm swapping. 
-- TRIVIAL: None of the custom idle animations have a shadow. Just a matter of laziness really. 
