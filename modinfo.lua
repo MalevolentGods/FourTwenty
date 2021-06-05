@@ -30,26 +30,6 @@ icon = "FourTwenty.tex"
 -- Define the mod's configuration options
 configuration_options =
 {
-	{
-		name = "enable_seeds",
-		label = "Weed Seeds (beta)",
-		options =
-		{
-			{description = "ENABLE", data = 1},
-			{description = "DISABLE", data = 2},
-		},
-		default = 1,
-	},
-		{
-		name = "enable_dryer",
-		label = "Solar Dryer (beta)",
-		options =
-		{
-			{description = "ENABLE", data = 1},
-			{description = "DISABLE", data = 2},
-		},
-		default = 2,
-	},
 		{
 		name = "weed_tree_regions",
 		label = "Weed Spawn Regions",
@@ -67,11 +47,11 @@ configuration_options =
 		label = "Weed Spawn Rate",
 		options =
 		{
-			{description = "Rare", data = 0.2},
-			{description = "Uncommon", data = 0.5},
-			{description = "Common", data = 1},
-			{description = "Plentiful", data = 2},
-			{description = "Stonerland", data = 4},
+			{description = "Rare", data = 0.02},
+			{description = "Uncommon", data = 0.05},
+			{description = "Common", data = .1},
+			{description = "Plentiful", data = .5},
+			{description = "Stonerland", data = 1},
 		},
 		default = 1,
 	},

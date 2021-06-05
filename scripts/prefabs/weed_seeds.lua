@@ -58,7 +58,7 @@ end
 
 -- Define what to do when the seeds are planted.
 local function OnDeploy (inst, pt) 
-	local weed_seeds = SpawnPrefab("weed_tree")
+	local weed_seeds = SpawnPrefab("weed_tree_barren")
 	if weed_seeds then
 		weed_seeds.Transform:SetPosition(pt.x, pt.y, pt.z)
 		--inst.AnimState:PlayAnimation("idle_loop")
