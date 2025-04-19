@@ -12,7 +12,7 @@ local containers = require "containers"
 local assets =
 {
 	--These are the ice box assets. Temporary until custom animations are ready.
-	Asset("ANIM", "anim/ice_box.zip"),	
+	Asset("ANIM", "anim/ice_box.zip"),
 	--These are the cookpot assets. Temporary until custom animations are ready.
 	Asset("ANIM", "anim/cook_pot.zip"),
 }
@@ -136,7 +136,7 @@ local function onfar(inst)
 end
 
 -- Define the solar dryer UI (based on cookpot)
-local widgetparam = 
+local solardryer =
 {
 	widget =
 	{
@@ -162,6 +162,7 @@ local widgetparam =
 		{
 			text = "Dry",
 			position = Vector3(0, -165, 0),
+
 		},
 	},
 
@@ -173,9 +174,9 @@ local widgetparam =
 }
 
 -- Define the widget button action
-function widgetparam.widget.buttoninfo.fn(inst)
+function solardryer.widget.buttoninfo.fn(inst)
 
-	-- If there's something in the container, dehydrage it
+	-- If there's something in the container run the DEHYDRATE action
 	if inst.components.container ~= nil then
 		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
 
@@ -185,8 +186,16 @@ function widgetparam.widget.buttoninfo.fn(inst)
 	end
 end
 
+function solardryer.widget.buttoninfo.fn(inst, doer)
+    if inst.components.container ~= nil then
+        BufferedAction(doer, inst, ACTIONS.DEHYDRATE):Do()
+    elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+        SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
+    end
+end
+
 -- Button is only active the solar dryer is ready to dry (not busy and valid ingredients)
-function widgetparam.widget.buttoninfo.validfn(inst)
+function solardryer.widget.buttoninfo.validfn(inst)
 	return inst:HasTag("readytodry")
 end
 
@@ -250,7 +259,7 @@ local function fn()
 	inst.components.container:SetNumSlots(4)
 
 	-- Create the widget (ui)
-	inst.components.container:WidgetSetup("solar_dryer", widgetparam)
+	inst.components.container:WidgetSetup("solar_dryer", solardryer)
 
  	-- Make structure able to drop loot (contents) when they broken/hammered
     inst:AddComponent("lootdropper")

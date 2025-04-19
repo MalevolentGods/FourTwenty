@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="weed_tree">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/exported/weed_tree/weed_tree.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

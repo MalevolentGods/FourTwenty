@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="swap_pipe">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/exported/pipe/swap_pipe/swap_pipe.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

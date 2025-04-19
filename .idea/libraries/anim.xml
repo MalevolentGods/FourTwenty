@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="anim">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/anim/swap_pipe_horn.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/swap_joint.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/g_house.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/weed_tree.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/swap_pipe.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/weed_plant.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/weed.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/meat_rack_food.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/joint.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/swap_joint_horn.zip!/" />
+      <root url="jar://$PROJECT_DIR$/anim/pipe.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

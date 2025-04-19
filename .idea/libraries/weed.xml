@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="weed">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/exported/weed/weed.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
