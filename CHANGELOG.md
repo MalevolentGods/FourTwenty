@@ -1,6 +1,13 @@
 # CHANGELOG
 
-x.x.x
+-----
+- [Kerberos] - Updated fresh weed buds so that they can be dried on a normal drying rack one at a time
+- [Kerberos] - Added a recipe for weed seeds to the recipe book with a correct thumbnail
+- [Kerberos] - Adjusted weed seed nutritional values to decrease hunger at the expense of sanity
+- [Kerberos] - Removed the ability to cook fresh weed buds in the crockpot (dry them on the rack instead!)
+- 
+
+1.9.7
 -----
 - [Kerberos] - Fixed the infinite weed bug. Weed trees are now barren when they are spawend from seed and will have to grow the weed flower.
 - [Kerberos] - Disabled weed seeds entirely because the aforementioned fix didn't really work. just affected the image.

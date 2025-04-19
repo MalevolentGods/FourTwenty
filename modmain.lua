@@ -36,15 +36,15 @@ PrefabFiles =
 }
 
 -- Boilerplate global variables
-ACTIONS = GLOBAL.ACTIONS
-Action = GLOBAL.Action
-ActionHandler = GLOBAL.ActionHandler
-STRINGS = GLOBAL.STRINGS
-RECIPETABS = GLOBAL.RECIPETABS
-Recipe = GLOBAL.Recipe
-Ingredient = GLOBAL.Ingredient
-TECH = GLOBAL.TECH
-SpawnPrefab = GLOBAL.SpawnPrefab
+ACTIONS         = GLOBAL.ACTIONS
+Action          = GLOBAL.Action
+ActionHandler   = GLOBAL.ActionHandler
+STRINGS         = GLOBAL.STRINGS
+RECIPETABS      = GLOBAL.RECIPETABS
+Recipe          = GLOBAL.Recipe
+Ingredient      = GLOBAL.Ingredient
+TECH            = GLOBAL.TECH
+SpawnPrefab     = GLOBAL.SpawnPrefab
 
 -- Custom speech text
 STRINGS.NAMES.PIPE = "Wooden Bowl"
@@ -95,11 +95,15 @@ STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 -- end
 
 -- Define the joint recipe if dryer is disabled
-local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_dried", 3,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local seedrecipe = AddRecipe("weed_seeds", {Ingredient("weed_fresh", 4, "images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+seedrecipe.atlas = "images/inventoryimages/weed_seeds.xml"
+
+-- Define the joint recipe if dryer is disabled
+local jointrecipe = AddRecipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_dried", 3,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 jointrecipe.atlas = "images/inventoryimages/joint.xml"
 
 -- Define the pipe recipe
-local piperecipe = Recipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local piperecipe = AddRecipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
 -- Create the TOKE action
@@ -128,7 +132,6 @@ end
 
 -- Add the TOKE action
 AddAction(TOKE)
-
 -- Create the DEHYDRATE action
 local DEHYDRATE = Action()
 DEHYDRATE.str = "Dehydrate"
