@@ -151,11 +151,11 @@ function Dehydrater:ReadyToStart()
 	-- If container is not empty and full (seems redundant) of raw ingredients then return ready
 	if self.inst.components.container ~= nil then
 		local ready = true
-		--for k,v in pairs (self.inst.components.container.slots) do
-		--	if v and self.dried_products[v.prefab] then
-		--		ready = false
-		--	end
-		--end
+		for k,v in pairs (self.inst.components.container.slots) do
+			if v and self.dried_products[v.prefab] then
+				ready = false
+			end
+		end
 		return ready
 	end
 end		

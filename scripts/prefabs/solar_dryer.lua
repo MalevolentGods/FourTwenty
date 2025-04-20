@@ -12,9 +12,7 @@ local containers = require "containers"
 local assets =
 {
 	--These are the ice box assets. Temporary until custom animations are ready.
-	Asset("ANIM", "anim/ice_box.zip"),
-	--These are the cookpot assets. Temporary until custom animations are ready.
-	Asset("ANIM", "anim/cook_pot.zip"),
+	Asset("ANIM", "anim/solar_dryer.zip"),
 }
 
 -- Load dependent prefabs
@@ -43,7 +41,7 @@ local prefabs =
 local function onopen(inst)
 
 	--Copied from icebox prefab
-	inst.AnimState:PlayAnimation("open")
+	inst.AnimState:PlayAnimation("idle_full")
 	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")		
 end
 
@@ -51,7 +49,7 @@ end
 local function onclose(inst)
 
 	--Copied from icebox prefab
-	inst.AnimState:PlayAnimation("close")
+	inst.AnimState:PlayAnimation("idle_full")
 	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")		
 end
 
@@ -74,7 +72,7 @@ end
 
 -- Play hit animation
 local function onhit(inst, worker)
-	inst.AnimState:PlayAnimation("hit")
+	inst.AnimState:PlayAnimation("idle_full")
 end
 
 --Fetch the status of the drying operation
@@ -94,7 +92,7 @@ end
 
 -- Play "start cooking" animation
 local function startcookfn(inst)
-	inst.AnimState:PlayAnimation("closed")
+	inst.AnimState:PlayAnimation("idle_full")
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
 	--inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
@@ -103,7 +101,7 @@ end
 
 -- Play "curently cooking" animation
 local function continuecookfn(inst)
-	inst.AnimState:PlayAnimation("closed")
+	inst.AnimState:PlayAnimation("idle_full")
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
 	--play a looping sound
 	--inst.Light:Enable(true)
@@ -112,22 +110,22 @@ end
 
 -- Play finishing animation
 local function donecookfn(inst)
-	inst.AnimState:PlayAnimation("closed")
+	inst.AnimState:PlayAnimation("idle_full")
 	inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish", "snd")
 end
 
 -- Play currently done animation
 local function continuedonefn(inst)
-	inst.AnimState:PlayAnimation("closed")
+	inst.AnimState:PlayAnimation("idle_full")
 end
 
 -- Play built animation
 local function onbuilt(inst)
 	
 	--Copied from ice box prefab
-	inst.AnimState:PlayAnimation("place")
-	inst.AnimState:PushAnimation("closed", false)
+	inst.AnimState:PlayAnimation("idle_full")
+-- 	inst.AnimState:PushAnimation("closed", false)
 end
 
 -- huh?
@@ -217,9 +215,9 @@ local function fn()
     inst:AddTag("structure")
 	
 	-- Use the icebox animation bank (for now)
-    inst.AnimState:SetBank("icebox")
-    inst.AnimState:SetBuild("ice_box")
-    inst.AnimState:PlayAnimation("closed")
+    inst.AnimState:SetBank("solar_dryer")
+    inst.AnimState:SetBuild("solar_dryer")
+    inst.AnimState:PlayAnimation("idle_full")
 
     -- huh?
     MakeSnowCoveredPristine(inst)
@@ -293,4 +291,4 @@ end
 return Prefab("common/objects/solar_dryer", fn, assets, prefabs ),
 		
 		-- Create the item in a closed state (Using ice_box placer animation for now)
-		MakePlacer("common/solar_dryer_placer", "icebox", "ice_box", "closed")  
+		MakePlacer("common/solar_dryer_placer", "solar_dryer", "solar_dryer", "idle_full")

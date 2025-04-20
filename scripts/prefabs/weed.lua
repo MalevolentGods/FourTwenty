@@ -89,6 +89,7 @@ local function fresh()
 
     -- Make the fresh bud dryable as well so that it works on a drying rack
     inst:AddComponent("dryable")
+    inst:AddTag("dryable")
     inst.components.dryable:SetProduct("weed_dried")
     inst.components.dryable:SetDryTime(TUNING.DRY_FAST/5)
 
