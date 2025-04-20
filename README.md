@@ -24,3 +24,7 @@ Planned Features
 
 - The Solar Dryer will also be able to dry vegetables, returning an item similar to jerky. This should make farming and food storage more efficient. 
 - The seeds will be created in a different way - either feeding to a bird or something having to do with the drying process. Maybe even add an action grind the bud, which would have a random chance of returning seeds. 
+
+## Development notes
+
+### API

@@ -75,7 +75,7 @@ local Dehydrater = Class(
 	function(self, inst)
     	self.inst = inst
 		self.cooking = false
-    	self.done = false
+    	self.done = true
     	self.targettime = nil
     	self.ingredient = nil
     	self.product = nil
@@ -91,6 +91,8 @@ local Dehydrater = Class(
     	inst:ListenForEvent("onclose", oncheckready)
     	inst:ListenForEvent("itemlose", onitemlose)
     	inst:ListenForEvent("onopen", onnotready)
+
+
 	end,
 	nil,
 	{
@@ -147,7 +149,7 @@ end
 function Dehydrater:ReadyToStart()
 
 	-- If container is not empty and full (seems redundant) of raw ingredients then return ready
-	if self.inst.components.container ~= nil and self.inst.components.container:IsFull() then
+	if self.inst.components.container ~= nil then
 		local ready = true
 		for k,v in pairs (self.inst.components.container.slots) do
 			if v and self.dried_products[v.prefab] then
@@ -162,48 +164,45 @@ end
 function Dehydrater:StartDrying()
 
 	-- If the dehydrater isn't done or cooking
-	if not self.done and not self.cooking then
+	if self.done and not self.cooking then
 
-		-- If the dehydrater has the container attribute (is this really neccessary?)
-		if self.inst.components.container then
-			
-			-- Now cooking
-			self.done = nil
-			self.cooking = true
-				
-			-- huh?
-			if self.onstartcooking then
-				self.onstartcooking(self.inst)
-			end
-	
-			-- What in the fuck is an ing?
-			local ings = {}
+		-- Now cooking
+		self.done = nil
+		self.cooking = true
 
-			-- Check each slot's current product and replace it with the dried counterpart		
-			for k,v in pairs (self.inst.components.container.slots) do
-				table.insert(ings, v.prefab)
-				if v.components.dehydratable then
-					self.product = v.components.dehydratable:GetProduct()
-					local prod = SpawnPrefab(self.product)
-					self.inst.components.container:RemoveItemBySlot(k)
-					--self.inst.components.container.slots[k] = prod
-					self.inst.components.container:GiveItem(prod,k,nil,false)
-				end
-			end
-
-			-- Set the base cook time
-			local cooktime = TUNING.BASE_COOK_TIME
-
-			-- Figure out the cook time
-			self.targettime = GetTime() + cooktime
-
-			-- Define the actual task
-			self.task = self.inst:DoTaskInTime(cooktime, DoDehydrate)
-
-			-- Close the dehydrater and prevent it from being opened	
-			self.inst.components.container:Close()
-			self.inst.components.container.canbeopened = false
+		-- huh?
+		if self.onstartcooking then
+			self.onstartcooking(self.inst)
 		end
+	
+		-- What in the fuck is an ing?
+		local ings = {}
+
+		-- Check each slot's current product and replace it with the dried counterpart
+		for k,v in pairs (self.inst.components.container.slots) do
+			table.insert(ings, v.prefab)
+			if v.components.dehydratable then
+				self.product = v.components.dehydratable:GetProduct()
+				local prod = SpawnPrefab(self.product)
+				self.inst.components.container:RemoveItemBySlot(k)
+				--self.inst.components.container.slots[k] = prod
+				self.inst.components.container:GiveItem(prod,k,nil,false)
+			end
+		end
+
+		-- Set the base cook time
+		local cooktime = TUNING.BASE_COOK_TIME
+
+		-- Figure out the cook time
+		self.targettime = GetTime() + cooktime
+
+		-- Define the actual task
+		self.task = self.inst:DoTaskInTime(cooktime, DoDehydrate)
+
+		-- Close the dehydrater and prevent it from being opened
+		self.inst.components.container:Close()
+		self.inst.components.container.canbeopened = false
+
 	end
 end
 

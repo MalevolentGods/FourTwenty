@@ -4,7 +4,7 @@
 ------------------------------------------------------------------------------------------------
 
 -- Mod metadata
-name = "FourTwenty"
+name = "FourTwenty - Dev"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
 version = "1.9.7"

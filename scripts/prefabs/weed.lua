@@ -6,7 +6,7 @@
 
 
 -- Load custom animation for weed bud and fresh/dried inventory images
-local assets=
+local assets =
 {
 	Asset("ANIM", "anim/weed.zip"),
 	Asset("ATLAS", "images/inventoryimages/weed_fresh.xml"),
@@ -16,13 +16,13 @@ local assets=
 -- Load dependent prefabs
 local prefabs =
 {
-	"weed_seeds",		
-	"spoiled_food", 		
+	"weed_seeds",
+	"spoiled_food",
 }
 
 -- Check if seeds are enabled in mod config
 local modname = KnownModIndex:GetModActualName("FourTwenty")
-local enableSeeds = (GetModConfigData("enable_seeds", modname))
+-- local enableSeeds = (GetModConfigData("enable_seeds", modname))
 
 -- Define the fresh weed bud
 local function fresh()
@@ -56,11 +56,14 @@ local function fresh()
 	inst.components.perishable:StartPerishing()
 	inst.components.perishable.onperishreplacement = "spoiled_food"
 
+
 	-- Make the fresh bud edible and define nutrition
 	inst:AddComponent("edible")
+	inst.components.edible.healthvalue = 0
 	inst.components.edible.hungervalue = TUNING.CALORIES_MED/3
+	inst.components.edible.sanityvalue = -TUNING.SANITY_SMALL
 	inst.components.edible.foodtype = FOODTYPE.VEGGIE
-	
+
 	-- Make the fresh bud stackable and define
     inst:AddComponent("stackable")
 	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
@@ -77,16 +80,21 @@ local function fresh()
 
 	-- Still not sure about this one.
 	MakeSmallPropagator(inst)
-    
-	inst:AddComponent("cookable")
-	inst.components.cookable.product = "weed_dried"
-	
-	-- Make the fresh bud dehydratable and define
+
+
+	-- Make the fresh bud dehydratable and define (not yet implemented)
 	inst:AddComponent("dehydratable")
     inst.components.dehydratable:SetProduct("weed_dried")
     inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME*3)
 
-	-- Still trying to grok this one	
+    -- Make the fresh bud dryable as well so that it works on a drying rack
+    inst:AddComponent("dryable")
+    inst:AddTag("dryable")
+    inst.components.dryable:SetProduct("weed_dried")
+    inst.components.dryable:SetDryTime(TUNING.DRY_FAST/5)
+
+
+	-- Still trying to grok this one
 	MakeHauntableLaunchAndPerish(inst)
 
 	-- Return the thing
@@ -108,7 +116,7 @@ local function dried()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_dried")
-	inst.Transform:SetScale(.5,.5,.5)  --This will probably need to be changed now that animations have been updated. 
+	inst.Transform:SetScale(.5,.5,.5)  --This will probably need to be changed now that animations have been updated.
 
 	-- Still trying to grok this one
     if not TheWorld.ismastersim then
@@ -128,7 +136,7 @@ local function dried()
 	-- Make it an inventory item and define the image
 	inst:AddComponent("inventoryitem")
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/weed_dried.xml"
-	
+
 	-- Add the dried_product tag (so it can't be placed back in a dehydrator)
 	inst:AddTag("dried_product")
 
@@ -145,6 +153,6 @@ local function dried()
 	return inst
 end
 
--- Creates the prefabs named "weed_fresh" and weed_dried using the crap defined in the "fresh" and "dried" functions along with all the other crap above. 
-return Prefab( "weed_fresh", fresh, assets, prefabs),
-	Prefab( "weed_dried", dried, assets, prefabs)
+-- Creates the prefabs named "weed_fresh" and weed_dried using the crap defined in the "fresh" and "dried" functions along with all the other crap above.
+return Prefab( "weed_fresh", fresh, assets, prefabs), Prefab( "weed_dried", dried, assets, prefabs)
+

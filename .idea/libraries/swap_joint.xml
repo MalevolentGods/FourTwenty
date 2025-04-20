@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="swap_joint">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/exported/joint/swap_joint/swap_joint.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

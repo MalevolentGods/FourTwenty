@@ -36,15 +36,15 @@ PrefabFiles =
 }
 
 -- Boilerplate global variables
-ACTIONS = GLOBAL.ACTIONS
-Action = GLOBAL.Action
-ActionHandler = GLOBAL.ActionHandler
-STRINGS = GLOBAL.STRINGS
-RECIPETABS = GLOBAL.RECIPETABS
-Recipe = GLOBAL.Recipe
-Ingredient = GLOBAL.Ingredient
-TECH = GLOBAL.TECH
-SpawnPrefab = GLOBAL.SpawnPrefab
+ACTIONS         = GLOBAL.ACTIONS
+Action          = GLOBAL.Action
+ActionHandler   = GLOBAL.ActionHandler
+STRINGS         = GLOBAL.STRINGS
+RECIPETABS      = GLOBAL.RECIPETABS
+Recipe          = GLOBAL.Recipe
+Ingredient      = GLOBAL.Ingredient
+TECH            = GLOBAL.TECH
+SpawnPrefab     = GLOBAL.SpawnPrefab
 
 -- Custom speech text
 STRINGS.NAMES.PIPE = "Wooden Bowl"
@@ -77,29 +77,21 @@ STRINGS.NAMES.WEED_FRESH = "Fresh Weed Bud"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WEED_DRIED = "Look at the trichomes!"
 STRINGS.NAMES.WEED_DRIED = "Dried Weed Bud"
 
--- -- Enable dehydrater if set in the config
--- local enableDryer = (GetModConfigData("enable_dryer"))
--- if enableDryer == 1 then
 
--- 	-- Define dehydrater recipe
--- 	local dehydraterrecipe = Recipe("solar_dryer", {Ingredient("gears", 2), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
--- 	dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
+-- Define dehydrater recipe
+local dehydraterrecipe = AddRecipe("solar_dryer", {Ingredient("gears", 2), Ingredient("goldnugget", 3), Ingredient("charcoal", 6)}, RECIPETABS.FARM, TECH.SCIENCE_ONE, "solar_dryer_placer")
+dehydraterrecipe.atlas = "images/inventoryimages/solar_dryer.xml"
 	
--- 	-- Define the joint recipe
--- 	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
--- 	jointrecipe.atlas = "images/inventoryimages/joint.xml"
--- else
--- 	-- Define the joint recipe if dryer is disabled
--- 	local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_fresh", 3,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
--- 	jointrecipe.atlas = "images/inventoryimages/joint.xml"
--- end
+-- Define the joint recipe if dryer is disabled
+local seedrecipe = AddRecipe("weed_seeds", {Ingredient("weed_fresh", 4, "images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+seedrecipe.atlas = "images/inventoryimages/weed_seeds.xml"
 
 -- Define the joint recipe if dryer is disabled
-local jointrecipe = Recipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_dried", 3,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local jointrecipe = AddRecipe("joint", {Ingredient("papyrus", 1), Ingredient("honey", 1), Ingredient("weed_dried", 3,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 jointrecipe.atlas = "images/inventoryimages/joint.xml"
 
 -- Define the pipe recipe
-local piperecipe = Recipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_fresh.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
+local piperecipe = AddRecipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
 -- Create the TOKE action
@@ -128,11 +120,12 @@ end
 
 -- Add the TOKE action
 AddAction(TOKE)
-
 -- Create the DEHYDRATE action
 local DEHYDRATE = Action()
 DEHYDRATE.str = "Dehydrate"
 DEHYDRATE.id = "DEHYDRATE"
+
+-- What does the action DO
 DEHYDRATE.fn = function(act)
     if act.target.components.dehydrater ~= nil then
         if act.target.components.dehydrater.cooking then
@@ -145,6 +138,7 @@ DEHYDRATE.fn = function(act)
         elseif not act.target.components.dehydrater:ReadyToStart() then
             return false
         end
+        print("dehydrater is ready to start")
 		act.target.components.dehydrater:StartDrying()
 		return true
     end

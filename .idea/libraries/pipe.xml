@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pipe">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/exported/pipe/pipe/pipe.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
