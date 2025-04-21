@@ -55,10 +55,6 @@ STRINGS.NAMES.JOINT = "A Joint"
 STRINGS.RECIPE_DESC.JOINT = "Hand-rolled joint"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.JOINT = "I could puff on this all day."
 
-STRINGS.NAMES.G_HOUSE = "Advanced Farm"
-STRINGS.RECIPE_DESC.G_HOUSE = "I have no idea what it does!"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.G_HOUSE = "Your guess is as good as mine."
-
 STRINGS.NAMES.SOLAR_DRYER = "Solar Dryer"
 STRINGS.RECIPE_DESC.SOLAR_DRYER = "Run of the mill solar dryer"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SOLAR_DYER = "Yeah, dry some shit!"
@@ -94,6 +90,85 @@ jointrecipe.atlas = "images/inventoryimages/joint.xml"
 local piperecipe = AddRecipe("pipe", {Ingredient("twigs", 3), Ingredient("charcoal", 1), Ingredient("weed_dried", 1,"images/inventoryimages/weed_dried.xml")}, RECIPETABS.SURVIVAL, TECH.NONE)
 piperecipe.atlas = "images/inventoryimages/pipe.xml"
 
+-- AddPrefabPostInit("meatrack", function(inst)
+--     print("Adding weed to the meatrack prefab")
+--     if inst.prefabs ~= nil then
+--
+--         table.insert(inst.prefabs, "weed_fresh")
+--         table.insert(inst.prefabs, "weed_dried")
+--     end
+--
+--     -- Override the onstartdrying function
+--     local original_onstartdrying = inst.components.dryer.onstartdrying
+--     inst.components.dryer.onstartdrying = function(inst, ingredient, buildfile)
+--         -- Call the original function
+--         original_onstartdrying(inst, ingredient, buildfile)
+--
+--         -- Add your custom symbol override logic here
+--         if ingredient == "weed_fresh" then
+--             print("Overriding symbol for fresh weed in the dryer")
+--             inst.AnimState:OverrideSymbol("swap_dried", "weed", "idle_fresh")
+--         end
+--     end
+--
+--     -- Override the ondonedrying function
+--     local original_ondonedrying = inst.components.dryer.ondonedrying
+--     inst.components.dryer.ondonedrying = function(inst, product, buildfile)
+--         -- Call the original function
+--         original_ondonedrying(inst, product, buildfile)
+--
+--         -- Add your custom symbol override logic here
+--         if product == "weed_dried" then
+--             print("Overriding symbol for dried weed in the dryer")
+--             inst.AnimState:OverrideSymbol("swap_dried", "weed", "idle_dried")
+--         end
+--     end
+-- end)
+
+
+
+
+local function ModDrying(inst)
+    print("Adding weed to the meatrack prefab")
+    if inst.prefabs ~= nil then
+
+       table.insert(inst.prefabs, "weed_fresh")
+       table.insert(inst.prefabs, "weed_dried")
+       print(inst.prefabs)
+    end
+    if not inst.components.dryer then
+        inst:AddComponent("dryer")
+    end
+    local oldonstartdrying = inst.components.dryer.onstartdrying
+	local onstartdrying = function(inst, dryable, ...)
+		if dryable == "weed_fresh" then
+            print "drying fresh weed"
+		    inst.AnimState:PlayAnimation("drying_pre")
+			inst.AnimState:PushAnimation("drying_loop", true)
+			inst.AnimState:OverrideSymbol("swap_dried", "weed", "weed_fresh")
+			return
+		end
+        return oldonstartdrying(inst, dryable, ...)
+	end
+
+	local oldsetdone = inst.components.dryer.ondonedrying
+	local setdone = function(inst, product, ...)
+        if product == "weed_dried" then
+		    print("weed dried")
+		    inst.AnimState:PlayAnimation("drying_pst") --
+		    inst.AnimState:PlayAnimation("idle_full")
+		    inst.AnimState:OverrideSymbol("swap_dried", "weed", "weed_dried")
+		    return
+	    end
+	    return oldsetdone(inst, product, ...)
+	end
+    inst.components.dryer:SetStartDryingFn(onstartdrying)
+	inst.components.dryer:SetDoneDryingFn(setdone)
+end
+
+AddPrefabPostInit("meatrack", ModDrying)
+
+
 -- Create the TOKE action
 local TOKE = Action(3)	
 TOKE.str = "Toke"
@@ -106,10 +181,16 @@ TOKE.fn = function(act)
 	stringArray[2] = "Whooooooaaaaaa..... That's dank shit!"
 	stringArray[3] = "It tastes like blueberries."
 	stringArray[4] = "It tastes even better when you grow it yourself."
+	stringArray[5] = "This is the best way to relax after a long day."
+    stringArray[6] = "I feel like I'm floating in the clouds."
+    stringArray[7] = "The aroma is absolutely divine."
+    stringArray[8] = "This reminds me of the good old days."
+    stringArray[9] = "Nature and a good smoke, what more could I ask for?"
+    stringArray[10] = "This is some top-shelf quality right here."
 	
 	-- Get a random number for the string choice.
 	-- TODO: make the number dynamic based on items in stringArray
-	local stringChoice = math.random(4)
+	local stringChoice = math.random(10)
 	
 	--This method makes the person performing the action say the string that matches the value produced by math.random()
 	act.doer.components.talker:Say(stringArray[stringChoice])
@@ -120,6 +201,7 @@ end
 
 -- Add the TOKE action
 AddAction(TOKE)
+
 -- Create the DEHYDRATE action
 local DEHYDRATE = Action()
 DEHYDRATE.str = "Dehydrate"
@@ -341,8 +423,8 @@ local containers = GLOBAL.require("containers")
 local Vector3 = GLOBAL.Vector3
 local oldwidgetsetup = containers.widgetsetup
 
--- Set widget params for the dehydrater (really really seems redundant)
-local dryerparam = 
+-- Define the button interface for the solar dryer
+local dryerparam =
 {
 	widget =
 	{
@@ -383,6 +465,8 @@ end
 function dryerparam.widget.buttoninfo.validfn(inst)
 	return inst:HasTag("readytodry")
 end
+
+
 
 -- wtf is this hideous wax??	
 containers.widgetsetup = function(container, prefab, data)
