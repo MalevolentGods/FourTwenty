@@ -247,12 +247,6 @@ local function fn()
     -- Check item validity
 	inst.components.container.itemtestfn = itemtest
 
-	-- No ingredient stacks allowed
-	--inst.components.container.acceptsstacks = false
-
-	-- Probably not needed
-	--inst.components.container.type = "cooker"
-
 	-- Define number of container slots
 	inst.components.container:SetNumSlots(4)
 

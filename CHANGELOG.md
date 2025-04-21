@@ -1,8 +1,13 @@
 # CHANGELOG
 
+2.0.1
+-----
+### Fixes
+- Resolves a bug that prevented weed buds from showing up on the drying rack either fresh or dried
+- 
+
 2.0.0
 -----
-
 ### Features
 - [Kerberos] - Reintroducing the solar dryer which can be used for drying multiple weed buds at once. (I'm planning to make this a multi-functional dryer)
 - [Kerberos] - Added a recipe for weed seeds to the recipe book with a correct thumbnail

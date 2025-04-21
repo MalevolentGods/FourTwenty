@@ -36,6 +36,8 @@ local function fresh()
     -- Give it inventory physics?
 	MakeInventoryPhysics(inst)
 
+    inst:AddTag("dryable")
+
 	-- Define the animation
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
@@ -78,24 +80,18 @@ local function fresh()
 	--Make the item burnable
 	MakeSmallBurnable(inst)
 
-	-- Still not sure about this one.
+	-- Fire can spread to and from this
 	MakeSmallPropagator(inst)
 
-
-	-- Make the fresh bud dehydratable and define (not yet implemented)
+	-- Make the fresh bud dehydratable
 	inst:AddComponent("dehydratable")
     inst.components.dehydratable:SetProduct("weed_dried")
     inst.components.dehydratable:SetDryTime(TUNING.BASE_COOK_TIME*3)
 
     -- Make the fresh bud dryable as well so that it works on a drying rack
     inst:AddComponent("dryable")
-    inst:AddTag("dryable")
     inst.components.dryable:SetProduct("weed_dried")
     inst.components.dryable:SetDryTime(TUNING.DRY_FAST/5)
-
-
-	-- Still trying to grok this one
-	MakeHauntableLaunchAndPerish(inst)
 
 	-- Return the thing
 	return inst
@@ -103,8 +99,6 @@ end
 
 -- Define the dried weed bud
 local function dried()
-
-	-- Boilerplate
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
@@ -112,18 +106,17 @@ local function dried()
     inst.entity:AddNetwork()
 	MakeInventoryPhysics(inst)
 
-	-- Define the animations
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_dried")
 	inst.Transform:SetScale(.5,.5,.5)  --This will probably need to be changed now that animations have been updated.
 
-	-- Still trying to grok this one
+	-- Add the dried_product tag (so it can't be placed back in a dehydrator)
+	inst:AddTag("dried_product")
+
     if not TheWorld.ismastersim then
 		return inst
 	end
-
-	-- And this one too
     inst.entity:SetPristine()
 
     -- Alow the item to be stacked and define max size
@@ -137,19 +130,12 @@ local function dried()
 	inst:AddComponent("inventoryitem")
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/weed_dried.xml"
 
-	-- Add the dried_product tag (so it can't be placed back in a dehydrator)
-	inst:AddTag("dried_product")
-
 	-- Make the item burnable
 	MakeSmallBurnable(inst)
-
-	-- Not sure if this is neccessary for this item
 	MakeSmallPropagator(inst)
 
-	-- Not sure about this one either
 	MakeHauntableLaunchAndPerish(inst)
 
-	-- Return the thing
 	return inst
 end
 
