@@ -7,7 +7,7 @@
 name = "FourTwenty"
 description = "Finally, a reason to survive in the wilderness."
 author = "Malevolent Gods"
-version = "2.0.1"
+version = "2.0.2"
 
 -- TODO: Create forum thread
 forumthread = ""

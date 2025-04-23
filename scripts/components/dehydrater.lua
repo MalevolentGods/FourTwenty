@@ -57,12 +57,9 @@ end
 
 -- If an item is removed from the dehydrater, remove the readytodry flag
 local function onitemlose(inst)
-	inst:RemoveTag("readytodry")
-
-	-- If the dehydrater is finished and all items are removed, set done == nil
-	if inst.components.dehydrater.done and inst.components.container:IsEmpty() then 
-		inst.components.dehydrater.done = nil
-	end
+    if inst.components.container == nil then
+ 	    inst:RemoveTag("readytodry")
+ 	end
 end
 
 -- If the dehydrator is not ready, remove the ready to dry tag
