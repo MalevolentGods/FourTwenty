@@ -42,7 +42,7 @@ local function fresh()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_fresh")
-	inst.Transform:SetScale(1.5,1.5,1.5)    --This will probably need to be changed now that animations have been updated.
+	inst.Transform:SetScale(1,1,1)    --This will probably need to be changed now that animations have been updated.
 
 	-- Still trying to grok this one. Required for multiplayer.
     if not TheWorld.ismastersim then
@@ -109,7 +109,7 @@ local function dried()
 	inst.AnimState:SetBank("weed")
 	inst.AnimState:SetBuild("weed")
 	inst.AnimState:PlayAnimation("idle_dried")
-	inst.Transform:SetScale(.5,.5,.5)  --This will probably need to be changed now that animations have been updated.
+	inst.Transform:SetScale(1,1,1)  --This will probably need to be changed now that animations have been updated.
 
 	-- Add the dried_product tag (so it can't be placed back in a dehydrator)
 	inst:AddTag("dried_product")

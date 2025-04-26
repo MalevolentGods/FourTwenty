@@ -189,7 +189,7 @@ local function full_fn(Sim)
 	inst.entity:AddNetwork()
 
 	-- Set clipping
-	MakeObstaclePhysics(inst,.5)
+	MakeObstaclePhysics(inst,.1)
 
 	-- Make the tree show up on the minimap and set its icon
 	local minimap = inst.entity:AddMiniMapEntity()
