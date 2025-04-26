@@ -123,7 +123,11 @@ local function chop(inst, worker)
 	else
 		inst.AnimState:PlayAnimation("chop")
 	end
-	inst.AnimState:PushAnimation("idle_loop", true)
+	if inst.Picked == true then
+		inst.AnimState:PushAnimation("idle_barren", true)
+	else
+		inst.AnimState:PushAnimation("idle_loop", true)
+	end
 	if not worker or (worker and not worker:HasTag("playerghost")) then
     	inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")         
     end
