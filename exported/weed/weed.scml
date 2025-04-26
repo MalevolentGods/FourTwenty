@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r11">
     <folder id="0" name="weed_fresh">
-        <file id="0" name="weed_fresh/weed_fresh.png" width="104" height="115" pivot_x="0" pivot_y="1"/>
+        <file id="0" name="weed_fresh/weed_fresh.png" width="500" height="500" pivot_x="0" pivot_y="1"/>
     </folder>
     <folder id="1" name="weed_dried">
-        <file id="0" name="weed_dried/weed_dried.png" width="104" height="115" pivot_x="0" pivot_y="1"/>
+        <file id="0" name="weed_dried/weed_dried.png" width="500" height="500" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="weed">
         <animation id="0" name="idle_fresh" length="1000" interval="100">
@@ -15,11 +15,11 @@
             </mainline>
             <timeline id="0" name="weed_fresh">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="48" y="88" angle="284.757319"/>
+                    <object folder="0" file="0" x="76.390008" y="145.984421" angle="279.711568" scale_x="0.408792" scale_y="0.396969"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="weed_fresh" length="1000" interval="100">
+        <animation id="1" name="idle_dried" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -27,31 +27,7 @@
             </mainline>
             <timeline id="0" name="weed_fresh">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="48" y="88" angle="284.757319"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="2" name="idle_dried" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="weed_dried">
-                <key id="0" spin="0">
-                    <object folder="1" file="0" x="51" y="87" angle="283.134022"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="3" name="weed_dried" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="weed_dried">
-                <key id="0" spin="0">
-                    <object folder="1" file="0" x="51" y="87" angle="283.134022"/>
+                    <object folder="1" file="0" x="76.390008" y="145.984421" angle="279.711568" scale_x="0.408792" scale_y="0.396969"/>
                 </key>
             </timeline>
         </animation>

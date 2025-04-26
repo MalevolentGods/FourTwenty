@@ -186,6 +186,20 @@ function solardryer.widget.buttoninfo.validfn(inst)
 	return inst:HasTag("readytodry")
 end
 
+-- Save the dryer state (empty or full)
+local function onsave(inst, data)
+	data.empty = inst.components.container:IsEmpty()
+end
+
+-- Load the tree state and play the appropriate animation
+local function onload(inst, data)
+	if data and data.empty then
+		inst.AnimState:PlayAnimation("idle_empty")
+	else
+		inst.AnimState:PlayAnimation("idle_full")
+	end
+end
+
 -- Define and create the solar dryer prefab  
 local function solar_dryer()
 
@@ -266,6 +280,12 @@ local function solar_dryer()
 	
 	-- When the onbuilt event is detected, fire the onbuilt function
 	inst:ListenForEvent("onbuilt", OnBuilt)
+
+	-- Save the dryer state on quit
+	inst.OnSave = onsave
+
+	-- Load the dryer state on load
+	inst.OnLoad = onload
 	
     return inst
 end
@@ -273,5 +293,5 @@ end
 -- Return the predefined prefab
 return Prefab("common/objects/solar_dryer", solar_dryer, assets, prefabs ),
 		
-		-- Create the item in a closed state (Using ice_box placer animation for now)
+		-- Create the item in a closed state
 		MakePlacer("common/solar_dryer_placer", "solar_dryer", "solar_dryer", "idle_empty")
