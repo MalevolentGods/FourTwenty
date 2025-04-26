@@ -36,19 +36,21 @@ local prefabs =
 	--"eel",
 }
 
--- When opening the container
+-- Open animation
 local function OnOpen(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")
+
+	--Copied from icebox prefab
+	inst.AnimState:PlayAnimation("idle_empty", true)
+	inst.Transform:SetScale(.6,.6,.6)
+	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")	
 end
 
--- When closing the container
+-- Close animation
 local function OnClose(inst)
-    if inst.components.container:IsEmpty() then
-	    inst.AnimState:PlayAnimation("idle_empty")
-	else
-		inst.AnimState:PlayAnimation("idle_full")
-	end
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")		
+
+	--Copied from icebox prefab
+	
+	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")
 end
 
 -- Check if the item inside dyhadrator is dehydratable and if its already dried (since dried products still have dehydratable tag)
@@ -87,7 +89,8 @@ end
 
 -- Play "start cooking" animation
 local function StartDry(inst)
-	inst.AnimState:PushAnimation("idle_full", true)
+	inst.AnimState:PlayAnimation("idle_full", true)
+	inst.Transform:SetScale(.6,.6,.6)
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
 	--inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
@@ -96,26 +99,30 @@ end
 
 -- Play "curently cooking" animation
 local function ContinueDry(inst)
-	inst.AnimState:PlayAnimation("idle_full", true)
+	inst.AnimState:PushAnimation("idle_full", true)
+	inst.Transform:SetScale(.6,.6,.6)
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
 end
 
 -- Play finishing animation
 local function DoneDry(inst)
-	inst.AnimState:PlayAnimation("idle_full")
+	inst.AnimState:PlayAnimation("done")
+	inst.Transform:SetScale(.6,.6,.6)
 	inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish", "snd")
 end
 
 -- Play currently done animation
 local function ContinueDoneDry(inst)
-	inst.AnimState:PlayAnimation("idle_full")
+	inst.AnimState:PushAnimation("done", true)
+	inst.Transform:SetScale(.6,.6,.6)
 end
 
 -- Play built animation
 local function OnBuilt(inst)
-	inst.AnimState:PlayAnimation("idle_empty")
+	inst.AnimState:PushAnimation("idle_empty" ,true)
+	inst.Transform:SetScale(.6,.6,.6)
 -- 	inst.AnimState:PushAnimation("closed", false)
 end
 
@@ -194,9 +201,11 @@ end
 -- Load the tree state and play the appropriate animation
 local function onload(inst, data)
 	if data and data.empty then
-		inst.AnimState:PlayAnimation("idle_empty")
+		inst.AnimState:PlayAnimation("idle_empty" ,true)
+		inst.Transform:SetScale(.6,.6,.6)
 	else
-		inst.AnimState:PlayAnimation("idle_full")
+		inst.AnimState:PlayAnimation("done" ,true)
+		inst.Transform:SetScale(.6,.6,.6)
 	end
 end
 
@@ -211,6 +220,9 @@ local function solar_dryer()
     inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
+	-- Set clipping
+	MakeObstaclePhysics(inst,.5)
+
     -- Set the minimap image
 	-- TODO: Create a custom minimap image
     inst.MiniMapEntity:SetIcon("icebox.png")
@@ -221,6 +233,7 @@ local function solar_dryer()
     inst.AnimState:SetBank("solar_dryer")
     inst.AnimState:SetBuild("solar_dryer")
     inst.AnimState:PlayAnimation("idle_empty")
+	inst.Transform:SetScale(.6,.6,.6)
 
     -- huh?
     MakeSnowCoveredPristine(inst)
