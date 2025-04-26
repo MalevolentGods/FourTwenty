@@ -4,11 +4,10 @@
 -- Description: Creates and defines the solar dryer
 ------------------------------------------------------
 
--- Not sure why/if this is neccessary
+-- Import the containers component from the base game
 local containers = require "containers"
 
 -- Define custom animations
--- TODO: create custom animations/inventory images
 local assets =
 {
 	--These are the ice box assets. Temporary until custom animations are ready.
@@ -37,32 +36,29 @@ local prefabs =
 	--"eel",
 }
 
--- Open animation
-local function onopen(inst)
-
-	--Copied from icebox prefab
-	inst.AnimState:PlayAnimation("idle_full")
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")		
+-- When opening the container
+local function OnOpen(inst)
+	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")
 end
 
--- Close animation
-local function onclose(inst)
-
-	--Copied from icebox prefab
-	inst.AnimState:PlayAnimation("idle_full")
+-- When closing the container
+local function OnClose(inst)
+    if inst.components.container:IsEmpty() then
+	    inst.AnimState:PlayAnimation("idle_empty")
+	else
+		inst.AnimState:PlayAnimation("idle_full")
+	end
 	inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")		
 end
 
 -- Check if the item inside dyhadrator is dehydratable and if its already dried (since dried products still have dehydratable tag)
-local function itemtest(container, item, slot)
+local function ItemTest(container, item, slot)
 	return item:HasTag("dehydratable") or item:HasTag("dried_product")
 end
 
 -- When broken, drop all loot and remove
 -- TODO: make it leave SOMETHING behind other than what it contained
-local function onhammered(inst, worker)
-
-	--Copied from icebox prefab
+local function OnHammered(inst, worker)
 	inst.components.lootdropper:DropLoot()
 	inst.components.container:DropEverything()
 	SpawnPrefab("collapse_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
@@ -71,14 +67,13 @@ local function onhammered(inst, worker)
 end
 
 -- Play hit animation
-local function onhit(inst, worker)
-	inst.AnimState:PlayAnimation("idle_full")
+local function OnHit(inst, worker)
+    -- TODO: Come up with different hit animations based on empty/full
+	-- inst.AnimState:PlayAnimation("idle_full")
 end
 
 --Fetch the status of the drying operation
-local function getstatus(inst)
-
-	--Copied from the cookpot prefab
+local function GetStatus(inst)
 	if inst.components.dehydrater.cooking and inst.components.dehydrater:GetTimeToDry() > 15 then
 		return "COOKING_LONG"
 	elseif inst.components.dehydrater.cooking then
@@ -91,8 +86,8 @@ local function getstatus(inst)
 end
 
 -- Play "start cooking" animation
-local function startcookfn(inst)
-	inst.AnimState:PlayAnimation("idle_full")
+local function StartDry(inst)
+	inst.AnimState:PushAnimation("idle_full", true)
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
 	--inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
@@ -100,36 +95,32 @@ local function startcookfn(inst)
 end
 
 -- Play "curently cooking" animation
-local function continuecookfn(inst)
-	inst.AnimState:PlayAnimation("idle_full")
+local function ContinueDry(inst)
+	inst.AnimState:PlayAnimation("idle_full", true)
 	--inst.AnimState:PlayAnimation("cooking_loop", true)
-	--play a looping sound
-	--inst.Light:Enable(true)
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_rattle", "snd")
 end
 
 -- Play finishing animation
-local function donecookfn(inst)
+local function DoneDry(inst)
 	inst.AnimState:PlayAnimation("idle_full")
 	inst.SoundEmitter:KillSound("snd")
 	inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish", "snd")
 end
 
 -- Play currently done animation
-local function continuedonefn(inst)
+local function ContinueDoneDry(inst)
 	inst.AnimState:PlayAnimation("idle_full")
 end
 
 -- Play built animation
-local function onbuilt(inst)
-	
-	--Copied from ice box prefab
-	inst.AnimState:PlayAnimation("idle_full")
+local function OnBuilt(inst)
+	inst.AnimState:PlayAnimation("idle_empty")
 -- 	inst.AnimState:PushAnimation("closed", false)
 end
 
--- huh?
-local function onfar(inst)
+-- When moving away from the dryer, close the container
+local function OnFar(inst)
 	inst.components.container:Close()
 end
 
@@ -164,10 +155,8 @@ local solardryer =
 		},
 	},
 
-	-- Allow stacks of mats
+	-- Do not allow stacks of mats
 	acceptsstacks = false,
-
-	-- Define the type of widget
     type = "cooker",
 }
 
@@ -178,7 +167,7 @@ function solardryer.widget.buttoninfo.fn(inst)
 	if inst.components.container ~= nil then
 		BufferedAction(inst.components.container.opener, inst, ACTIONS.DEHYDRATE):Do()
 
-	-- huh?
+	-- Something to do with multiplayer
 	elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
 		SendRPCToServer(RPC.DoWidgetButtonAction, ACTIONS.DEHYDRATE.code, inst, ACTIONS.DEHYDRATE.mod_name)
 	end
@@ -198,7 +187,7 @@ function solardryer.widget.buttoninfo.validfn(inst)
 end
 
 -- Define and create the solar dryer prefab  
-local function fn()
+local function solar_dryer()
 
 	-- Boilerplate
 	local inst = CreateEntity()
@@ -209,15 +198,15 @@ local function fn()
     inst.entity:AddNetwork()
 
     -- Set the minimap image
+	-- TODO: Create a custom minimap image
     inst.MiniMapEntity:SetIcon("icebox.png")
     
     -- Add the structure tag
     inst:AddTag("structure")
 	
-	-- Use the icebox animation bank (for now)
     inst.AnimState:SetBank("solar_dryer")
     inst.AnimState:SetBuild("solar_dryer")
-    inst.AnimState:PlayAnimation("idle_full")
+    inst.AnimState:PlayAnimation("idle_empty")
 
     -- huh?
     MakeSnowCoveredPristine(inst)
@@ -232,20 +221,20 @@ local function fn()
 	
 	-- Make the item a dehydrater and define its animation
 	inst:AddComponent("dehydrater")
-    inst.components.dehydrater.onstartcooking = startcookfn
-    inst.components.dehydrater.oncontinuecooking = continuecookfn
-    inst.components.dehydrater.oncontinuedone = continuedonefn
-    inst.components.dehydrater.ondonecooking = donecookfn
+    inst.components.dehydrater.onstartcooking = StartDry
+    inst.components.dehydrater.oncontinuecooking = ContinueDry
+    inst.components.dehydrater.oncontinuedone = ContinueDoneDry
+    inst.components.dehydrater.ondonecooking = DoneDry
 	
 	-- Make the item a container (required for anything that can hold stuff)
     inst:AddComponent("container")
 
     -- Define open and close animations
-	inst.components.container.onopenfn = onopen
-    inst.components.container.onclosefn = onclose
+	inst.components.container.onopenfn = OnOpen
+    inst.components.container.onclosefn = OnClose
 
     -- Check item validity
-	inst.components.container.itemtestfn = itemtest
+	inst.components.container.itemtestfn = ItemTest
 
 	-- Define number of container slots
 	inst.components.container:SetNumSlots(4)
@@ -260,29 +249,29 @@ local function fn()
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
     inst.components.workable:SetWorkLeft(4)
-	inst.components.workable:SetOnFinishCallback(onhammered)
-	inst.components.workable:SetOnWorkCallback(onhit)
+	inst.components.workable:SetOnFinishCallback(OnHammered)
+	inst.components.workable:SetOnWorkCallback(OnHit)
 
 	-- Make structure inspectable and define status
 	inst:AddComponent("inspectable")
-    inst.components.inspectable.getstatus = getstatus
+    inst.components.inspectable.getstatus = GetStatus
 	
 	-- Make structure aware of player proximity and define
 	inst:AddComponent("playerprox")
     inst.components.playerprox:SetDist(3,5)
-    inst.components.playerprox:SetOnPlayerFar(onfar)
+    inst.components.playerprox:SetOnPlayerFar(OnFar)
 	
 	-- Still not sure about this one
 	MakeSnowCovered(inst)
 	
 	-- When the onbuilt event is detected, fire the onbuilt function
-	inst:ListenForEvent("onbuilt", onbuilt)
+	inst:ListenForEvent("onbuilt", OnBuilt)
 	
     return inst
 end
 
 -- Return the predefined prefab
-return Prefab("common/objects/solar_dryer", fn, assets, prefabs ),
+return Prefab("common/objects/solar_dryer", solar_dryer, assets, prefabs ),
 		
 		-- Create the item in a closed state (Using ice_box placer animation for now)
-		MakePlacer("common/solar_dryer_placer", "solar_dryer", "solar_dryer", "idle_full")
+		MakePlacer("common/solar_dryer_placer", "solar_dryer", "solar_dryer", "idle_empty")
