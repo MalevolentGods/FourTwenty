@@ -71,7 +71,7 @@ local function fn(Sim)
 
     -- Define sanity return
     -- TODO: make this configurable and/or revisit for balance
-	inst.components.tokeable:SetSanityBoost(TUNING.SANITY_TINY)
+	inst.components.tokeable:SetSanityBoost(10)
 
 	-- Give the item finite uses and define how many
     -- TODO; revisit for balance
